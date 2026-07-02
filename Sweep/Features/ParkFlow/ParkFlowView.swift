@@ -79,20 +79,26 @@ struct ParkFlowView: View {
         }
     }
 
-    /// Skip the side question entirely when both sides sweep identically (§7.3).
+    /// Skip the side question entirely when both sides sweep identically
+    /// (§7.3). Compares logical sides, not raw segments — a block label can
+    /// span multiple source features, giving several segments per side.
     private func advanceToSide(street: String, blockLabel: String) {
         guard let bundle = try? model.bundleManager.openBundle(for: sessionManager.city) else {
             step = .manual
             return
         }
-        let sides = bundle.blockSegments(street: street, blockLabel: blockLabel)
-        if sides.count >= 2,
-           VerdictEngine.rulesAreEquivalent(
-                sessionManager.effectiveRules(for: sides[0]),
-                sessionManager.effectiveRules(for: sides[1])) {
-            finish(segment: sides[0])
-        } else if sides.count == 1 {
-            finish(segment: sides[0])
+        let sides = BlockSides.group(bundle.blockSegments(street: street, blockLabel: blockLabel))
+        guard !sides.isEmpty else {
+            step = .manual
+            return
+        }
+        let overrides = model.store.overrides
+        if sides.count == 1 || BlockSides.sidesAreEquivalent(sides, overrides: overrides) {
+            let holidays = bundle.holidays()
+            finish(segment: sides[0].parkTarget(at: model.clock.now,
+                                                calendar: SweepCalendar.la,
+                                                holidays: holidays,
+                                                overrides: overrides))
         } else {
             step = .side(street: street, blockLabel: blockLabel)
         }

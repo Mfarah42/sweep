@@ -1,0 +1,9 @@
+Target dependency graph (4 targets)
+Target 'Sweep' in project 'Sweep'
+➜ Explicit dependency on target 'SweepWidgets' in project 'Sweep'
+➜ Explicit dependency on target 'SweepCore' in project 'SweepCore'
+Target 'SweepWidgets' in project 'Sweep'
+➜ Explicit dependency on target 'SweepCore' in project 'SweepCore'
+Target 'SweepCore' in project 'SweepCore'
+➜ Explicit dependency on target 'SweepCore' in project 'SweepCore'
+Target 'SweepCore' in project 'SweepCore' (no dependencies)
