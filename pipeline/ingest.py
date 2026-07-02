@@ -101,6 +101,12 @@ def _write(out_dir: str, city: str, segments, rows_in: int, source_updated_at: s
         drops, bundle_path, prev_path if os.path.exists(prev_path) else None, notes)
     if os.path.exists(prev_path):
         os.remove(prev_path)
+    # Ship a copy into the app resources as .sweepdata — codesign refuses to
+    # sign nested resources whose extension ends in "bundle". The installed
+    # App Group file keeps the .sweepbundle name (spec §10).
+    resources_dir = os.path.normpath(os.path.join(HERE, "..", "Sweep", "Resources"))
+    if os.path.isdir(resources_dir):
+        shutil.copy2(bundle_path, os.path.join(resources_dir, f"{city}.sweepdata"))
     size_mb = os.path.getsize(bundle_path) / 1e6
     print(f"[{city}] {summary['segments']} segments, {summary['rules']} rules, "
           f"{summary['holidays']} holiday rows → {bundle_path} ({size_mb:.1f} MB)")

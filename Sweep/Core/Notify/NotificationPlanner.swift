@@ -20,6 +20,16 @@ public enum NotificationPlanner {
         public let body: String
         public let offset: Offset
         public let timeSensitive: Bool
+
+        public init(identifier: String, fireDate: Date, title: String, body: String,
+                    offset: Offset, timeSensitive: Bool) {
+            self.identifier = identifier
+            self.fireDate = fireDate
+            self.title = title
+            self.body = body
+            self.offset = offset
+            self.timeSensitive = timeSensitive
+        }
     }
 
     public struct Context: Sendable {

@@ -41,8 +41,10 @@ public final class BundleManager {
     public func installShippedBundles(from resourceBundle: Bundle) {
         try? fileManager.createDirectory(at: containerDir, withIntermediateDirectories: true)
         for city in City.allCases {
+            // Shipped as .sweepdata: codesign rejects nested resources whose
+            // extension ends in "bundle". Installed name stays .sweepbundle.
             guard let shipped = resourceBundle.url(forResource: city.rawValue,
-                                                   withExtension: "sweepbundle") else { continue }
+                                                   withExtension: "sweepdata") else { continue }
             let installed = bundlePath(for: city)
             if let current = try? SweepBundle(path: installed.path),
                let candidate = try? SweepBundle(path: shipped.path),

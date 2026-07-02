@@ -1,0 +1,91 @@
+# XcodeGen manifest — `xcodegen generate` produces Sweep.xcodeproj.
+# Replace TEAM with your Apple Developer team prefix (single config, spec §2).
+name: Sweep
+options:
+  bundleIdPrefix: com.TEAM
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+
+packages:
+  SweepCore:
+    path: .
+
+settings:
+  base:
+    SWIFT_VERSION: "5.10"
+    DEVELOPMENT_TEAM: ""            # set your team id
+    CODE_SIGN_STYLE: Automatic
+
+targets:
+  Sweep:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sweep/App
+      - path: Sweep/Features
+      - path: Sweep/DesignSystem
+      - path: Sweep/Resources
+        buildPhase: resources
+    dependencies:
+      - package: SweepCore
+      - target: SweepWidgets
+        embed: true
+    entitlements:
+      path: Sweep/Sweep.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.TEAM.sweep
+        com.apple.developer.usernotifications.time-sensitive: true
+    info:
+      path: Sweep/Info.plist
+      properties:
+        CFBundleDisplayName: Sweep
+        UILaunchScreen: {}
+        NSLocationWhenInUseUsageDescription: >-
+          Sweep uses your location once, when you park, to find your block.
+          It never leaves your phone.
+        NSSupportsLiveActivities: true
+        BGTaskSchedulerPermittedIdentifiers:
+          - com.TEAM.sweep.refresh
+        UIBackgroundModes:
+          - fetch
+        UIAppFonts:
+          - Fraunces-VariableFont.ttf
+          - Fraunces-Italic-VariableFont.ttf
+        CFBundleURLTypes:
+          - CFBundleURLSchemes: [sweep]
+        ITSAppUsesNonExemptEncryption: false
+
+  SweepWidgets:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: SweepWidgets
+      - path: Sweep/App/SweepActivityAttributes.swift
+      - path: Sweep/DesignSystem/Tokens.swift
+      - path: Sweep/DesignSystem/Components.swift
+      # Widgets read schedule bundles from the App Group (§9); only fonts +
+      # privacy manifest ship inside the extension.
+      - path: Sweep/Resources/Fraunces-VariableFont.ttf
+        buildPhase: resources
+      - path: Sweep/Resources/Fraunces-Italic-VariableFont.ttf
+        buildPhase: resources
+      - path: Sweep/Resources/PrivacyInfo.xcprivacy
+        buildPhase: resources
+    dependencies:
+      - package: SweepCore
+    entitlements:
+      path: SweepWidgets/SweepWidgets.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.TEAM.sweep
+    info:
+      path: SweepWidgets/Info.plist
+      properties:
+        CFBundleDisplayName: Sweep
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+        UIAppFonts:
+          - Fraunces-VariableFont.ttf
+          - Fraunces-Italic-VariableFont.ttf
