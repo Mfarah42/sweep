@@ -1,0 +1,12 @@
+/Users/mohamed/sweep/Sweep/Core/Bundle/BundleManager.swift
+/Users/mohamed/sweep/Sweep/Core/Bundle/SweepBundle.swift
+/Users/mohamed/sweep/Sweep/Core/Engine/Models.swift
+/Users/mohamed/sweep/Sweep/Core/Engine/Overrides.swift
+/Users/mohamed/sweep/Sweep/Core/Engine/VerdictEngine.swift
+/Users/mohamed/sweep/Sweep/Core/Location/CurbSnapper.swift
+/Users/mohamed/sweep/Sweep/Core/Location/LocationFixer.swift
+/Users/mohamed/sweep/Sweep/Core/Location/ParkingSessionManager.swift
+/Users/mohamed/sweep/Sweep/Core/Notify/NotificationPlanner.swift
+/Users/mohamed/sweep/Sweep/Core/Notify/NotificationScheduler.swift
+/Users/mohamed/sweep/Sweep/Core/Purchases/PlusStore.swift
+/Users/mohamed/sweep/Sweep/Core/Store/PersistenceStore.swift

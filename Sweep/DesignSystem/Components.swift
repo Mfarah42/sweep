@@ -163,6 +163,14 @@ public enum SweepFormat {
         NotificationPlanner.dayName(date, calendar)
     }
 
+    /// "Jul 10" — disambiguates rows that share a weekday (LA wall-clock).
+    public static func shortDate(_ date: Date, calendar: Calendar = SweepCalendar.la) -> String {
+        let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        let c = calendar.dateComponents([.month, .day], from: date)
+        return "\(months[c.month! - 1]) \(c.day!)"
+    }
+
     /// "6d 4h" / "14h" / "35m" countdown text.
     public static func countdown(to target: Date, from now: Date) -> String {
         let seconds = max(0, target.timeIntervalSince(now))

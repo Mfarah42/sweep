@@ -156,6 +156,7 @@ struct ParkedHomeView: View {
                                     .font(.system(size: 12))
                                     .foregroundStyle(p.fireDate < now ? Tokens.line : Tokens.clay)
                                 Text("\(SweepFormat.dayName(p.fireDate)) "
+                                     + "\(SweepFormat.shortDate(p.fireDate)), "
                                      + "\(SweepFormat.hourLabel(p.fireDate)) — \(p.title)")
                                     .font(.system(size: 13.5))
                                     .strikethrough(p.fireDate < now)
@@ -180,7 +181,7 @@ struct ParkedHomeView: View {
                         .foregroundStyle(Tokens.ink)
                     ForEach(Array(verdict.upcoming.prefix(3).enumerated()), id: \.offset) { _, w in
                         HStack {
-                            Text("\(SweepFormat.dayName(w.start)), "
+                            Text("\(SweepFormat.dayName(w.start)) \(SweepFormat.shortDate(w.start)), "
                                  + "\(SweepFormat.hourLabel(w.start))–\(SweepFormat.hourLabel(w.end))")
                                 .font(.system(size: 13.5))
                                 .foregroundStyle(w.suspendedForHoliday ? Tokens.sage : Tokens.ink)

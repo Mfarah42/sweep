@@ -1,0 +1,129 @@
+{
+  "" : {
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepCore-primary.dia",
+    "emit-module-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepCore-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepCore-primary-emit-module.dia",
+    "pch" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepCore-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepCore-primary.swiftdeps"
+  },
+  "/Users/mohamed/sweep/Sweep/Core/Bundle/BundleManager.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BundleManager.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BundleManager.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BundleManager.dia",
+    "index-unit-output-path" : "/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BundleManager.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BundleManager.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BundleManager.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BundleManager.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BundleManager~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Core/Bundle/SweepBundle.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepBundle.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepBundle.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepBundle.dia",
+    "index-unit-output-path" : "/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepBundle.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepBundle.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepBundle.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepBundle.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepBundle~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Core/Engine/Models.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/Models.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/Models.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/Models.dia",
+    "index-unit-output-path" : "/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/Models.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/Models.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/Models.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/Models.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/Models~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Core/Engine/Overrides.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/Overrides.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/Overrides.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/Overrides.dia",
+    "index-unit-output-path" : "/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/Overrides.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/Overrides.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/Overrides.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/Overrides.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/Overrides~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Core/Engine/VerdictEngine.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/VerdictEngine.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/VerdictEngine.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/VerdictEngine.dia",
+    "index-unit-output-path" : "/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/VerdictEngine.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/VerdictEngine.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/VerdictEngine.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/VerdictEngine.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/VerdictEngine~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Core/Location/CurbSnapper.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/CurbSnapper.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/CurbSnapper.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/CurbSnapper.dia",
+    "index-unit-output-path" : "/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/CurbSnapper.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/CurbSnapper.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/CurbSnapper.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/CurbSnapper.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/CurbSnapper~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Core/Location/LocationFixer.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/LocationFixer.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/LocationFixer.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/LocationFixer.dia",
+    "index-unit-output-path" : "/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/LocationFixer.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/LocationFixer.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/LocationFixer.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/LocationFixer.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/LocationFixer~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Core/Location/ParkingSessionManager.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/ParkingSessionManager.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/ParkingSessionManager.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/ParkingSessionManager.dia",
+    "index-unit-output-path" : "/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/ParkingSessionManager.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/ParkingSessionManager.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/ParkingSessionManager.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/ParkingSessionManager.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/ParkingSessionManager~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Core/Notify/NotificationPlanner.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/NotificationPlanner.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/NotificationPlanner.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/NotificationPlanner.dia",
+    "index-unit-output-path" : "/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/NotificationPlanner.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/NotificationPlanner.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/NotificationPlanner.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/NotificationPlanner.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/NotificationPlanner~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Core/Notify/NotificationScheduler.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/NotificationScheduler.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/NotificationScheduler.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/NotificationScheduler.dia",
+    "index-unit-output-path" : "/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/NotificationScheduler.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/NotificationScheduler.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/NotificationScheduler.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/NotificationScheduler.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/NotificationScheduler~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Core/Purchases/PlusStore.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/PlusStore.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/PlusStore.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/PlusStore.dia",
+    "index-unit-output-path" : "/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/PlusStore.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/PlusStore.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/PlusStore.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/PlusStore.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/PlusStore~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Core/Store/PersistenceStore.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/PersistenceStore.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/PersistenceStore.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/PersistenceStore.dia",
+    "index-unit-output-path" : "/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/PersistenceStore.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/PersistenceStore.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/PersistenceStore.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/PersistenceStore.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/PersistenceStore~partial.swiftmodule"
+  }
+}
