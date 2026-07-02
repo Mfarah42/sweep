@@ -1,0 +1,20 @@
+Sweep pipeline report — oak
+========================================
+source rows/features in : 23862
+segments out            : 18481
+rules out               : 26706
+holiday rows            : 42
+
+Dropped:
+      11  oak: day code present but time is NA
+       4  oak: feature without geometry
+   14662  oak: no-sweep side (even)
+   14573  oak: no-sweep side (odd)
+
+note: landmarks: 4 editorial, 18477 auto
+note: time code A1 (12:30–3:30 PM) widened outward to 12→16 for integer-hour schema
+
+Diff vs previous bundle:
+  segments added   : 0
+  segments removed : 0
+  rules changed    : 0

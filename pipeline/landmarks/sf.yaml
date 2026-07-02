@@ -1,0 +1,22 @@
+# Editorial side-name overrides for SF (spec §4.4.1). Keys are segment ids
+# ({city}:{block_id}:{side_key}); entries win over the geometric fallback and
+# ship with landmark_confidence "editorial".
+#
+# NOTE: the web prototype (sweep-app.jsx) was not available at build time, so
+# these launch-neighborhood entries are authored fresh in the same style
+# rather than ported verbatim — review copy before launch.
+sides:
+  # 9th Ave, Irving St – Judah St · Inner Sunset
+  "sf:432000:a":
+    landmark: Downtown side
+    hint: Sutro Tower over your shoulder
+  "sf:432000:b":
+    landmark: Ocean side
+    hint: sunset straight down the street
+  # Haight St, Masonic Ave – Ashbury St · Haight
+  "sf:6618000:a":
+    landmark: Buena Vista side
+    hint: the park uphill from you
+  "sf:6618000:b":
+    landmark: Panhandle side
+    hint: the Panhandle a block away

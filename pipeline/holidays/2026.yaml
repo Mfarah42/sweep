@@ -1,0 +1,34 @@
+# Holiday behavior per city, 2026 (spec §4 holidays/*.yaml).
+#
+# sf:  SFMTA suspends street sweeping ONLY on New Year's Day, Thanksgiving,
+#      and Christmas. Other holidays are listed with suspends: false so the
+#      UI can show "holiday, but this city still sweeps".
+# oak: City of Oakland suspends sweeping on all observed city holidays.
+#      Where the legal date falls on a weekend, the observed date is listed
+#      too — signs follow the observed city closure.
+sf:
+  - {date: 2026-01-01, suspends: true}    # New Year's Day
+  - {date: 2026-01-19, suspends: false}   # MLK Jr. Day
+  - {date: 2026-02-16, suspends: false}   # Presidents' Day
+  - {date: 2026-05-25, suspends: false}   # Memorial Day
+  - {date: 2026-06-19, suspends: false}   # Juneteenth
+  - {date: 2026-07-04, suspends: false}   # Independence Day
+  - {date: 2026-09-07, suspends: false}   # Labor Day
+  - {date: 2026-10-12, suspends: false}   # Indigenous Peoples' Day
+  - {date: 2026-11-11, suspends: false}   # Veterans Day
+  - {date: 2026-11-26, suspends: true}    # Thanksgiving
+  - {date: 2026-12-25, suspends: true}    # Christmas
+oak:
+  - {date: 2026-01-01, suspends: true}    # New Year's Day
+  - {date: 2026-01-19, suspends: true}    # MLK Jr. Day
+  - {date: 2026-02-16, suspends: true}    # Presidents' Day
+  - {date: 2026-05-25, suspends: true}    # Memorial Day
+  - {date: 2026-06-19, suspends: true}    # Juneteenth
+  - {date: 2026-07-03, suspends: true}    # Independence Day (observed)
+  - {date: 2026-07-04, suspends: true}    # Independence Day
+  - {date: 2026-09-07, suspends: true}    # Labor Day
+  - {date: 2026-10-12, suspends: true}    # Indigenous Peoples' Day
+  - {date: 2026-11-11, suspends: true}    # Veterans Day
+  - {date: 2026-11-26, suspends: true}    # Thanksgiving
+  - {date: 2026-11-27, suspends: true}    # Day after Thanksgiving
+  - {date: 2026-12-25, suspends: true}    # Christmas

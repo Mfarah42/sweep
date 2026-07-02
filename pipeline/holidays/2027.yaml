@@ -1,0 +1,29 @@
+sf:
+  - {date: 2027-01-01, suspends: true}    # New Year's Day
+  - {date: 2027-01-18, suspends: false}   # MLK Jr. Day
+  - {date: 2027-02-15, suspends: false}   # Presidents' Day
+  - {date: 2027-05-31, suspends: false}   # Memorial Day
+  - {date: 2027-06-19, suspends: false}   # Juneteenth
+  - {date: 2027-07-04, suspends: false}   # Independence Day
+  - {date: 2027-09-06, suspends: false}   # Labor Day
+  - {date: 2027-10-11, suspends: false}   # Indigenous Peoples' Day
+  - {date: 2027-11-11, suspends: false}   # Veterans Day
+  - {date: 2027-11-25, suspends: true}    # Thanksgiving
+  - {date: 2027-12-25, suspends: true}    # Christmas
+oak:
+  - {date: 2027-01-01, suspends: true}    # New Year's Day
+  - {date: 2027-01-18, suspends: true}    # MLK Jr. Day
+  - {date: 2027-02-15, suspends: true}    # Presidents' Day
+  - {date: 2027-05-31, suspends: true}    # Memorial Day
+  - {date: 2027-06-18, suspends: true}    # Juneteenth (observed)
+  - {date: 2027-06-19, suspends: true}    # Juneteenth
+  - {date: 2027-07-04, suspends: true}    # Independence Day
+  - {date: 2027-07-05, suspends: true}    # Independence Day (observed)
+  - {date: 2027-09-06, suspends: true}    # Labor Day
+  - {date: 2027-10-11, suspends: true}    # Indigenous Peoples' Day
+  - {date: 2027-11-11, suspends: true}    # Veterans Day
+  - {date: 2027-11-25, suspends: true}    # Thanksgiving
+  - {date: 2027-11-26, suspends: true}    # Day after Thanksgiving
+  - {date: 2027-12-24, suspends: true}    # Christmas (observed)
+  - {date: 2027-12-25, suspends: true}    # Christmas
+  - {date: 2027-12-31, suspends: true}    # New Year's Day 2028 (observed)

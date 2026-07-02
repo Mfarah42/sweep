@@ -1,0 +1,21 @@
+# Editorial side-name overrides for Oakland (spec §4.4.1). Keys are segment
+# ids ({city}:{block_id}:{side_key}).
+#
+# NOTE: the web prototype (sweep-app.jsx) was not available at build time, so
+# these launch-neighborhood entries are authored fresh in the same style
+# rather than ported verbatim — review copy before launch.
+sides:
+  # Grand Ave, 3400–3621 · Grand Lake
+  "oak:0aa8f1ed-19f3-469d-9e07-c9902ee4e9e7:a":
+    landmark: Lake side
+    hint: theater marquee up the street
+  "oak:0aa8f1ed-19f3-469d-9e07-c9902ee4e9e7:b":
+    landmark: Hills side
+    hint: uphill toward Mandana
+  # Telegraph Ave, 4200 block · Temescal
+  "oak:04b8fd24-ef29-4c92-b2e2-17ce9f7a4776:a":
+    landmark: Downtown side
+    hint: skyline down the avenue
+  "oak:04b8fd24-ef29-4c92-b2e2-17ce9f7a4776:b":
+    landmark: Hills side
+    hint: morning sun in your eyes

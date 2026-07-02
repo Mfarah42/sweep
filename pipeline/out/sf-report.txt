@@ -1,0 +1,17 @@
+Sweep pipeline report — sf
+========================================
+source rows/features in : 37878
+segments out            : 22556
+rules out               : 36883
+holiday rows            : 33
+
+Dropped:
+      22  sf: missing line geometry
+     824  sf: weekday=Holiday row
+
+note: landmarks: 4 editorial, 22552 auto
+
+Diff vs previous bundle:
+  segments added   : 0
+  segments removed : 0
+  rules changed    : 0

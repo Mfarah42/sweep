@@ -1,0 +1,26 @@
+sf:
+  - {date: 2028-01-01, suspends: true}    # New Year's Day
+  - {date: 2028-01-17, suspends: false}   # MLK Jr. Day
+  - {date: 2028-02-21, suspends: false}   # Presidents' Day
+  - {date: 2028-05-29, suspends: false}   # Memorial Day
+  - {date: 2028-06-19, suspends: false}   # Juneteenth
+  - {date: 2028-07-04, suspends: false}   # Independence Day
+  - {date: 2028-09-04, suspends: false}   # Labor Day
+  - {date: 2028-10-09, suspends: false}   # Indigenous Peoples' Day
+  - {date: 2028-11-11, suspends: false}   # Veterans Day
+  - {date: 2028-11-23, suspends: true}    # Thanksgiving
+  - {date: 2028-12-25, suspends: true}    # Christmas
+oak:
+  - {date: 2028-01-01, suspends: true}    # New Year's Day
+  - {date: 2028-01-17, suspends: true}    # MLK Jr. Day
+  - {date: 2028-02-21, suspends: true}    # Presidents' Day
+  - {date: 2028-05-29, suspends: true}    # Memorial Day
+  - {date: 2028-06-19, suspends: true}    # Juneteenth
+  - {date: 2028-07-04, suspends: true}    # Independence Day
+  - {date: 2028-09-04, suspends: true}    # Labor Day
+  - {date: 2028-10-09, suspends: true}    # Indigenous Peoples' Day
+  - {date: 2028-11-10, suspends: true}    # Veterans Day (observed)
+  - {date: 2028-11-11, suspends: true}    # Veterans Day
+  - {date: 2028-11-23, suspends: true}    # Thanksgiving
+  - {date: 2028-11-24, suspends: true}    # Day after Thanksgiving
+  - {date: 2028-12-25, suspends: true}    # Christmas

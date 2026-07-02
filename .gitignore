@@ -1,0 +1,8 @@
+.DS_Store
+pipeline/.venv/
+pipeline/out/*.prev
+*.xcodeproj
+xcuserdata/
+.build/
+DerivedData/
+.swiftpm/
