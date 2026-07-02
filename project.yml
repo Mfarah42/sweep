@@ -21,6 +21,9 @@ targets:
   Sweep:
     type: application
     platform: iOS
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.TEAM.sweep
     sources:
       - path: Sweep/App
       - path: Sweep/Features
@@ -60,6 +63,9 @@ targets:
   SweepWidgets:
     type: app-extension
     platform: iOS
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.TEAM.sweep.widgets
     sources:
       - path: SweepWidgets
       - path: Sweep/App/SweepActivityAttributes.swift

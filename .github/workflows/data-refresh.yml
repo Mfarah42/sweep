@@ -1,0 +1,35 @@
+name: Weekly schedule refresh
+
+on:
+  schedule:
+    - cron: "17 11 * * 1"   # Mondays 11:17 UTC
+  workflow_dispatch: {}
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests shapely pyyaml
+      - name: Rebuild bundles
+        env:
+          SODA_APP_TOKEN: ${{ secrets.SODA_APP_TOKEN }}
+        run: python pipeline/ingest.py --city all
+      - name: Golden-file + validation tests
+        run: python pipeline/test_pipeline.py
+      - name: Commit when source data changed
+        run: |
+          # Bundles embed built_at, so compare the report diffs instead of bytes.
+          if grep -qE "segments (added|removed)\s*: [1-9]|rules changed\s*: [1-9]" \
+              pipeline/out/sf-report.txt pipeline/out/oak-report.txt; then
+            git config user.name "sweep-data-bot"
+            git config user.email "actions@users.noreply.github.com"
+            git add pipeline/out Sweep/Resources/*.sweepdata
+            git commit -m "data: weekly schedule refresh"
+            git push
+          else
+            echo "No schedule changes; skipping commit."
+          fi
