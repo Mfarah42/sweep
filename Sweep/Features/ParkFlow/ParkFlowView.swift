@@ -204,7 +204,7 @@ struct ManualBlockSearchView: View {
     @EnvironmentObject var sessionManager: ParkingSessionManager
     let onPick: (String, String) -> Void
     @State private var query = ""
-    @State private var results: [(street: String, blockLabel: String)] = []
+    @State private var results: [BlockSearch.Hit] = []
 
     var body: some View {
         ScrollView {
@@ -212,7 +212,7 @@ struct ManualBlockSearchView: View {
                 Text("Which street are you on?")
                     .font(Tokens.display(24).weight(.medium))
                     .foregroundStyle(Tokens.ink)
-                TextField("Street name…", text: $query)
+                TextField("Address or street, e.g. 1091 53rd St", text: $query)
                     .textFieldStyle(.plain)
                     .padding(12)
                     .background(RoundedRectangle(cornerRadius: Tokens.radiusControl)
@@ -220,25 +220,14 @@ struct ManualBlockSearchView: View {
                         .overlay(RoundedRectangle(cornerRadius: Tokens.radiusControl)
                             .strokeBorder(Tokens.line)))
                     .onChange(of: query) { _, q in
-                        results = q.count >= 2
-                            ? ((try? model.bundleManager.openBundle(for: sessionManager.city))?
-                                .searchBlocks(matching: q) ?? [])
-                            : []
+                        results = (try? model.bundleManager.openBundle(for: sessionManager.city))
+                            .map { BlockSearch.hits(bundle: $0, query: q) } ?? []
                     }
-                ForEach(results, id: \.blockLabel) { hit in
+                ForEach(results) { hit in
                     Button {
                         onPick(hit.street, hit.blockLabel)
                     } label: {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(hit.street)
-                                .font(.system(size: 15, weight: .medium))
-                                .foregroundStyle(Tokens.ink)
-                            Text(hit.blockLabel)
-                                .font(.system(size: 13))
-                                .foregroundStyle(Tokens.sub)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.vertical, 6)
+                        BlockHitRow(hit: hit)
                     }
                 }
             }

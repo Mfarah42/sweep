@@ -1,0 +1,4 @@
+module SweepCore {
+header "SweepCore-Swift.h"
+export *
+}

@@ -42,15 +42,15 @@
 		</data>
 		<key>PlugIns/SweepWidgets.appex/SweepWidgets</key>
 		<data>
-		4xm+cURZu7GxGS6WvaGjY2+S/Fo=
+		KLkw9lqxw5+02DkquXvhyHKFe3c=
 		</data>
 		<key>PlugIns/SweepWidgets.appex/SweepWidgets.debug.dylib</key>
 		<data>
-		T6ZK7Mc2aVvsp/9vzyxMeRlsIiU=
+		aq0Ur4Csx3Qo++OZL0yBT4rQ4hc=
 		</data>
 		<key>PlugIns/SweepWidgets.appex/_CodeSignature/CodeResources</key>
 		<data>
-		9YFIG5pgF7HBsraun2ZKvSCy1sY=
+		MYA99jvqdnq4+J+LqgDuKkpMjGc=
 		</data>
 		<key>PlugIns/SweepWidgets.appex/__preview.dylib</key>
 		<data>
@@ -62,7 +62,7 @@
 		</data>
 		<key>Sweep.debug.dylib</key>
 		<data>
-		24jkaePzu4dGCaoma5NA1Gw3h5o=
+		k/2zfeHd4RsdPdjFg4RbT11YAc0=
 		</data>
 		<key>__preview.dylib</key>
 		<data>
@@ -132,21 +132,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			9nn8b1j7GjufUdDQmfE1cbr9sf3YngYwyUd4wkirKGo=
+			FFIh5kBqBg7UX0e7EEqNoeLH65z6b8s7GHxMatkxQ38=
 			</data>
 		</dict>
 		<key>PlugIns/SweepWidgets.appex/SweepWidgets.debug.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			A3SGSWokj+4fjMXJaP7JrxUu8IXLeWP7fcVTesocPAw=
+			9mjWmR5BYzdYqxxuxklovVaGeXLHE1AkAFzxD++SqaE=
 			</data>
 		</dict>
 		<key>PlugIns/SweepWidgets.appex/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			x8j6IdQckSrytKEQZw3LBVRMxX50fButpP7dnP8rHE4=
+			uzdIg+rSjcGx2NyFv0N5Sjduvm9WZjQP5ak9NhMZRyA=
 			</data>
 		</dict>
 		<key>PlugIns/SweepWidgets.appex/__preview.dylib</key>
@@ -167,7 +167,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			b5PnApMKbVqSErcRJkUH87uq0VHWVO6xvC7LOY+xWMY=
+			mEre6bA5sde3rYY36/FUudn/8xcWVTDQ7L8m38TXFDk=
 			</data>
 		</dict>
 		<key>__preview.dylib</key>

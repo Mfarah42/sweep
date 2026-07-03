@@ -54,7 +54,7 @@ struct HomeEmptyView: View {
     @EnvironmentObject var plusStore: PlusStore
     @Binding var showParkFlow: Bool
     @State private var searchText = ""
-    @State private var results: [(street: String, blockLabel: String)] = []
+    @State private var results: [BlockSearch.Hit] = []
 
     var body: some View {
         VStack(spacing: 16) {
@@ -84,7 +84,7 @@ struct HomeEmptyView: View {
                     Text("Or find your block")
                         .font(Tokens.display(17).weight(.medium))
                         .foregroundStyle(Tokens.ink)
-                    TextField("Street name…", text: $searchText)
+                    TextField("Address or street, e.g. 1091 53rd St", text: $searchText)
                         .textFieldStyle(.plain)
                         .padding(10)
                         .background(RoundedRectangle(cornerRadius: Tokens.radiusControl)
@@ -92,19 +92,11 @@ struct HomeEmptyView: View {
                         .onChange(of: searchText) { _, q in
                             search(q)
                         }
-                    ForEach(results.prefix(8), id: \.blockLabel) { hit in
+                    ForEach(results.prefix(8)) { hit in
                         NavigationLink {
                             BlockConfirmView(street: hit.street, blockLabel: hit.blockLabel)
                         } label: {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(hit.street)
-                                    .font(.system(size: 15, weight: .medium))
-                                    .foregroundStyle(Tokens.ink)
-                                Text(hit.blockLabel)
-                                    .font(.system(size: 13))
-                                    .foregroundStyle(Tokens.sub)
-                            }
-                            .padding(.vertical, 4)
+                            BlockHitRow(hit: hit)
                         }
                     }
                 }
@@ -132,11 +124,10 @@ struct HomeEmptyView: View {
     }
 
     private func search(_ query: String) {
-        guard query.count >= 2,
-              let bundle = try? model.bundleManager.openBundle(for: sessionManager.city) else {
+        guard let bundle = try? model.bundleManager.openBundle(for: sessionManager.city) else {
             results = []
             return
         }
-        results = bundle.searchBlocks(matching: query)
+        results = BlockSearch.hits(bundle: bundle, query: query)
     }
 }

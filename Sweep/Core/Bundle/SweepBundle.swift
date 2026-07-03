@@ -124,6 +124,33 @@ public final class SweepBundle {
         return readSegments(stmt)
     }
 
+    /// Raw rows for address-aware search (BlockSearch): one row per segment
+    /// with its door metadata, matched on street name.
+    public func blockRows(streetMatching query: String, limit: Int = 400)
+        -> [(street: String, blockLabel: String, doorRange: String?, doorParity: String?)] {
+        let sql = """
+            SELECT street, block_label, door_range, door_parity FROM segments
+            WHERE street LIKE ? ORDER BY street, block_label, id LIMIT ?
+            """
+        var stmt: OpaquePointer?
+        guard sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK else { return [] }
+        defer { sqlite3_finalize(stmt) }
+        let transient = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
+        sqlite3_bind_text(stmt, 1, "%\(query)%", -1, transient)
+        sqlite3_bind_int(stmt, 2, Int32(limit))
+        var out: [(String, String, String?, String?)] = []
+        while sqlite3_step(stmt) == SQLITE_ROW {
+            func optText(_ i: Int32) -> String? {
+                sqlite3_column_type(stmt, i) == SQLITE_NULL ? nil
+                    : String(cString: sqlite3_column_text(stmt, i))
+            }
+            out.append((String(cString: sqlite3_column_text(stmt, 0)),
+                        String(cString: sqlite3_column_text(stmt, 1)),
+                        optText(2), optText(3)))
+        }
+        return out
+    }
+
     /// Block search for the manual flow (§7.2): distinct street + block label.
     public func searchBlocks(matching query: String, limit: Int = 60) -> [(street: String, blockLabel: String)] {
         let sql = """

@@ -151,6 +151,36 @@ public struct SideCard: View {
     }
 }
 
+// MARK: - Block search result row (§7.2)
+
+public struct BlockHitRow: View {
+    let hit: BlockSearch.Hit
+
+    public init(hit: BlockSearch.Hit) {
+        self.hit = hit
+    }
+
+    public var body: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(hit.street)
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(Tokens.ink)
+                Text(hit.doorSummary.map { "\(hit.blockLabel) · doors \($0)" } ?? hit.blockLabel)
+                    .font(.system(size: 13))
+                    .foregroundStyle(Tokens.sub)
+            }
+            Spacer()
+            if hit.matchesNumber {
+                PillTag("your address", color: Tokens.sage)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.vertical, 5)
+        .accessibilityElement(children: .combine)
+    }
+}
+
 // MARK: - Formatting helpers shared by app + widgets
 
 public enum SweepFormat {
