@@ -6,6 +6,16 @@
     "pch" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepCore-primary-Bridging-header.pch",
     "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepCore-primary.swiftdeps"
   },
+  "/Users/mohamed/sweep/Sweep/Core/Bundle/BlockSearch.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BlockSearch.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BlockSearch.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BlockSearch.dia",
+    "index-unit-output-path" : "/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BlockSearch.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BlockSearch.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BlockSearch.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BlockSearch.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BlockSearch~partial.swiftmodule"
+  },
   "/Users/mohamed/sweep/Sweep/Core/Bundle/BundleManager.swift" : {
     "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BundleManager.swiftconstvalues",
     "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BundleManager.d",
@@ -25,6 +35,16 @@
     "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepBundle.o",
     "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepBundle.swiftdeps",
     "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepBundle~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Core/Engine/BlockSides.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BlockSides.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BlockSides.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BlockSides.dia",
+    "index-unit-output-path" : "/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BlockSides.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BlockSides.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BlockSides.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BlockSides.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/BlockSides~partial.swiftmodule"
   },
   "/Users/mohamed/sweep/Sweep/Core/Engine/Models.swift" : {
     "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/Models.swiftconstvalues",

@@ -54,8 +54,9 @@ def run_sf(out_dir: str, built_at: str, fixture_dir: str | None) -> None:
         source_updated_at = str(meta.get("rowsUpdatedAt", ""))
         rows = sf_socrata.fetch_rows(session)
     segments, _ = sf_socrata.build_segments(rows, drops)
-    n_ed, n_auto = landmark_pass.apply(segments, os.path.join(HERE, "landmarks", "sf.yaml"))
-    notes.append(f"landmarks: {n_ed} editorial, {n_auto} auto")
+    n_ed, n_art, n_geo = landmark_pass.apply(
+        segments, os.path.join(HERE, "landmarks", "sf.yaml"))
+    notes.append(f"landmarks: {n_ed} editorial, {n_art} arterial, {n_geo} geographic")
     _write(out_dir, "sf", segments, len(rows), source_updated_at, built_at, drops, notes)
 
 
@@ -80,8 +81,12 @@ def run_oak(out_dir: str, built_at: str, fixture_dir: str | None,
         features = oak_arcgis.fetch_features(layer_url)
     oak_arcgis.verify_domains(layer_info)
     segments = oak_arcgis.build_segments(features, drops)
-    n_ed, n_auto = landmark_pass.apply(segments, os.path.join(HERE, "landmarks", "oak.yaml"))
-    notes.append(f"landmarks: {n_ed} editorial, {n_auto} auto")
+    major_lines = oak_arcgis.collect_major_lines(features)
+    n_ed, n_art, n_geo = landmark_pass.apply(
+        segments, os.path.join(HERE, "landmarks", "oak.yaml"),
+        extra_major_lines=major_lines)
+    notes.append(f"landmarks: {n_ed} editorial, {n_art} arterial, {n_geo} geographic")
+    notes.append(f"arterial reference lines: {len(major_lines)}")
     notes.append("time code A1 (12:30–3:30 PM) widened outward to 12→16 for integer-hour schema")
     _write(out_dir, "oak", segments, len(features), source_updated_at, built_at, drops, notes)
 

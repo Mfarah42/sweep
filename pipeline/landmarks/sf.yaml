@@ -5,6 +5,62 @@
 # NOTE: the web prototype (sweep-app.jsx) was not available at build time, so
 # these launch-neighborhood entries are authored fresh in the same style
 # rather than ported verbatim — review copy before launch.
+# Arterials the landmark pass may name neighboring sides after ("Valencia
+# side · toward Valencia St"). SF's sweeping data has no road-class field, so
+# this list is editorial. Names must match the dataset's corridor display
+# names (zero-padding already stripped by the adapter).
+majors:
+  - Market St
+  - Mission St
+  - Valencia St
+  - Dolores St
+  - Guerrero St
+  - South Van Ness Ave
+  - Van Ness Ave
+  - Geary Blvd
+  - Geary St
+  - California St
+  - Clement St
+  - Fulton St
+  - Divisadero St
+  - Castro St
+  - Fillmore St
+  - Church St
+  - Haight St
+  - Oak St
+  - Fell St
+  - Stanyan St
+  - Masonic Ave
+  - Lincoln Way
+  - Irving St
+  - Judah St
+  - Noriega St
+  - Taraval St
+  - 19th Ave
+  - Sunset Blvd
+  - Great Hwy
+  - Sloat Blvd
+  - Ocean Ave
+  - Portola Dr
+  - Monterey Blvd
+  - Alemany Blvd
+  - San Jose Ave
+  - Cesar Chavez St
+  - 16th St
+  - 24th St
+  - Folsom St
+  - Harrison St
+  - Bryant St
+  - Potrero Ave
+  - 3rd St
+  - King St
+  - Howard St
+  - Columbus Ave
+  - Broadway
+  - Lombard St
+  - Bay St
+  - The Embarcadero
+
 sides:
   # 9th Ave, Irving St – Judah St · Inner Sunset
   "sf:432000:a":

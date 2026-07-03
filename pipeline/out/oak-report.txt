@@ -11,7 +11,8 @@ Dropped:
    14662  oak: no-sweep side (even)
    14573  oak: no-sweep side (odd)
 
-note: landmarks: 4 editorial, 18477 auto
+note: landmarks: 4 editorial, 10071 arterial, 8406 geographic
+note: arterial reference lines: 8747
 note: time code A1 (12:30–3:30 PM) widened outward to 12→16 for integer-hour schema
 
 Diff vs previous bundle:

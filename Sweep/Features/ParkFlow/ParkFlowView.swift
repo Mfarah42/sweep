@@ -212,7 +212,7 @@ struct ManualBlockSearchView: View {
                 Text("Which street are you on?")
                     .font(Tokens.display(24).weight(.medium))
                     .foregroundStyle(Tokens.ink)
-                TextField("Address or street, e.g. 1091 53rd St", text: $query)
+                TextField(SweepFormat.searchPlaceholder(for: sessionManager.city), text: $query)
                     .textFieldStyle(.plain)
                     .padding(12)
                     .background(RoundedRectangle(cornerRadius: Tokens.radiusControl)

@@ -84,7 +84,8 @@ struct HomeEmptyView: View {
                     Text("Or find your block")
                         .font(Tokens.display(17).weight(.medium))
                         .foregroundStyle(Tokens.ink)
-                    TextField("Address or street, e.g. 1091 53rd St", text: $searchText)
+                    TextField(SweepFormat.searchPlaceholder(for: sessionManager.city),
+                              text: $searchText)
                         .textFieldStyle(.plain)
                         .padding(10)
                         .background(RoundedRectangle(cornerRadius: Tokens.radiusControl)

@@ -54,6 +54,25 @@ class GoldenFileTest(unittest.TestCase):
                 "SELECT COUNT(*) FROM rules WHERE to_hour <= from_hour").fetchone()[0]
             self.assertEqual(bad, 0, "unsplit overnight window escaped normalization")
 
+    def test_landmark_invariants(self):
+        """A block's two sides never share a name; a side never has two."""
+        import sqlite3
+        with tempfile.TemporaryDirectory() as d:
+            _build(d)
+            for city in ("sf", "oak"):
+                con = sqlite3.connect(os.path.join(d, f"{city}.sweepbundle"))
+                clash = con.execute("""SELECT COUNT(*) FROM (
+                    SELECT street, block_label FROM segments
+                    GROUP BY street, block_label
+                    HAVING COUNT(DISTINCT side_key) > 1
+                       AND COUNT(DISTINCT landmark) < 2)""").fetchone()[0]
+                self.assertEqual(clash, 0, f"{city}: block sides sharing a landmark")
+                split = con.execute("""SELECT COUNT(*) FROM (
+                    SELECT street, block_label, side_key FROM segments
+                    GROUP BY street, block_label, side_key
+                    HAVING COUNT(DISTINCT landmark) > 1)""").fetchone()[0]
+                self.assertEqual(split, 0, f"{city}: side with two landmarks")
+
 
 class ValidationTest(unittest.TestCase):
     def test_unknown_sf_weekday_fails_loudly(self):

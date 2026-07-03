@@ -4,6 +4,13 @@
 # NOTE: the web prototype (sweep-app.jsx) was not available at build time, so
 # these launch-neighborhood entries are authored fresh in the same style
 # rather than ported verbatim — review copy before launch.
+# Oakland arterials come from the source's FCC road classes automatically;
+# list extras here only when a street people navigate by isn't classed A1–A3.
+majors:
+  - Lakeshore Ave
+  - Grand Ave
+  - Piedmont Ave
+
 sides:
   # Grand Ave, 3400–3621 · Grand Lake
   "oak:0aa8f1ed-19f3-469d-9e07-c9902ee4e9e7:a":

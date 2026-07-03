@@ -39,6 +39,9 @@ class CurbSegment:
     landmark_confidence: str | None = None   # "editorial" | "auto"
     geometry: list[list[float]] = field(default_factory=list)  # [[lon, lat], ...]
     rules: list[ScheduleRule] = field(default_factory=list)
+    # Road importance for the landmark pass only (not persisted to bundles):
+    # "major" = arterial the pass may name other sides after.
+    road_class: str | None = None
 
 
 @dataclass

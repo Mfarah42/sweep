@@ -184,6 +184,29 @@ def _decode_side(day_raw, time_raw, drops: DropCounter, ctx: str) -> list[Schedu
             for wd, wk in DAY_CODES[day]]
 
 
+def collect_major_lines(features: list[dict]) -> list[tuple[str, list[list[float]]]]:
+    """(street, [[lon,lat],…]) for every arterial feature, swept or not — the
+    landmark pass names neighboring curb sides after these."""
+    out: list[tuple[str, list[list[float]]]] = []
+    for feat in features:
+        p = feat.get("properties", {})
+        fcc = str(p.get("FCC") or "").strip().upper()
+        if fcc[:2] not in ("A1", "A2", "A3"):
+            continue
+        geom = feat.get("geometry") or {}
+        if geom.get("type") == "LineString":
+            coords = [[float(x), float(y)] for x, y in geom.get("coordinates", [])]
+        elif geom.get("type") == "MultiLineString":
+            coords = [[float(x), float(y)] for part in geom.get("coordinates", [])
+                      for x, y in part]
+        else:
+            continue
+        street = _street_name(p)
+        if street and coords:
+            out.append((street, coords))
+    return out
+
+
 def build_segments(features: list[dict], drops: DropCounter) -> list[CurbSegment]:
     segments: list[CurbSegment] = []
     for feat in features:
@@ -206,6 +229,10 @@ def build_segments(features: list[dict], drops: DropCounter) -> list[CurbSegment
 
         street = _street_name(p)
         label = _block_label(p)
+        # Census FCC road class: A1/A2/A3 = primary/secondary arterials. The
+        # landmark pass names neighboring sides after these ("MacArthur side").
+        fcc = str(p.get("FCC") or "").strip().upper()
+        road_class = "major" if fcc[:2] in ("A1", "A2", "A3") else None
         # parity → side_key: even → "a", odd → "b" (spec §4.3).
         for parity, side_key, day_f, time_f in (
                 ("even", "a", "DAY_EVEN", "TIME_EVEN"),
@@ -225,6 +252,7 @@ def build_segments(features: list[dict], drops: DropCounter) -> list[CurbSegment
                 door_range=_addr_range_for_parity(p, parity),
                 geometry=coords,
                 rules=rules,
+                road_class=road_class,
             ))
     segments.sort(key=lambda s: s.id)
     return segments

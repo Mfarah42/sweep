@@ -181,6 +181,20 @@ public struct BlockHitRow: View {
     }
 }
 
+// MARK: - Search placeholder (§7.2)
+
+extension SweepFormat {
+    /// Neutral example, not a real user's address. Oakland's data has door
+    /// ranges so an address example teaches the feature; SF's doesn't, so
+    /// suggest a street there.
+    public static func searchPlaceholder(for city: City) -> String {
+        switch city {
+        case .oak: return "Address or street, e.g. 1935 Lakeshore Ave"
+        case .sf: return "Street name, e.g. Irving St"
+        }
+    }
+}
+
 // MARK: - Formatting helpers shared by app + widgets
 
 public enum SweepFormat {
