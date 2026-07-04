@@ -21,6 +21,7 @@ jobs:
       - name: Golden-file + validation tests
         run: python pipeline/test_pipeline.py
       - name: Commit when source data changed
+        id: commit
         run: |
           # Bundles embed built_at, so compare the report diffs instead of bytes.
           if grep -qE "segments (added|removed)\s*: [1-9]|rules changed\s*: [1-9]" \
@@ -30,6 +31,23 @@ jobs:
             git add pipeline/out Sweep/Resources/*.sweepdata
             git commit -m "data: weekly schedule refresh"
             git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "No schedule changes; skipping commit."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
+
+      # OTA hosting (spec §4.7): shipped apps poll the rolling "schedule-data"
+      # release for index.json and swap in newer bundles after a sha256 check.
+      - name: Publish OTA release
+        if: steps.commit.outputs.changed == 'true' || github.event_name == 'workflow_dispatch'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python pipeline/make_index.py \
+            --base-url "https://github.com/${{ github.repository }}/releases/download/schedule-data"
+          gh release delete schedule-data --yes --cleanup-tag 2>/dev/null || true
+          gh release create schedule-data \
+            --title "Street sweeping schedule data" \
+            --notes "Rolling OTA bundle release. Apps fetch index.json weekly; sha256-verified." \
+            pipeline/out/sf.sweepbundle pipeline/out/oak.sweepbundle pipeline/out/index.json

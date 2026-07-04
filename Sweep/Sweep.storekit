@@ -1,0 +1,37 @@
+{
+  "identifier" : "F3E1B7A0-5C2D-4A8E-9B41-7D2E5F8C1A03",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "9.99",
+      "familyShareable" : false,
+      "internalID" : "A1B2C3D4-0001-4000-8000-000000000001",
+      "localizations" : [
+        {
+          "description" : "Multiple cars, curb-card themes, Longest Spot.",
+          "displayName" : "Sweep Plus",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "sweep.plus",
+      "referenceName" : "Sweep Plus",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_askToBuyEnabled" : false,
+    "_billingIssuesEnabled" : false,
+    "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_storefront" : "USA"
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

@@ -8,9 +8,11 @@ import Foundation
 ///   atomic swap. All failures are silent; the app never blocks on this.
 public final class BundleManager {
 
-    /// Static host for OTA bundles (spec §4.7) — single constant.
+    /// Static host for OTA bundles (spec §4.7) — single constant. The weekly
+    /// CI publishes bundles + index.json to the rolling "schedule-data"
+    /// release; replace OWNER with the GitHub org/user hosting the repo.
     public static let indexURL = URL(string:
-        "https://github.com/TEAM/sweep-data/releases/latest/download/index.json")!
+        "https://github.com/OWNER/sweep/releases/download/schedule-data/index.json")!
 
     public static let refreshTaskIdentifier = "com.TEAM.sweep.refresh"
 

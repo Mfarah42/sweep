@@ -4,6 +4,18 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>AppIcon60x60@2x.png</key>
+		<data>
+		Nw4QKGmeL+qzyyaNWeCL+dT4yew=
+		</data>
+		<key>AppIcon76x76@2x~ipad.png</key>
+		<data>
+		TII++tE3eyZwBHhnYXgmKtQFNVY=
+		</data>
+		<key>Assets.car</key>
+		<data>
+		8v9getnTgoUYwuxYrWxUzSI3IR4=
+		</data>
 		<key>Fraunces-Italic-VariableFont.ttf</key>
 		<data>
 		MDfvfWIk9pplWnQBBBQwXl9ggSg=
@@ -14,7 +26,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		PSBKKf0XKzFYwC4Jv8pc6V+Y0SM=
+		Bguhi4X+aJa1WVsC85DL/+wvFoM=
 		</data>
 		<key>OFL.txt</key>
 		<data>
@@ -42,15 +54,15 @@
 		</data>
 		<key>PlugIns/SweepWidgets.appex/SweepWidgets</key>
 		<data>
-		bqeH2jvfXGms4bZoVYbSHbORqCg=
+		I+z3JOR20eVMQPtg7hzxJf4dKCY=
 		</data>
 		<key>PlugIns/SweepWidgets.appex/SweepWidgets.debug.dylib</key>
 		<data>
-		eBau30q1CAiPsHr04RrosLDYx9w=
+		3kWb7AI5v7Kvh++zjmjJFFpZiFE=
 		</data>
 		<key>PlugIns/SweepWidgets.appex/_CodeSignature/CodeResources</key>
 		<data>
-		sfUClRDfc0Mpc81nsxihI8jIp8A=
+		7xG2Z2Pl945ozri4tQ78fjOldEQ=
 		</data>
 		<key>PlugIns/SweepWidgets.appex/__preview.dylib</key>
 		<data>
@@ -62,7 +74,7 @@
 		</data>
 		<key>Sweep.debug.dylib</key>
 		<data>
-		6aK9vyHVBUwN56lXypz54PRdHiA=
+		hrAkvAkBs0Fx6t79WJw9qyHrMBg=
 		</data>
 		<key>__preview.dylib</key>
 		<data>
@@ -70,15 +82,36 @@
 		</data>
 		<key>oak.sweepdata</key>
 		<data>
-		dGgCMcszziDfCXwg03n5kYCQIjE=
+		wvKDakOUcANh7Yo8R+1PPVlTSaM=
 		</data>
 		<key>sf.sweepdata</key>
 		<data>
-		uoKjoQs8e8riG+1TO+NkGi/tIis=
+		6reEy/TrkGiyQcxBUOjWnoK3NgI=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>AppIcon60x60@2x.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			+uwNqgciifr41383nKSH0oqOdzwCkA06urUFoJ2fJJ4=
+			</data>
+		</dict>
+		<key>AppIcon76x76@2x~ipad.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			MIN8eSBSBI1rBVC7+44/4D69/utFi3AKIjjx3uqSkk0=
+			</data>
+		</dict>
+		<key>Assets.car</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			T1gVazAxwai2d6T2TjXY0CyS+kuRextExUHoVQJHoc8=
+			</data>
+		</dict>
 		<key>Fraunces-Italic-VariableFont.ttf</key>
 		<dict>
 			<key>hash2</key>
@@ -132,21 +165,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			w+sezn0kTmieL4DfHhUZEclrsD+OK8yh2vjXLsledfo=
+			AHIiKtsQ0XpHrWOqPhAc772QrFoO9cQ58tK7NKuvlyI=
 			</data>
 		</dict>
 		<key>PlugIns/SweepWidgets.appex/SweepWidgets.debug.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			zyeAf4Y+zFrqFcBNuQ/F5hVMeG75QyEXV7XTETsxXN0=
+			unuzzqYk3z2QKoDo7Z1ZxbremiowsFGQ9VvMb6m8hbE=
 			</data>
 		</dict>
 		<key>PlugIns/SweepWidgets.appex/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			60I30lFtwgh55u8DsVcotZFY6gtO3v6tdkyWsw6wreo=
+			GGDcE8PzCczewx2kno0zNvcpQQjb9lbpz9SW9hwyAqU=
 			</data>
 		</dict>
 		<key>PlugIns/SweepWidgets.appex/__preview.dylib</key>
@@ -167,7 +200,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			074uBwE9gTCpdD7IO/MGCwtqMbqV5xfzWD3rVqat1mw=
+			IYtQoD4MSo6JD7WQdc2XG0IKI7A/akwYLK/39OTsl5c=
 			</data>
 		</dict>
 		<key>__preview.dylib</key>
@@ -181,14 +214,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			xcxVNzDs4oacQy28SLjxKxsfci2uofSLUYvJ8hZoTW4=
+			qOwWMo9mQnKavTjqq1x/siPHMolnD+gbOvqUy03U9Ss=
 			</data>
 		</dict>
 		<key>sf.sweepdata</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			pzVbYWTKXzLPChyjsZR6NEAsuUrhXJAdy+NhHshYUJE=
+			u2SwurZNZb0qcp0FtPQwXYvwicUYTRLoHmGB68S7hlE=
 			</data>
 		</dict>
 	</dict>

@@ -1,0 +1,12 @@
+{
+  "oak": {
+    "built_at": "2026-07-03T05:05:03Z",
+    "sha256": "a8ec16328f6642729abd38eaab5c7fb223c73289670fe81b3afa94cb4dd4f52b",
+    "url": "https://github.com/OWNER/sweep/releases/download/schedule-data/oak.sweepbundle"
+  },
+  "sf": {
+    "built_at": "2026-07-03T05:05:03Z",
+    "sha256": "bb64b0bab64d65bd2a729d05b4f4305d8bf089c5184d12e81e6181ebc4bb8651",
+    "url": "https://github.com/OWNER/sweep/releases/download/schedule-data/sf.sweepbundle"
+  }
+}

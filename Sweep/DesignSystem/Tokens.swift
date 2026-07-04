@@ -1,3 +1,4 @@
+import SweepCore
 import SwiftUI
 
 /// Design tokens (spec §7.1). v1 ships light-only by design — paper is the
@@ -55,23 +56,7 @@ public enum Tokens {
     }
 }
 
-/// UI-facing verdict state including the "nothing scheduled" case.
-public enum VerdictStateUI {
-    case safe
-    case moveSoon
-    case sweepingNow
-    case none
-
-    /// Status colors always pair with distinct text — never color alone (§7.1).
-    public var word: String {
-        switch self {
-        case .safe: return "Safe"
-        case .moveSoon: return "Move soon"
-        case .sweepingNow: return "Sweeping now"
-        case .none: return "No schedule"
-        }
-    }
-}
+// VerdictStateUI lives in SweepCore (Core/Engine/SweepFormat.swift).
 
 extension Color {
     init(hex: UInt32) {

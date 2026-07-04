@@ -74,6 +74,31 @@ class GoldenFileTest(unittest.TestCase):
                 self.assertEqual(split, 0, f"{city}: side with two landmarks")
 
 
+class ShippedBundleGuard(unittest.TestCase):
+    """Fixture/golden runs must never touch the shipped app bundles — this
+    once silently replaced Sweep/Resources/*.sweepdata with 57KB fixture data,
+    which CI would then have committed and shipped."""
+
+    def test_fixture_build_leaves_shipped_bundles_alone(self):
+        resources = os.path.join(HERE, "..", "Sweep", "Resources")
+        shipped = {name: _sha(os.path.join(resources, name))
+                   for name in ("sf.sweepdata", "oak.sweepdata")
+                   if os.path.exists(os.path.join(resources, name))}
+        with tempfile.TemporaryDirectory() as d:
+            _build(d)
+        for name, digest in shipped.items():
+            self.assertEqual(_sha(os.path.join(resources, name)), digest,
+                             f"{name} was modified by a fixture build")
+
+    def test_shipped_bundles_are_real_not_fixture(self):
+        resources = os.path.join(HERE, "..", "Sweep", "Resources")
+        for name in ("sf.sweepdata", "oak.sweepdata"):
+            path = os.path.join(resources, name)
+            if os.path.exists(path):
+                self.assertGreater(os.path.getsize(path), 1_000_000,
+                                   f"{name} is suspiciously small — fixture data?")
+
+
 class ValidationTest(unittest.TestCase):
     def test_unknown_sf_weekday_fails_loudly(self):
         sys.path.insert(0, HERE)

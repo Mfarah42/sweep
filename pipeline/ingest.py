@@ -27,6 +27,7 @@ from adapters import oak_arcgis, sf_socrata
 from schema import DropCounter
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+_FIXTURE_RUN = False   # set by main() when --fixture-dir is used
 
 
 def load_holidays(city: str) -> list[tuple[str, bool]]:
@@ -109,9 +110,13 @@ def _write(out_dir: str, city: str, segments, rows_in: int, source_updated_at: s
     # Ship a copy into the app resources as .sweepdata — codesign refuses to
     # sign nested resources whose extension ends in "bundle". The installed
     # App Group file keeps the .sweepbundle name (spec §10).
-    resources_dir = os.path.normpath(os.path.join(HERE, "..", "Sweep", "Resources"))
-    if os.path.isdir(resources_dir):
-        shutil.copy2(bundle_path, os.path.join(resources_dir, f"{city}.sweepdata"))
+    # ONLY for real builds into the default out dir: fixture/golden-test runs
+    # (--fixture-dir, custom --out) must never replace the shipped bundles.
+    is_default_out = os.path.normpath(out_dir) == os.path.normpath(os.path.join(HERE, "out"))
+    if is_default_out and not _FIXTURE_RUN:
+        resources_dir = os.path.normpath(os.path.join(HERE, "..", "Sweep", "Resources"))
+        if os.path.isdir(resources_dir):
+            shutil.copy2(bundle_path, os.path.join(resources_dir, f"{city}.sweepdata"))
     size_mb = os.path.getsize(bundle_path) / 1e6
     print(f"[{city}] {summary['segments']} segments, {summary['rules']} rules, "
           f"{summary['holidays']} holiday rows → {bundle_path} ({size_mb:.1f} MB)")
@@ -126,6 +131,9 @@ def main() -> None:
     ap.add_argument("--out", default=os.path.join(HERE, "out"))
     ap.add_argument("--built-at", default=None)
     args = ap.parse_args()
+
+    global _FIXTURE_RUN
+    _FIXTURE_RUN = args.fixture_dir is not None
 
     built_at = args.built_at or datetime.datetime.now(datetime.UTC).strftime(
         "%Y-%m-%dT%H:%M:%SZ")
