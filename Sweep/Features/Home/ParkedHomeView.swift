@@ -98,9 +98,17 @@ struct ParkedHomeView: View {
                         .foregroundStyle(Tokens.sub)
                 }
 
-                Text("Always check the posted sign.")
-                    .font(.system(size: 12))
-                    .foregroundStyle(Tokens.clay)
+                HStack(alignment: .center) {
+                    Text("Always check the posted sign.")
+                        .font(.system(size: 12))
+                        .foregroundStyle(Tokens.clay)
+                    Spacer()
+                    if let segment {
+                        // What the pole should say — eyeball-match it.
+                        SignPreview(lines: SweepFormat.signLines(
+                            rules: sessionManager.effectiveRules(for: segment)))
+                    }
+                }
             }
         }
         .accessibilityElement(children: .combine)

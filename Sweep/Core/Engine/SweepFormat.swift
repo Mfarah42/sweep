@@ -119,6 +119,33 @@ public enum SweepFormat {
         }
     }
 
+    // MARK: - Sign preview
+
+    /// The lines a posted street-sweeping sign would carry for these rules,
+    /// e.g. ["9 AM – 12 PM", "2ND & 4TH FRI"] — rendered in the UI as a mini
+    /// sign so users can eyeball-match the physical pole. Describes the first
+    /// rule's pattern (same convention as scheduleLine).
+    public static func signLines(rules: [ScheduleRule]) -> [String] {
+        guard let first = rules.first else { return [] }
+        let samePattern = rules.filter {
+            $0.weeks == first.weeks && $0.fromHour == first.fromHour && $0.toHour == first.toHour
+        }
+        let weekdays = Array(Set(samePattern.map(\.weekday))).sorted()
+        let short = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
+        let names = weekdays.map { short[$0] }
+        let dayText = names.count == 1 ? names[0]
+            : names.dropLast().joined(separator: ", ") + " & " + names.last!
+
+        var dayLine = dayText
+        if let weeks = first.weeks {
+            let ordinals = ["1ST", "2ND", "3RD", "4TH", "5TH"]
+            let label = weeks.compactMap { $0 >= 1 && $0 <= 5 ? ordinals[$0 - 1] : nil }
+                .joined(separator: " & ")
+            dayLine = "\(label) \(dayText)"
+        }
+        return ["\(hourText(first.fromHour)) – \(hourText(first.toHour))", dayLine]
+    }
+
     // MARK: - Side naming
 
     /// What we call a curb side. Door parity is the only thing a person can

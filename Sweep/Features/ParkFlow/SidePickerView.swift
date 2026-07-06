@@ -87,6 +87,7 @@ struct SidePickerView: View {
                                          landmarkHint: side.landmarkHint,
                                          confidence: side.landmarkConfidence),
             doors: doors,
+            signLines: SweepFormat.signLines(rules: rules),
             miniVerdict: SweepFormat.miniVerdict(verdict, now: now),
             miniState: SweepFormat.uiState(verdict),
             selected: selectedSideKey == side.sideKey) {

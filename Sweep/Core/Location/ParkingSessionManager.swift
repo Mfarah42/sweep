@@ -18,6 +18,8 @@ public final class ParkingSessionManager: ObservableObject {
     @Published public private(set) var verdict: Verdict?
 
     public weak var liveActivity: LiveActivityControlling?
+    /// Optional opt-in mirror into the Apple Reminders app.
+    public var remindersBridge: AppleRemindersBridge?
 
     private let store: PersistenceStore
     private let bundleManager: BundleManager
@@ -71,6 +73,7 @@ public final class ParkingSessionManager: ObservableObject {
             await scheduler.clearAll()
             reloadWidgets()
             liveActivity?.syncLiveActivity(session: nil, verdict: nil, context: nil)
+            remindersBridge?.sync(deadline: nil, street: nil, sideName: nil)
         }
     }
 
@@ -90,6 +93,7 @@ public final class ParkingSessionManager: ObservableObject {
             await scheduler.clearAll()
             reloadWidgets()
             liveActivity?.syncLiveActivity(session: nil, verdict: nil, context: nil)
+            remindersBridge?.sync(deadline: nil, street: nil, sideName: nil)
             return
         }
         let rules = effectiveRules(for: segment)
@@ -107,6 +111,10 @@ public final class ParkingSessionManager: ObservableObject {
         await scheduler.reschedule(planned)
         reloadWidgets()
         liveActivity?.syncLiveActivity(session: session, verdict: v, context: context)
+        if store.appleRemindersEnabled {
+            remindersBridge?.sync(deadline: v.next?.start, street: segment.street,
+                                  sideName: segment.displaySideName)
+        }
     }
 
     private func reloadWidgets() {

@@ -22,6 +22,9 @@ struct SweepEntry: TimelineEntry {
     let state: VerdictStateUI
     let untilText: String
     let street: String
+    /// The deadline: next sweep start (or end, while sweeping). Rendered with
+    /// a self-updating relative countdown — "the last day to move the car".
+    var moveBy: Date?
 }
 
 struct SweepTimelineProvider: TimelineProvider {
@@ -81,19 +84,22 @@ struct SweepTimelineProvider: TimelineProvider {
                                             calendar: SweepCalendar.la,
                                             holidays: bundle()?.holidays() ?? .empty)
         let until: String
+        var moveBy: Date?
         if let next = verdict.next {
             switch verdict.state {
             case .sweepingNow:
                 until = "until \(SweepFormat.hourLabel(next.end))"
+                moveBy = next.end
             default:
                 until = "until \(String(SweepFormat.dayName(next.start).prefix(3))) "
                     + SweepFormat.hourLabel(next.start)
+                moveBy = next.start
             }
         } else {
             until = "no sweeping posted"
         }
         return SweepEntry(date: date, state: SweepFormat.uiState(verdict),
-                          untilText: until, street: segment.street)
+                          untilText: until, street: segment.street, moveBy: moveBy)
     }
 }
 
@@ -115,21 +121,40 @@ struct SweepWidgetView: View {
                 }
             }
         default:
-            VStack(alignment: .leading, spacing: 6) {
-                Circle()
-                    .fill(Tokens.statusColor(entry.state))
-                    .frame(width: 10, height: 10)
-                Text(entry.state.word)
-                    .font(Tokens.display(20).weight(.semibold))
-                    .foregroundStyle(Tokens.ink)
-                    .minimumScaleFactor(0.7)
-                Text(entry.untilText)
-                    .font(.system(size: 13))
-                    .foregroundStyle(Tokens.sub)
+            VStack(alignment: .leading, spacing: 4) {
+                HStack(spacing: 6) {
+                    Circle()
+                        .fill(Tokens.statusColor(entry.state))
+                        .frame(width: 9, height: 9)
+                    Text(entry.state.word)
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(Tokens.statusColor(entry.state))
+                        .textCase(.uppercase)
+                }
+                Spacer(minLength: 2)
+                if let moveBy = entry.moveBy {
+                    Text(entry.state == .sweepingNow ? "Sweeping ends" : "Move by")
+                        .font(.system(size: 11))
+                        .foregroundStyle(Tokens.sub)
+                    Text(moveBy, format: .dateTime.weekday(.abbreviated).hour())
+                        .font(Tokens.display(19).weight(.semibold))
+                        .foregroundStyle(Tokens.ink)
+                        .minimumScaleFactor(0.7)
+                    // Self-updating countdown — no timeline churn needed.
+                    Text(moveBy, style: .relative)
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(Tokens.statusColor(entry.state))
+                        .minimumScaleFactor(0.7)
+                } else {
+                    Text(entry.untilText)
+                        .font(.system(size: 13))
+                        .foregroundStyle(Tokens.sub)
+                }
                 if !entry.street.isEmpty {
                     Text(entry.street)
-                        .font(.system(size: 12))
+                        .font(.system(size: 11))
                         .foregroundStyle(Tokens.sub)
+                        .lineLimit(1)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)

@@ -28,6 +28,18 @@ final class ScheduleLineTests: XCTestCase {
                        "Tuesdays, 12 PM–4 PM · 1st & 3rd weeks")
     }
 
+    func testSignLinesMatchPostedSignFormat() {
+        // 2nd Friday, 9–12 (the user's block).
+        XCTAssertEqual(SweepFormat.signLines(rules: [rule(5, weeks: [2], from: 9, to: 12)]),
+                       ["9 AM – 12 PM", "2ND FRI"])
+        // Mon/Wed/Fri weekly.
+        XCTAssertEqual(SweepFormat.signLines(rules: [rule(1), rule(3), rule(5)]),
+                       ["2 AM – 3 AM", "MON, WED & FRI"])
+        XCTAssertEqual(SweepFormat.signLines(rules: [rule(2, weeks: [1, 3], from: 12, to: 16)]),
+                       ["12 PM – 4 PM", "1ST & 3RD TUE"])
+        XCTAssertEqual(SweepFormat.signLines(rules: []), [])
+    }
+
     func testMixedPatternsDescribeFirstOnly() {
         // Overnight split (Tue 22–24 + Wed 0–2): the two rules have different
         // hours, so the line describes the posted start pattern.

@@ -10,6 +10,8 @@ public final class PersistenceStore {
         public static let city = "prefs.city.v1"
         public static let overrides = "overrides.v1"
         public static let plus = "purchase.plus.v1"
+        public static let appleReminders = "prefs.appleReminders.v1"
+        public static let appleReminderId = "reminders.ekid.v1"
     }
 
     public static let appGroupId = "group.com.TEAM.sweep"   // single-config placeholder
@@ -44,6 +46,18 @@ public final class PersistenceStore {
     public var city: City {
         get { City(rawValue: defaults.string(forKey: Keys.city) ?? "") ?? .sf }
         set { defaults.set(newValue.rawValue, forKey: Keys.city) }
+    }
+
+    /// Opt-in mirror of the move-by deadline into the Apple Reminders app.
+    public var appleRemindersEnabled: Bool {
+        get { defaults.bool(forKey: Keys.appleReminders) }
+        set { defaults.set(newValue, forKey: Keys.appleReminders) }
+    }
+
+    /// EventKit identifier of the one Sweep-managed reminder.
+    public var appleReminderId: String? {
+        get { defaults.string(forKey: Keys.appleReminderId) }
+        set { defaults.set(newValue, forKey: Keys.appleReminderId) }
     }
 
     // MARK: - Sign corrections (§7.5)

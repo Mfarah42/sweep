@@ -37,6 +37,7 @@ final class AppModel: ObservableObject {
                                                scheduler: scheduler)
         plusStore = PlusStore(store: store)
         sessionManager.liveActivity = liveActivity
+        sessionManager.remindersBridge = AppleRemindersBridge(store: store)
         client.registerCategories()
 
         bundleManager.installShippedBundles(from: .main)

@@ -93,16 +93,19 @@ public struct SideCard: View {
     let landmark: String
     let hint: String?
     let doors: String?
+    let signLines: [String]
     let miniVerdict: String
     let miniState: VerdictStateUI
     let selected: Bool
     let onTap: () -> Void
 
-    public init(landmark: String, hint: String?, doors: String?, miniVerdict: String,
-                miniState: VerdictStateUI, selected: Bool, onTap: @escaping () -> Void) {
+    public init(landmark: String, hint: String?, doors: String?, signLines: [String] = [],
+                miniVerdict: String, miniState: VerdictStateUI, selected: Bool,
+                onTap: @escaping () -> Void) {
         self.landmark = landmark
         self.hint = hint
         self.doors = doors
+        self.signLines = signLines
         self.miniVerdict = miniVerdict
         self.miniState = miniState
         self.selected = selected
@@ -125,11 +128,15 @@ public struct SideCard: View {
                         .font(.system(size: 12.5))
                         .foregroundStyle(Tokens.sub)
                 }
-                HStack(spacing: 5) {
-                    Circle().fill(Tokens.statusColor(miniState)).frame(width: 7, height: 7)
-                    Text(miniVerdict)
-                        .font(.system(size: 12.5, weight: .medium))
-                        .foregroundStyle(Tokens.statusColor(miniState))
+                HStack(alignment: .bottom) {
+                    HStack(spacing: 5) {
+                        Circle().fill(Tokens.statusColor(miniState)).frame(width: 7, height: 7)
+                        Text(miniVerdict)
+                            .font(.system(size: 12.5, weight: .medium))
+                            .foregroundStyle(Tokens.statusColor(miniState))
+                    }
+                    Spacer()
+                    SignPreview(lines: signLines)
                 }
                 .padding(.top, 3)
             }
@@ -148,6 +155,46 @@ public struct SideCard: View {
         .accessibilityLabel([landmark, hint, doors, miniVerdict]
             .compactMap { $0 }.joined(separator: ", "))
         .accessibilityAddTraits(selected ? .isSelected : [])
+    }
+}
+
+// MARK: - Sign preview
+
+/// Mini rendering of the posted street-sweeping sign, so users can
+/// eyeball-match the physical pole before trusting the verdict.
+public struct SignPreview: View {
+    let lines: [String]
+
+    public init(lines: [String]) {
+        self.lines = lines
+    }
+
+    public var body: some View {
+        if !lines.isEmpty {
+            VStack(spacing: 2) {
+                Text("NO PARKING")
+                    .font(.system(size: 11, weight: .heavy))
+                    .foregroundStyle(Color(hex: 0xC0392B))
+                ForEach(lines, id: \.self) { line in
+                    Text(line)
+                        .font(.system(size: 10.5, weight: .semibold))
+                        .foregroundStyle(Tokens.ink)
+                }
+                Text("STREET SWEEPING")
+                    .font(.system(size: 8, weight: .medium))
+                    .foregroundStyle(Tokens.sub)
+            }
+            .padding(.vertical, 6)
+            .padding(.horizontal, 10)
+            .background(
+                RoundedRectangle(cornerRadius: 6, style: .continuous)
+                    .fill(.white)
+                    .overlay(RoundedRectangle(cornerRadius: 6, style: .continuous)
+                        .strokeBorder(Color(hex: 0xC0392B), lineWidth: 1.5)))
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("Posted sign should read: no parking, "
+                                + lines.joined(separator: ", ") + ", street sweeping")
+        }
     }
 }
 

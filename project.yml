@@ -67,6 +67,9 @@ targets:
         NSLocationWhenInUseUsageDescription: >-
           Sweep uses your location once, when you park, to find your block.
           It never leaves your phone.
+        NSRemindersFullAccessUsageDescription: >-
+          Optional: Sweep can add your move-by deadline to the Reminders app.
+          Sweep's own alerts work without this.
         NSSupportsLiveActivities: true
         BGTaskSchedulerPermittedIdentifiers:
           - com.TEAM.sweep.refresh

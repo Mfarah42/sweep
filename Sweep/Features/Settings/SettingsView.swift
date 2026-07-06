@@ -93,9 +93,33 @@ struct SettingsView: View {
                 Toggle("Evening before, 8 PM", isOn: binding(\.nightBefore))
                 Toggle("Two hours before", isOn: binding(\.twoHours))
                 Toggle("Thirty minutes before", isOn: binding(\.thirtyMin))
+                Toggle("Also add to Apple Reminders", isOn: appleRemindersBinding)
+                Text("Puts the move-by deadline in your Reminders app too — "
+                     + "handy for Siri and CarPlay.")
+                    .font(.system(size: 12))
+                    .foregroundStyle(Tokens.sub)
             }
             .tint(Tokens.clay)
         }
+    }
+
+    private var appleRemindersBinding: Binding<Bool> {
+        Binding(
+            get: { model.store.appleRemindersEnabled },
+            set: { enabled in
+                Task { @MainActor in
+                    if enabled {
+                        let granted = await model.sessionManager.remindersBridge?
+                            .requestAccess() ?? false
+                        model.store.appleRemindersEnabled = granted
+                    } else {
+                        model.store.appleRemindersEnabled = false
+                        model.sessionManager.remindersBridge?
+                            .sync(deadline: nil, street: nil, sideName: nil)
+                    }
+                    await model.sessionManager.refreshDerivedState()
+                }
+            })
     }
 
     private func binding(_ key: WritableKeyPath<ReminderPrefs, Bool>) -> Binding<Bool> {
