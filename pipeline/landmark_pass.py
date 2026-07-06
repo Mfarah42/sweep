@@ -25,7 +25,14 @@ LAKE_MERRITT = (37.8055, -122.2565)   # centroid, for Oakland "Lake side"
 LAKE_RADIUS_M = 800.0
 
 ARTERIAL_MAX_DIST_M = 300.0    # "near a big street" = a couple of blocks
-ARTERIAL_MAX_ANGLE = 70.0      # side must roughly face it
+ARTERIAL_MAX_ANGLE = 60.0      # side must roughly face it
+# An arterial only distinguishes the two curbs when it runs ALONGSIDE the
+# block — parallel, one street over — so "toward San Pablo Ave" names exactly
+# one curb. When your street runs INTO the arterial (Maybelle → MacArthur),
+# "toward MacArthur" reads as travel direction and confuses both sides, even
+# if some bend of the arterial happens to sit laterally.
+ARTERIAL_MIN_AXIS_ANGLE = 45.0   # sample must sit to the side, not ahead/behind
+ARTERIAL_PARALLEL_TOL = 30.0     # arterial's own direction ≈ block's axis
 SAMPLE_STEP_M = 20.0           # arterial polyline sampling for the grid index
 GRID_CELL_M = 150.0
 
@@ -111,30 +118,44 @@ class ArterialIndex:
             (lon1, lat1), (lon2, lat2) = geometry[i], geometry[i + 1]
             seg_len = _dist_m((lat1, lon1), (lat2, lon2))
             steps = max(1, int(seg_len / SAMPLE_STEP_M))
+            line_dir = _bearing_deg([[lon1, lat1], [lon2, lat2]])
             for s in range(steps + 1):
                 t = s / steps
                 lat, lon = lat1 + (lat2 - lat1) * t, lon1 + (lon2 - lon1) * t
-                self.grid[self._cell(lat, lon)].append((lat, lon, street))
+                self.grid[self._cell(lat, lon)].append((lat, lon, street, line_dir))
 
     def nearest_facing(self, origin: tuple[float, float], facing: float,
-                       exclude_street: str) -> tuple[str, float] | None:
-        """Nearest arterial the side faces: within ARTERIAL_MAX_DIST_M, the
-        vector origin→arterial within ARTERIAL_MAX_ANGLE of `facing`, and not
-        the segment's own street. Returns (street, distance_m)."""
+                       street_axis: float, exclude_street: str) -> tuple[str, float] | None:
+        """Nearest arterial that genuinely distinguishes this side: within
+        ARTERIAL_MAX_DIST_M, roughly in the facing direction, NOT the
+        segment's own street, and lateral to the block — at least
+        ARTERIAL_MIN_AXIS_ANGLE off the street's own axis, so end-of-street
+        arterials never name a curb. Returns (street, distance_m)."""
         best: tuple[str, float] | None = None
         c0 = self._cell(*origin)
         reach = int(ARTERIAL_MAX_DIST_M / GRID_CELL_M) + 1
         exclude = exclude_street.lower()
         for di in range(-reach, reach + 1):
             for dj in range(-reach, reach + 1):
-                for lat, lon, street in self.grid.get((c0[0] + di, c0[1] + dj), []):
+                for lat, lon, street, line_dir in self.grid.get((c0[0] + di, c0[1] + dj), []):
                     if street.lower() == exclude:
                         continue
                     d = _dist_m(origin, (lat, lon))
                     if d > ARTERIAL_MAX_DIST_M or (best and d >= best[1]):
                         continue
-                    if _angle_diff(_bearing_between(origin, (lat, lon)), facing) > ARTERIAL_MAX_ANGLE:
+                    # The arterial must run alongside the block, not across
+                    # or at the end of it.
+                    parallel_off = min(_angle_diff(line_dir, street_axis),
+                                       _angle_diff(line_dir, (street_axis + 180.0) % 360.0))
+                    if parallel_off > ARTERIAL_PARALLEL_TOL:
                         continue
+                    bearing = _bearing_between(origin, (lat, lon))
+                    if _angle_diff(bearing, facing) > ARTERIAL_MAX_ANGLE:
+                        continue
+                    axis_off = min(_angle_diff(bearing, street_axis),
+                                   _angle_diff(bearing, (street_axis + 180.0) % 360.0))
+                    if axis_off < ARTERIAL_MIN_AXIS_ANGLE:
+                        continue   # ahead/behind, not to a side
                     best = (street, d)
         return best
 
@@ -205,7 +226,8 @@ def apply(segments: list[CurbSegment], editorial_path: str,
             seg.landmark_hint = entry.get("hint")
             seg.landmark_confidence = "editorial"
             continue
-        hit = index.nearest_facing(_centroid(seg.geometry), _facing(seg), seg.street)
+        hit = index.nearest_facing(_centroid(seg.geometry), _facing(seg),
+                                   _bearing_deg(seg.geometry), seg.street)
         if hit:
             street, dist = hit
             seg.landmark = f"{_short_street_name(street)} side"
