@@ -48,13 +48,22 @@ def run_sf(out_dir: str, built_at: str, fixture_dir: str | None) -> None:
     notes: list[str] = []
     if fixture_dir:
         rows = sf_socrata.load_fixture(os.path.join(fixture_dir, "sf_rows.json"))
+        oneway_path = os.path.join(fixture_dir, "sf_centerlines.json")
+        if os.path.exists(oneway_path):
+            import json
+            with open(oneway_path) as f:
+                oneway_by_cnn = {str(r["cnn"]).strip(): str(r.get("oneway") or "").strip().upper()
+                                 for r in json.load(f)}
+        else:
+            oneway_by_cnn = {}
         source_updated_at = "fixture"
     else:
         session = sf_socrata._session()
         meta = sf_socrata.fetch_metadata(session)
         source_updated_at = str(meta.get("rowsUpdatedAt", ""))
         rows = sf_socrata.fetch_rows(session)
-    segments, _ = sf_socrata.build_segments(rows, drops)
+        oneway_by_cnn = sf_socrata.fetch_oneway_by_cnn(session)
+    segments, _ = sf_socrata.build_segments(rows, drops, oneway_by_cnn)
     n_ed, n_art, n_geo = landmark_pass.apply(
         segments, os.path.join(HERE, "landmarks", "sf.yaml"))
     notes.append(f"landmarks: {n_ed} editorial, {n_art} arterial, {n_geo} geographic")

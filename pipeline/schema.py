@@ -43,10 +43,12 @@ class CurbSegment:
     # "major" = arterial the pass may name other sides after.
     road_class: str | None = None
     # Which physical curb this side is, relative to the source line's
-    # digitization direction — from the source's L/R address ranges, so it's
-    # data, not a heuristic. Makes facing (and travel-direction hints) reliable.
+    # digitization direction — from source data (Oakland L/R address ranges,
+    # SF cnnrightleft), so facing and travel hints are reliable, not guessed.
     geom_side: str | None = None   # "left" | "right" | None
-    one_way: bool = False
+    # Travel-direction hints need an AFFIRMED two-way street; unknown stays
+    # False so we never claim a hood direction we can't back.
+    two_way: bool = False
 
 
 @dataclass

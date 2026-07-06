@@ -289,8 +289,9 @@ def apply(segments: list[CurbSegment], editorial_path: str,
         seg.landmark_hint = None
         seg.landmark_confidence = "auto"
         # End-of-street arterial → travel-direction hint. Only when the curb
-        # mapping is source data (geom_side) and the street is two-way.
-        if seg.geom_side and not seg.one_way:
+        # mapping is source data (geom_side) and the street is affirmed
+        # two-way — on a one-way every hood points the same direction.
+        if seg.geom_side and seg.two_way:
             ahead = index.nearest_ahead(centroid, axis, seg.street)
             if ahead:
                 seg.landmark_hint = _travel_hint(_facing(seg), ahead[1], ahead[0])

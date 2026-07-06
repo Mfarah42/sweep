@@ -9,7 +9,7 @@ Dropped:
       22  sf: missing line geometry
      824  sf: weekday=Holiday row
 
-note: landmarks: 4 editorial, 6537 arterial, 16015 geographic
+note: landmarks: 4 editorial, 14240 arterial, 8312 geographic
 
 Diff vs previous bundle:
   segments added   : 0

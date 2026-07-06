@@ -246,9 +246,9 @@ def build_segments(features: list[dict], drops: DropCounter) -> list[CurbSegment
         # landmark pass names neighboring sides after these ("MacArthur side").
         fcc = str(p.get("FCC") or "").strip().upper()
         road_class = "major" if fcc[:2] in ("A1", "A2", "A3") else None
-        # "FT"/"TF" = one-way (in/against digitization direction); travel-
-        # direction hints only make sense on two-way streets.
-        one_way = str(p.get("ONE_WAY") or "").strip().upper() in ("FT", "TF")
+        # ONE_WAY "FT"/"TF" = one-way (in/against digitization direction);
+        # blank = two-way. Travel hints require an affirmed two-way street.
+        two_way = str(p.get("ONE_WAY") or "").strip().upper() not in ("FT", "TF")
         # parity → side_key: even → "a", odd → "b" (spec §4.3).
         for parity, side_key, day_f, time_f in (
                 ("even", "a", "DAY_EVEN", "TIME_EVEN"),
@@ -270,7 +270,7 @@ def build_segments(features: list[dict], drops: DropCounter) -> list[CurbSegment
                 rules=rules,
                 road_class=road_class,
                 geom_side=_geom_side_for_parity(p, parity),
-                one_way=one_way,
+                two_way=two_way,
             ))
     segments.sort(key=lambda s: s.id)
     return segments

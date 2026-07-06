@@ -17,6 +17,9 @@ from schema import CurbSegment, DropCounter, ScheduleRule, ValidationError
 
 RESOURCE_URL = "https://data.sfgov.org/resource/yhqp-riqs.json"
 METADATA_URL = "https://data.sfgov.org/api/views/yhqp-riqs.json"
+# SF basemap street centerlines — shares CNN ids with the sweeping dataset.
+# VERIFIED 2026-07-04: columns cnn, oneway ∈ {B (two-way), F, T, null}.
+CENTERLINES_URL = "https://data.sfgov.org/resource/3psu-pn9h.json"
 PAGE = 5000
 
 # Sun/Mon/Tues/… → 0..6. Reject unknown values loudly (fail the build).
@@ -61,14 +64,38 @@ def fetch_rows(session: requests.Session | None = None) -> list[dict]:
     return rows
 
 
+def fetch_oneway_by_cnn(session: requests.Session | None = None) -> dict[str, str]:
+    """cnn → oneway code from the centerlines dataset ("B" = two-way)."""
+    s = session or _session()
+    out: dict[str, str] = {}
+    offset = 0
+    while True:
+        r = s.get(CENTERLINES_URL, params={
+            "$select": "cnn,oneway", "$limit": PAGE, "$offset": offset,
+            "$order": ":id"}, timeout=120)
+        r.raise_for_status()
+        page = r.json()
+        if not page:
+            break
+        for row in page:
+            cnn = str(row.get("cnn") or "").strip()
+            if cnn:
+                out[cnn] = str(row.get("oneway") or "").strip().upper()
+        offset += PAGE
+    return out
+
+
 def _truthy(v) -> bool:
     return str(v).strip() in ("1", "1.0", "true", "True", "Y")
 
 
-def build_segments(rows: list[dict], drops: DropCounter) -> tuple[list[CurbSegment], str]:
+def build_segments(rows: list[dict], drops: DropCounter,
+                   oneway_by_cnn: dict[str, str] | None = None) -> tuple[list[CurbSegment], str]:
     """Returns (segments, source_updated_at_placeholder). Groups rows by
-    (cnn, side); one dataset row = one schedule window on one block side."""
+    (cnn, side); one dataset row = one schedule window on one block side.
+    `oneway_by_cnn` (centerlines join) gates travel-direction hints."""
     by_side: dict[tuple[str, str], dict] = {}
+    oneway_by_cnn = oneway_by_cnn or {}
 
     for row in rows:
         cnn = str(row.get("cnn") or "").strip()
@@ -147,6 +174,11 @@ def build_segments(rows: list[dict], drops: DropCounter) -> tuple[list[CurbSegme
             door_range=None,
             geometry=e["geometry"],
             rules=e["rules"],
+            # cnnrightleft IS the geometric curb relative to the CNN line
+            # (side a = L, b = R), so facing is data-backed in SF too.
+            geom_side="left" if side_key == "a" else "right",
+            # Travel hints only on centerline-affirmed two-way blocks.
+            two_way=oneway_by_cnn.get(cnn) == "B",
         ))
     return segments, ""
 
