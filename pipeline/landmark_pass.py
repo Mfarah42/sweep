@@ -33,6 +33,15 @@ ARTERIAL_MAX_ANGLE = 60.0      # side must roughly face it
 # if some bend of the arterial happens to sit laterally.
 ARTERIAL_MIN_AXIS_ANGLE = 45.0   # sample must sit to the side, not ahead/behind
 ARTERIAL_PARALLEL_TOL = 30.0     # arterial's own direction ≈ block's axis
+
+# End-of-street arterials (Maybelle → MacArthur) can't name a curb, but on a
+# two-way street they CAN give a travel-direction cue: parked cars sit in
+# their direction of travel, so one curb's cars point toward the arterial and
+# the other's point away — verifiable by glancing at your own hood. Requires
+# the source's L/R address data (geom_side) so the curb mapping is data, not
+# heuristic; skipped on one-way streets where every car points the same way.
+END_MAX_DIST_M = 350.0
+END_AXIS_TOL = 35.0
 SAMPLE_STEP_M = 20.0           # arterial polyline sampling for the grid index
 GRID_CELL_M = 150.0
 
@@ -72,10 +81,26 @@ def _dist_m(a: tuple[float, float], b: tuple[float, float]) -> float:
 
 
 def _facing(seg: CurbSegment) -> float:
-    """Compass bearing the curb side faces: side 'a' looks left of the line
-    direction, side 'b' right. Heuristic for auto names only."""
+    """Compass bearing the curb side faces. When the source's L/R address
+    data pins the physical curb (geom_side), this is exact; otherwise fall
+    back to the side-key heuristic (side 'a' left of line direction)."""
     street = _bearing_deg(seg.geometry)
+    if seg.geom_side == "left":
+        return (street - 90.0) % 360.0
+    if seg.geom_side == "right":
+        return (street + 90.0) % 360.0
     return (street - 90.0) % 360.0 if seg.side_key == "a" else (street + 90.0) % 360.0
+
+
+def _travel_hint(facing: float, end_bearing: float, arterial: str) -> str | None:
+    """Two-way street ending at an arterial: cars park in their direction of
+    travel (right-hand curb), so the curb whose facing is end_bearing+90°
+    holds cars pointing AT the arterial; the opposite curb points away."""
+    if _angle_diff(facing, (end_bearing + 90.0) % 360.0) <= 45.0:
+        return f"your car points toward {arterial}"
+    if _angle_diff(facing, (end_bearing - 90.0) % 360.0) <= 45.0:
+        return f"your car points away from {arterial}"
+    return None
 
 
 def _bearing_between(a: tuple[float, float], b: tuple[float, float]) -> float:
@@ -159,6 +184,30 @@ class ArterialIndex:
                     best = (street, d)
         return best
 
+    def nearest_ahead(self, origin: tuple[float, float],
+                      street_axis: float, exclude_street: str) -> tuple[str, float] | None:
+        """Nearest arterial DOWN the street (within END_AXIS_TOL of the axis,
+        either end) — the Maybelle→MacArthur case. Returns (street,
+        end_bearing): the axis direction pointing at it."""
+        best: tuple[str, float, float] | None = None   # (street, dist, end_bearing)
+        c0 = self._cell(*origin)
+        reach = int(END_MAX_DIST_M / GRID_CELL_M) + 1
+        exclude = exclude_street.lower()
+        for di in range(-reach, reach + 1):
+            for dj in range(-reach, reach + 1):
+                for lat, lon, street, _line_dir in self.grid.get((c0[0] + di, c0[1] + dj), []):
+                    if street.lower() == exclude:
+                        continue
+                    d = _dist_m(origin, (lat, lon))
+                    if d > END_MAX_DIST_M or (best and d >= best[1]):
+                        continue
+                    bearing = _bearing_between(origin, (lat, lon))
+                    if _angle_diff(bearing, street_axis) <= END_AXIS_TOL:
+                        best = (street, d, street_axis)
+                    elif _angle_diff(bearing, (street_axis + 180.0) % 360.0) <= END_AXIS_TOL:
+                        best = (street, d, (street_axis + 180.0) % 360.0)
+        return (best[0], best[2]) if best else None
+
 
 def _short_street_name(street: str) -> str:
     """'MacArthur Blvd' → 'MacArthur'; numbered streets keep their type
@@ -226,18 +275,25 @@ def apply(segments: list[CurbSegment], editorial_path: str,
             seg.landmark_hint = entry.get("hint")
             seg.landmark_confidence = "editorial"
             continue
-        hit = index.nearest_facing(_centroid(seg.geometry), _facing(seg),
-                                   _bearing_deg(seg.geometry), seg.street)
+        centroid = _centroid(seg.geometry)
+        axis = _bearing_deg(seg.geometry)
+        hit = index.nearest_facing(centroid, _facing(seg), axis, seg.street)
         if hit:
             street, dist = hit
             seg.landmark = f"{_short_street_name(street)} side"
             seg.landmark_hint = f"toward {street}"
             seg.landmark_confidence = "auto"
             arterial_dist[seg.id] = dist
-        else:
-            seg.landmark = _geo_name(seg)
-            seg.landmark_hint = None
-            seg.landmark_confidence = "auto"
+            continue
+        seg.landmark = _geo_name(seg)
+        seg.landmark_hint = None
+        seg.landmark_confidence = "auto"
+        # End-of-street arterial → travel-direction hint. Only when the curb
+        # mapping is source data (geom_side) and the street is two-way.
+        if seg.geom_side and not seg.one_way:
+            ahead = index.nearest_ahead(centroid, axis, seg.street)
+            if ahead:
+                seg.landmark_hint = _travel_hint(_facing(seg), ahead[1], ahead[0])
 
     by_side: dict[tuple[str, str, str, str], list[CurbSegment]] = defaultdict(list)
     for seg in segments:
@@ -250,7 +306,11 @@ def apply(segments: list[CurbSegment], editorial_path: str,
         if len(auto) < 2:
             continue
         arterial = [s for s in auto if s.id in arterial_dist]
-        canonical = min(arterial, key=lambda s: arterial_dist[s.id]) if arterial else auto[0]
+        if arterial:
+            canonical = min(arterial, key=lambda s: arterial_dist[s.id])
+        else:
+            # Prefer a segment that earned a travel-direction hint.
+            canonical = next((s for s in auto if s.landmark_hint), auto[0])
         for seg in auto:
             seg.landmark = canonical.landmark
             seg.landmark_hint = canonical.landmark_hint
@@ -278,11 +338,15 @@ def apply(segments: list[CurbSegment], editorial_path: str,
         for seg in loser:
             if seg.landmark_confidence == "auto":
                 seg.landmark = replacement
-                seg.landmark_hint = None
+                # Only the NAME clashed; a travel-direction hint stays valid.
+                if not (seg.landmark_hint or "").startswith("your car points"):
+                    seg.landmark_hint = None
 
     n_editorial = sum(1 for s in segments if s.landmark_confidence == "editorial")
     n_arterial = sum(1 for s in segments if s.landmark_confidence == "auto"
                      and (s.landmark_hint or "").startswith("toward "))
+    n_travel = sum(1 for s in segments if s.landmark_confidence == "auto"
+                   and (s.landmark_hint or "").startswith("your car points"))
     n_geo = sum(1 for s in segments if s.landmark_confidence == "auto"
-                and not (s.landmark_hint or "").startswith("toward "))
-    return n_editorial, n_arterial, n_geo
+                and not s.landmark_hint)
+    return n_editorial, n_arterial + n_travel, n_geo

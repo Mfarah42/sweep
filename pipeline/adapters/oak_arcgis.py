@@ -157,6 +157,19 @@ def _addr_range_for_parity(p: dict, parity: str) -> str | None:
     return None
 
 
+def _geom_side_for_parity(p: dict, parity: str) -> str | None:
+    """Which physical curb (relative to the line's digitization direction)
+    carries this parity — straight from the source's L/R address ranges."""
+    want_even = parity == "even"
+    lo = str(p.get("L_F_ADD") or "").strip()
+    if lo.isdigit() and (int(lo) % 2 == 0) == want_even:
+        return "left"
+    ro = str(p.get("R_F_ADD") or "").strip()
+    if ro.isdigit() and (int(ro) % 2 == 0) == want_even:
+        return "right"
+    return None
+
+
 def _block_label(p: dict) -> str:
     nums = [int(v) for k in ("L_F_ADD", "R_F_ADD")
             if str(v := p.get(k) or "").strip().isdigit()]
@@ -233,6 +246,9 @@ def build_segments(features: list[dict], drops: DropCounter) -> list[CurbSegment
         # landmark pass names neighboring sides after these ("MacArthur side").
         fcc = str(p.get("FCC") or "").strip().upper()
         road_class = "major" if fcc[:2] in ("A1", "A2", "A3") else None
+        # "FT"/"TF" = one-way (in/against digitization direction); travel-
+        # direction hints only make sense on two-way streets.
+        one_way = str(p.get("ONE_WAY") or "").strip().upper() in ("FT", "TF")
         # parity → side_key: even → "a", odd → "b" (spec §4.3).
         for parity, side_key, day_f, time_f in (
                 ("even", "a", "DAY_EVEN", "TIME_EVEN"),
@@ -253,6 +269,8 @@ def build_segments(features: list[dict], drops: DropCounter) -> list[CurbSegment
                 geometry=coords,
                 rules=rules,
                 road_class=road_class,
+                geom_side=_geom_side_for_parity(p, parity),
+                one_way=one_way,
             ))
     segments.sort(key=lambda s: s.id)
     return segments

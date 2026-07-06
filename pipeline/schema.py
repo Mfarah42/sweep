@@ -39,9 +39,14 @@ class CurbSegment:
     landmark_confidence: str | None = None   # "editorial" | "auto"
     geometry: list[list[float]] = field(default_factory=list)  # [[lon, lat], ...]
     rules: list[ScheduleRule] = field(default_factory=list)
-    # Road importance for the landmark pass only (not persisted to bundles):
+    # Landmark-pass-only fields (not persisted to bundles):
     # "major" = arterial the pass may name other sides after.
     road_class: str | None = None
+    # Which physical curb this side is, relative to the source line's
+    # digitization direction — from the source's L/R address ranges, so it's
+    # data, not a heuristic. Makes facing (and travel-direction hints) reliable.
+    geom_side: str | None = None   # "left" | "right" | None
+    one_way: bool = False
 
 
 @dataclass

@@ -112,6 +112,21 @@ class ValidationTest(unittest.TestCase):
         with self.assertRaises(ValidationError):
             sf_socrata.build_segments([row], DropCounter())
 
+    def test_travel_hint_follows_parking_direction(self):
+        """Two-way street ending at an arterial: cars park in their direction
+        of travel, so the right-hand curb's cars point at the arterial."""
+        sys.path.insert(0, HERE)
+        import landmark_pass as lp
+        # Street axis due north (0°), arterial at the north end.
+        # East curb (facing 90°) = right side of northbound travel → toward.
+        self.assertEqual(lp._travel_hint(90.0, 0.0, "MacArthur Blvd"),
+                         "your car points toward MacArthur Blvd")
+        # West curb (facing 270°) → away.
+        self.assertEqual(lp._travel_hint(270.0, 0.0, "MacArthur Blvd"),
+                         "your car points away from MacArthur Blvd")
+        # A facing along the axis is no curb at all — no hint.
+        self.assertIsNone(lp._travel_hint(0.0, 0.0, "MacArthur Blvd"))
+
     def test_overnight_rule_is_split(self):
         sys.path.insert(0, HERE)
         from schema import ScheduleRule, normalize_rules
