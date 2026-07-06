@@ -118,4 +118,51 @@ public enum SweepFormat {
         case .sf: return "Street name, e.g. Irving St"
         }
     }
+
+    // MARK: - Side naming
+
+    /// What we call a curb side. Door parity is the only thing a person can
+    /// verify instantly by looking at the house next to the car, so it leads
+    /// whenever the data has it — "Airport side" only means "the side facing
+    /// the airport direction," which nobody can feel standing on the block.
+    /// Curated editorial names win (they reference things you can see);
+    /// parity-less sides (SF) fall back to the landmark name.
+    public static func sideTitle(parity: String?, landmark: String?,
+                                 confidence: String?) -> String {
+        if confidence == "editorial", let landmark {
+            return landmark
+        }
+        if let parity, parity == "even" || parity == "odd" {
+            return "\(parity.capitalized) side"
+        }
+        return landmark ?? "This side"
+    }
+
+    /// Secondary cue under the title. Arterial hints ("toward MacArthur
+    /// Blvd") and editorial hints describe something visible from the block,
+    /// so they stay; bare compass-derived geo names (Airport/Berkeley) don't
+    /// help on the spot and are dropped when parity already leads.
+    public static func sideBackup(parity: String?, landmark: String?,
+                                  landmarkHint: String?, confidence: String?) -> String? {
+        if confidence == "editorial" {
+            return landmarkHint
+        }
+        if let landmarkHint {
+            return landmarkHint          // "toward MacArthur Blvd"
+        }
+        if parity == "even" || parity == "odd" {
+            return nil                   // parity leads; geo name adds nothing
+        }
+        return nil
+    }
+}
+
+extension SweepBundle.Segment {
+    /// Side name for running copy ("Maybelle Ave · even side · sweep in …",
+    /// notifications, share text).
+    public var displaySideName: String? {
+        let title = SweepFormat.sideTitle(parity: doorParity, landmark: landmark,
+                                          confidence: landmarkConfidence)
+        return title == "This side" ? landmark : title
+    }
 }

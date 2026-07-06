@@ -19,6 +19,7 @@ public struct BlockSide: Identifiable {
 
     public var landmark: String? { segments.compactMap(\.landmark).first }
     public var landmarkHint: String? { segments.compactMap(\.landmarkHint).first }
+    public var landmarkConfidence: String? { segments.compactMap(\.landmarkConfidence).first }
 
     public var doorParity: String? {
         let parities = Set(segments.compactMap(\.doorParity))

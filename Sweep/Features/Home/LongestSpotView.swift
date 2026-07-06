@@ -88,7 +88,7 @@ struct LongestSpotView: View {
             if let existing = byBlock[key], existing.distanceMeters <= d { continue }
             byBlock[key] = Ranked(id: key, street: seg.street,
                                   blockLabel: seg.blockLabel + " · "
-                                    + (seg.landmark ?? "side \(seg.sideKey)").lowercased(),
+                                    + (seg.displaySideName ?? "side \(seg.sideKey)").lowercased(),
                                   nextSweep: next, distanceMeters: d)
         }
         ranked = byBlock.values

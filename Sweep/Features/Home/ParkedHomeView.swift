@@ -84,7 +84,7 @@ struct ParkedHomeView: View {
                 }
 
                 if let segment, let next = verdict?.next {
-                    (Text("\(segment.street) · \((segment.landmark ?? "").lowercased()) · sweep in ")
+                    (Text("\(segment.street) · \((segment.displaySideName ?? "").lowercased()) · sweep in ")
                         + Text(SweepFormat.countdown(to: next.start, from: now))
                             .font(Tokens.displayItalic(15, relativeTo: .subheadline)))
                         .font(.system(size: 14))
@@ -140,7 +140,7 @@ struct ParkedHomeView: View {
         if let verdict, let segment = sessionManager.currentSegment() {
             let context = NotificationPlanner.Context(
                 segmentId: segment.id, street: segment.street,
-                landmark: segment.landmark, city: segment.city)
+                landmark: segment.displaySideName, city: segment.city)
             let planned = NotificationPlanner.plan(
                 context: context, windows: verdict.upcoming, prefs: model.store.reminderPrefs,
                 now: sessionManager.session?.parkedAt ?? now, calendar: SweepCalendar.la)
@@ -232,7 +232,7 @@ struct ParkedHomeView: View {
     }
 
     private func shareText(segment: SweepBundle.Segment, next: SweepWindow) -> String {
-        "The car is on \(segment.street) (\((segment.landmark ?? "").lowercased())). "
+        "The car is on \(segment.street) (\((segment.displaySideName ?? "").lowercased())). "
             + "Safe until \(SweepFormat.dayName(next.start)) "
             + "\(SweepFormat.hourLabel(next.start)) — Sweep"
     }

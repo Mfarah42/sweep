@@ -72,17 +72,20 @@ struct SidePickerView: View {
         let rules = side.mergedRules(overrides: model.store.overrides)
         let verdict = VerdictEngine.verdict(rules: rules, city: sessionManager.city, at: now,
                                             calendar: SweepCalendar.la, holidays: holidays)
-        // Auto landmark names show doors more prominently (§4.4.2); either way
-        // door line is omitted when parity is unknown — never guess (§4.4.3).
-        let doors: String? = side.doorParity.map { parity in
-            if let range = side.doorRange {
-                return "doors \(range) (\(parity))"
-            }
-            return "\(parity) door numbers"
+        // Parity leads the title when the data has it — the door number next
+        // to the car is the one instantly verifiable cue. Door line omitted
+        // when parity is unknown — never guess (§4.4.3).
+        let doors: String? = side.doorParity.flatMap { parity in
+            side.doorRange.map { "doors \($0) (\(parity))" }
         }
         SideCard(
-            landmark: side.landmark ?? "This side",
-            hint: side.landmarkHint,
+            landmark: SweepFormat.sideTitle(parity: side.doorParity,
+                                            landmark: side.landmark,
+                                            confidence: side.landmarkConfidence),
+            hint: SweepFormat.sideBackup(parity: side.doorParity,
+                                         landmark: side.landmark,
+                                         landmarkHint: side.landmarkHint,
+                                         confidence: side.landmarkConfidence),
             doors: doors,
             miniVerdict: SweepFormat.miniVerdict(verdict, now: now),
             miniState: SweepFormat.uiState(verdict),

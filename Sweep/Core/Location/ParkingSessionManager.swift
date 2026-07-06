@@ -100,7 +100,7 @@ public final class ParkingSessionManager: ObservableObject {
 
         let context = NotificationPlanner.Context(
             segmentId: segment.id, street: segment.street,
-            landmark: segment.landmark, city: segment.city)
+            landmark: segment.displaySideName, city: segment.city)
         let planned = NotificationPlanner.plan(
             context: context, windows: v.upcoming, prefs: store.reminderPrefs,
             now: clock.now, calendar: SweepCalendar.la)

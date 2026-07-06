@@ -26,7 +26,7 @@ struct FixSignView: View {
                         Text("What does the sign say?")
                             .font(Tokens.display(24).weight(.medium))
                             .foregroundStyle(Tokens.ink)
-                        Text("\(segment.street) · \((segment.landmark ?? "").lowercased())")
+                        Text("\(segment.street) · \((segment.displaySideName ?? "").lowercased())")
                             .font(.system(size: 14))
                             .foregroundStyle(Tokens.sub)
 
