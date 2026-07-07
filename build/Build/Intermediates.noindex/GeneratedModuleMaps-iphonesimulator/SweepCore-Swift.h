@@ -308,9 +308,20 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 @class CLLocationManager;
 @class CLLocation;
-/// One-shot fix per §6.2 input contract: request When-In-Use on first use,
-/// accept the first fix with horizontalAccuracy ≤ 25 m; after 5 s take the
-/// best fix if ≤ 65 m; otherwise nil → the UI falls through to manual search.
+/// One-shot fix per §6.2: request When-In-Use on first use, accept the first
+/// fix with horizontalAccuracy ≤ 25 m; after the soft deadline take the best
+/// fix if ≤ 65 m. Field amendments to the spec’s 5 s window:
+/// <ul>
+///   <li>
+///     a cold GPS start (first grant, indoors) often needs longer than 5 s, so
+///     a grace phase extends the wait to 12 s before giving up;
+///   </li>
+///   <li>
+///     when the user granted with Precise Location off, every fix is ~2 km and
+///     would never pass — request temporary full accuracy instead of silently
+///     failing to manual search.
+///   </li>
+/// </ul>
 SWIFT_CLASS("_TtC9SweepCore13LocationFixer")
 @interface LocationFixer : NSObject <CLLocationManagerDelegate>
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;

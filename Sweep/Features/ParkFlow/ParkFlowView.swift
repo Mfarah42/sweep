@@ -9,7 +9,7 @@ struct ParkFlowView: View {
         case locating
         case confirm(CurbSnapper.SnapResult)
         case side(street: String, blockLabel: String)
-        case manual
+        case manual(notice: String?)
     }
 
     @EnvironmentObject var model: AppModel
@@ -33,8 +33,8 @@ struct ParkFlowView: View {
                     SidePickerView(street: street, blockLabel: blockLabel) {
                         dismiss()
                     }
-                case .manual:
-                    ManualBlockSearchView { street, label in
+                case .manual(let notice):
+                    ManualBlockSearchView(notice: notice) { street, label in
                         advanceToSide(street: street, blockLabel: label)
                     }
                 }
@@ -66,7 +66,9 @@ struct ParkFlowView: View {
             guard let bundle = try? model.bundleManager.openBundle(for: sessionManager.city),
                   let result = CurbSnapper.snap(fix: point,
                                                 candidates: bundle.segments(near: point)) else {
-                step = .manual
+                step = .manual(notice: "You seem to be outside "
+                               + "\(sessionManager.city.displayName)'s schedule map — "
+                               + "find your block below.")
                 return
             }
             if result.confidence == .high {
@@ -74,8 +76,13 @@ struct ParkFlowView: View {
             } else {
                 step = .confirm(result)
             }
-        case .denied, .unavailable:
-            step = .manual
+        case .denied:
+            step = .manual(notice: "Location is off for Sweep. Turn it on in "
+                           + "Settings, or find your block below.")
+        case .unavailable:
+            step = .manual(notice: "Couldn't get a solid GPS fix — this happens "
+                           + "indoors or when Precise Location is off. "
+                           + "Find your block below.")
         }
     }
 
@@ -84,12 +91,12 @@ struct ParkFlowView: View {
     /// span multiple source features, giving several segments per side.
     private func advanceToSide(street: String, blockLabel: String) {
         guard let bundle = try? model.bundleManager.openBundle(for: sessionManager.city) else {
-            step = .manual
+            step = .manual(notice: nil)
             return
         }
         let sides = BlockSides.group(bundle.blockSegments(street: street, blockLabel: blockLabel))
         guard !sides.isEmpty else {
-            step = .manual
+            step = .manual(notice: nil)
             return
         }
         let overrides = model.store.overrides
@@ -198,10 +205,12 @@ struct BlockMapSnapshot: View {
 }
 
 /// Fall-through when GPS is denied/inaccurate (§6.2): manual block search.
+/// `notice` tells the user WHY they landed here instead of failing silently.
 struct ManualBlockSearchView: View {
 
     @EnvironmentObject var model: AppModel
     @EnvironmentObject var sessionManager: ParkingSessionManager
+    var notice: String?
     let onPick: (String, String) -> Void
     @State private var query = ""
     @State private var results: [BlockSearch.Hit] = []
@@ -212,6 +221,11 @@ struct ManualBlockSearchView: View {
                 Text("Which street are you on?")
                     .font(Tokens.display(24).weight(.medium))
                     .foregroundStyle(Tokens.ink)
+                if let notice {
+                    Text(notice)
+                        .font(.system(size: 13.5))
+                        .foregroundStyle(Tokens.amber)
+                }
                 TextField(SweepFormat.searchPlaceholder(for: sessionManager.city), text: $query)
                     .textFieldStyle(.plain)
                     .padding(12)

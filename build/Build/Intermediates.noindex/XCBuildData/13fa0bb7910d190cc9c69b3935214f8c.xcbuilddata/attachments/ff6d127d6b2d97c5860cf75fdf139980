@@ -66,6 +66,16 @@
     "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/Overrides.swiftdeps",
     "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/Overrides~partial.swiftmodule"
   },
+  "/Users/mohamed/sweep/Sweep/Core/Engine/SweepFormat.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepFormat.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepFormat.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepFormat.dia",
+    "index-unit-output-path" : "/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepFormat.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepFormat.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepFormat.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepFormat.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/SweepFormat~partial.swiftmodule"
+  },
   "/Users/mohamed/sweep/Sweep/Core/Engine/VerdictEngine.swift" : {
     "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/VerdictEngine.swiftconstvalues",
     "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/VerdictEngine.d",
@@ -105,6 +115,16 @@
     "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/ParkingSessionManager.o",
     "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/ParkingSessionManager.swiftdeps",
     "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/ParkingSessionManager~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Core/Notify/AppleRemindersBridge.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/AppleRemindersBridge.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/AppleRemindersBridge.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/AppleRemindersBridge.dia",
+    "index-unit-output-path" : "/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/AppleRemindersBridge.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/AppleRemindersBridge.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/AppleRemindersBridge.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/AppleRemindersBridge.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/AppleRemindersBridge~partial.swiftmodule"
   },
   "/Users/mohamed/sweep/Sweep/Core/Notify/NotificationPlanner.swift" : {
     "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/SweepCore.build/Debug-iphonesimulator/SweepCore.build/Objects-normal/arm64/NotificationPlanner.swiftconstvalues",

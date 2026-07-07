@@ -70,6 +70,10 @@ targets:
         NSRemindersFullAccessUsageDescription: >-
           Optional: Sweep can add your move-by deadline to the Reminders app.
           Sweep's own alerts work without this.
+        NSLocationTemporaryUsageDescriptionDictionary:
+          BlockFinding: >-
+            Sweep needs your exact position for a moment to find which block
+            you parked on. Approximate location can miss by several streets.
         NSSupportsLiveActivities: true
         BGTaskSchedulerPermittedIdentifiers:
           - com.TEAM.sweep.refresh

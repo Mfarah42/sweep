@@ -35,6 +35,11 @@
 	<string>1</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
+	<dict>
+		<key>BlockFinding</key>
+		<string>Sweep needs your exact position for a moment to find which block you parked on. Approximate location can miss by several streets.</string>
+	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Sweep uses your location once, when you park, to find your block. It never leaves your phone.</string>
 	<key>NSRemindersFullAccessUsageDescription</key>
