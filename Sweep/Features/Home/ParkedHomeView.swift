@@ -46,7 +46,7 @@ struct ParkedHomeView: View {
             Button("I moved my car") {
                 sessionManager.clearSession()
             }
-            .buttonStyle(ClayButtonStyle(background: Tokens.ink))
+            .buttonStyle(ClayButtonStyle(background: Tokens.ink, foreground: Tokens.paper))
         }
         .padding(16)
         .onReceive(tick) { now = $0 }

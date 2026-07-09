@@ -71,15 +71,20 @@ public struct PillTag: View {
 
 public struct ClayButtonStyle: ButtonStyle {
     let background: Color
+    let foreground: Color
 
-    public init(background: Color = Tokens.clay) {
+    /// Clay stays white-labeled in both modes; ink-background buttons must
+    /// pass `foreground: Tokens.paper` — ink flips to cream in dark mode and
+    /// a hardcoded white label vanishes on it.
+    public init(background: Color = Tokens.clay, foreground: Color = .white) {
         self.background = background
+        self.foreground = foreground
     }
 
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.system(size: 17, weight: .semibold))
-            .foregroundStyle(.white)
+            .foregroundStyle(foreground)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 15)
             .background(RoundedRectangle(cornerRadius: Tokens.radiusControl, style: .continuous)
