@@ -12,7 +12,9 @@ import Foundation
 public final class LocationFixer: NSObject, CLLocationManagerDelegate {
 
     public enum Outcome: Sendable {
-        case fix(GeoPoint)
+        /// A usable fix and its horizontal accuracy — callers must widen
+        /// their search to match (a 60 m fix can't feed a 35 m snap radius).
+        case fix(GeoPoint, accuracyMeters: Double)
         case denied
         case unavailable   // timed out / too inaccurate → manual block search
     }
@@ -74,7 +76,8 @@ public final class LocationFixer: NSObject, CLLocationManagerDelegate {
 
     private func deadlineFired() {
         if let best, best.horizontalAccuracy <= Self.acceptAtDeadlineM {
-            finish(.fix(GeoPoint(lat: best.coordinate.latitude, lon: best.coordinate.longitude)))
+            finish(.fix(GeoPoint(lat: best.coordinate.latitude, lon: best.coordinate.longitude),
+                        accuracyMeters: best.horizontalAccuracy))
             return
         }
         if !inGracePhase {
@@ -116,11 +119,13 @@ public final class LocationFixer: NSObject, CLLocationManagerDelegate {
         }
         guard let best else { return }
         if best.horizontalAccuracy <= Self.acceptInstantlyM {
-            finish(.fix(GeoPoint(lat: best.coordinate.latitude, lon: best.coordinate.longitude)))
+            finish(.fix(GeoPoint(lat: best.coordinate.latitude, lon: best.coordinate.longitude),
+                        accuracyMeters: best.horizontalAccuracy))
         } else if inGracePhase && best.horizontalAccuracy <= Self.acceptAtDeadlineM {
             // Past the soft deadline any usable fix wins — don't make the
             // user stand at the curb longer than needed.
-            finish(.fix(GeoPoint(lat: best.coordinate.latitude, lon: best.coordinate.longitude)))
+            finish(.fix(GeoPoint(lat: best.coordinate.latitude, lon: best.coordinate.longitude),
+                        accuracyMeters: best.horizontalAccuracy))
         }
     }
 

@@ -35,12 +35,16 @@ public enum CurbSnapper {
         public let confidence: Confidence
     }
 
-    public static func snap(fix: GeoPoint, candidates: [SweepBundle.Segment]) -> SnapResult? {
-        // Fine filter: point-to-polyline distance, keep within 35 m (§6.2.2).
+    /// `fineRadius` defaults to the spec's 35 m but must be widened to match
+    /// the fix accuracy — a 60 m-accurate indoor fix can land past 35 m from
+    /// every curb while the user is standing on the block.
+    public static func snap(fix: GeoPoint, candidates: [SweepBundle.Segment],
+                            fineRadius: Double = fineRadiusMeters) -> SnapResult? {
+        // Fine filter: point-to-polyline distance (§6.2.2).
         var byBlock: [String: (street: String, label: String, ids: [String], d: Double)] = [:]
         for seg in candidates {
             let d = distanceMeters(from: fix, toPolyline: seg.geometry)
-            guard d <= fineRadiusMeters else { continue }
+            guard d <= fineRadius else { continue }
             var entry = byBlock[seg.blockKey] ?? (seg.street, seg.blockLabel, [], .infinity)
             entry.ids.append(seg.id)
             entry.d = min(entry.d, d)

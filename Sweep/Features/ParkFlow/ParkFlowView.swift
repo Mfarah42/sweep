@@ -62,19 +62,36 @@ struct ParkFlowView: View {
         let fixer = LocationFixer()
         let outcome = await fixer.acquireFix()
         switch outcome {
-        case .fix(let point):
-            guard let bundle = try? model.bundleManager.openBundle(for: sessionManager.city),
-                  let result = CurbSnapper.snap(fix: point,
-                                                candidates: bundle.segments(near: point)) else {
-                step = .manual(notice: "You seem to be outside "
-                               + "\(sessionManager.city.displayName)'s schedule map — "
-                               + "find your block below.")
+        case .fix(let point, let accuracy):
+            guard let bundle = try? model.bundleManager.openBundle(for: sessionManager.city) else {
+                step = .manual(notice: nil)
                 return
             }
-            if result.confidence == .high {
-                advanceToSide(street: result.block.street, blockLabel: result.block.blockLabel)
+            // Search radius scales with fix quality; a fuzzy fix must not
+            // read as "you're outside the city".
+            let radius = min(max(CurbSnapper.fineRadiusMeters, accuracy + 25), 150)
+            let candidates = bundle.segments(near: point, marginMeters: radius + 20)
+            if let result = CurbSnapper.snap(fix: point, candidates: candidates,
+                                             fineRadius: radius) {
+                // Auto-advance only when both the fix and the match are
+                // tight; otherwise let the user confirm the block.
+                if result.confidence == .high, accuracy <= 35,
+                   result.block.distanceMeters <= CurbSnapper.fineRadiusMeters {
+                    advanceToSide(street: result.block.street,
+                                  blockLabel: result.block.blockLabel)
+                } else {
+                    step = .confirm(result)
+                }
+                return
+            }
+            // Last resort: a very wide net before claiming anything.
+            if let far = CurbSnapper.snap(fix: point,
+                                          candidates: bundle.segments(near: point, marginMeters: 300),
+                                          fineRadius: 250) {
+                step = .confirm(far)
             } else {
-                step = .confirm(result)
+                step = .manual(notice: "Your GPS fix (±\(Int(accuracy)) m) didn't "
+                               + "land near any mapped block — find yours below.")
             }
         case .denied:
             step = .manual(notice: "Location is off for Sweep. Turn it on in "

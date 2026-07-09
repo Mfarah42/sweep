@@ -97,6 +97,18 @@ final class CurbSnapperTests: XCTestCase {
         let fix = GeoPoint(lat: 37.7680, lon: -122.4660)
         XCTAssertNil(CurbSnapper.snap(fix: fix, candidates: fixtures))
     }
+
+    /// Regression: an indoor fix with ~55 m error put the user "outside
+    /// Oakland" while they stood on their own block. The snap radius must be
+    /// widenable to match the fix accuracy.
+    func testWideRadiusMatchesSloppyIndoorFix() {
+        // ~55 m east of the 9th Ave block — outside the default 35 m…
+        let fix = GeoPoint(lat: 37.7635, lon: -122.46540)
+        XCTAssertNil(CurbSnapper.snap(fix: fix, candidates: fixtures))
+        // …but a radius widened for a ±55 m fix finds the block.
+        let result = CurbSnapper.snap(fix: fix, candidates: fixtures, fineRadius: 80)
+        XCTAssertEqual(result?.block.street, "9th Ave")
+    }
 }
 
 /// §13.8 — reschedule idempotency: planning twice yields the same pending set.

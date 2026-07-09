@@ -67,7 +67,7 @@ struct LongestSpotView: View {
 
     private func rank() async {
         let fixer = LocationFixer()
-        guard case .fix(let point) = await fixer.acquireFix(),
+        guard case .fix(let point, _) = await fixer.acquireFix(),
               let bundle = try? model.bundleManager.openBundle(for: sessionManager.city) else {
             failed = true
             return
