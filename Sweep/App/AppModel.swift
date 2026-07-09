@@ -24,6 +24,19 @@ final class AppModel: ObservableObject {
 
     @Published var notificationsDenied = false
 
+    @Published var appearance: AppearancePref = .system {
+        didSet { store.appearance = appearance }
+    }
+
+    /// nil = follow the system.
+    var colorScheme: ColorScheme? {
+        switch appearance {
+        case .system: return nil
+        case .light: return .light
+        case .dark: return .dark
+        }
+    }
+
     var clock: Clock { demoClock ?? SystemClock() }
 
     init() {
@@ -40,6 +53,7 @@ final class AppModel: ObservableObject {
         sessionManager.remindersBridge = AppleRemindersBridge(store: store)
         client.registerCategories()
 
+        appearance = store.appearance
         bundleManager.installShippedBundles(from: .main)
         registerBackgroundRefresh()
 

@@ -15,8 +15,8 @@ struct SweepApp: App {
                 .environmentObject(model.sessionManager)
                 .environmentObject(model.plusStore)
                 .tint(Tokens.clay)
-                // v1 is light-only by design — paper is the brand (§7.1).
-                .preferredColorScheme(.light)
+                // nil follows the system; Settings offers Light/Dark overrides.
+                .preferredColorScheme(model.colorScheme)
                 .onAppear {
                     actionHandler.model = model
                     UNUserNotificationCenter.current().delegate = actionHandler

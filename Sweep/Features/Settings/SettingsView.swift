@@ -22,6 +22,7 @@ struct SettingsView: View {
                 ScrollView {
                     VStack(spacing: 14) {
                         cityCard
+                        appearanceCard
                         remindersCard
                         aboutDataCard
                         plusCard
@@ -55,7 +56,23 @@ struct SettingsView: View {
                 Text("Switching cities clears your parked spot.")
             }
         }
-        .preferredColorScheme(.light)
+        .preferredColorScheme(model.colorScheme)
+    }
+
+    private var appearanceCard: some View {
+        AlmanacCard {
+            VStack(alignment: .leading, spacing: 10) {
+                Text("Appearance")
+                    .font(Tokens.display(17).weight(.medium))
+                    .foregroundStyle(Tokens.ink)
+                Picker("Appearance", selection: $model.appearance) {
+                    ForEach(AppearancePref.allCases, id: \.self) { pref in
+                        Text(pref.label).tag(pref)
+                    }
+                }
+                .pickerStyle(.segmented)
+            }
+        }
     }
 
     private var cityCard: some View {

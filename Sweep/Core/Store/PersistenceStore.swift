@@ -12,6 +12,7 @@ public final class PersistenceStore {
         public static let plus = "purchase.plus.v1"
         public static let appleReminders = "prefs.appleReminders.v1"
         public static let appleReminderId = "reminders.ekid.v1"
+        public static let appearance = "prefs.appearance.v1"
     }
 
     public static let appGroupId = "group.com.TEAM.sweep"   // single-config placeholder
@@ -46,6 +47,11 @@ public final class PersistenceStore {
     public var city: City {
         get { City(rawValue: defaults.string(forKey: Keys.city) ?? "") ?? .sf }
         set { defaults.set(newValue.rawValue, forKey: Keys.city) }
+    }
+
+    public var appearance: AppearancePref {
+        get { AppearancePref(rawValue: defaults.string(forKey: Keys.appearance) ?? "") ?? .system }
+        set { defaults.set(newValue.rawValue, forKey: Keys.appearance) }
     }
 
     /// Opt-in mirror of the move-by deadline into the Apple Reminders app.
@@ -109,6 +115,21 @@ public struct ParkingSession: Codable, Equatable, Sendable {
         self.sideKey = sideKey
         self.parkedAt = parkedAt
         self.source = source
+    }
+}
+
+/// System-following by default; Light keeps the paper brand permanent.
+public enum AppearancePref: String, CaseIterable, Sendable {
+    case system
+    case light
+    case dark
+
+    public var label: String {
+        switch self {
+        case .system: return "System"
+        case .light: return "Light"
+        case .dark: return "Dark"
+        }
     }
 }
 

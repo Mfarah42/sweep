@@ -171,6 +171,8 @@ public struct SignPreview: View {
 
     public var body: some View {
         if !lines.isEmpty {
+            // Fixed colors on purpose: this depicts a physical sign, which
+            // stays white with dark lettering in any appearance mode.
             VStack(spacing: 2) {
                 Text("NO PARKING")
                     .font(.system(size: 11, weight: .heavy))
@@ -178,11 +180,11 @@ public struct SignPreview: View {
                 ForEach(lines, id: \.self) { line in
                     Text(line)
                         .font(.system(size: 10.5, weight: .semibold))
-                        .foregroundStyle(Tokens.ink)
+                        .foregroundStyle(Color(hex: 0x2C2A25))
                 }
                 Text("STREET SWEEPING")
                     .font(.system(size: 8, weight: .medium))
-                    .foregroundStyle(Tokens.sub)
+                    .foregroundStyle(Color(hex: 0x6E6A60))
             }
             .padding(.vertical, 6)
             .padding(.horizontal, 10)

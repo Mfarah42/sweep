@@ -1,21 +1,32 @@
 import SweepCore
 import SwiftUI
+import UIKit
 
-/// Design tokens (spec §7.1). v1 ships light-only by design — paper is the
-/// brand; the root view sets .preferredColorScheme(.light).
+/// Design tokens (spec §7.1, dark mode added by user decision 2026-07-07).
+/// Dark mode is "paper after sunset": the same warm almanac identity on deep
+/// warm charcoal — never a generic gray theme. Every color is adaptive at the
+/// token level, so screens and widgets follow automatically; Settings offers
+/// System / Light / Dark.
 public enum Tokens {
 
-    // MARK: - Palette
+    // MARK: - Palette (light, dark)
 
-    public static let paper = Color(hex: 0xF6F3EC)
-    public static let card = Color(hex: 0xFDFBF6)
-    public static let ink = Color(hex: 0x2C2A25)
-    public static let sub = Color(hex: 0x6E6A60)
-    public static let line = Color(hex: 0xE4DFD3)
-    public static let clay = Color(hex: 0xBF5B3B)
-    public static let sage = Color(hex: 0x5F8464)
-    public static let amber = Color(hex: 0xC08A2D)
-    public static let rust = Color(hex: 0xA8402F)
+    public static let paper = dynamic(0xF6F3EC, 0x1B1915)
+    public static let card = dynamic(0xFDFBF6, 0x26221B)
+    public static let ink = dynamic(0x2C2A25, 0xEAE4D6)
+    public static let sub = dynamic(0x6E6A60, 0xA69E8E)
+    public static let line = dynamic(0xE4DFD3, 0x3B362C)
+    // Status colors brighten slightly in the dark for contrast on charcoal.
+    public static let clay = dynamic(0xBF5B3B, 0xD1704E)
+    public static let sage = dynamic(0x5F8464, 0x83AC8A)
+    public static let amber = dynamic(0xC08A2D, 0xD5A34A)
+    public static let rust = dynamic(0xA8402F, 0xCE5B47)
+
+    private static func dynamic(_ light: UInt32, _ dark: UInt32) -> Color {
+        Color(UIColor { traits in
+            UIColor(hex: traits.userInterfaceStyle == .dark ? dark : light)
+        })
+    }
 
     // MARK: - Radii
 
@@ -65,5 +76,14 @@ extension Color {
                   green: Double((hex >> 8) & 0xFF) / 255,
                   blue: Double(hex & 0xFF) / 255,
                   opacity: 1)
+    }
+}
+
+extension UIColor {
+    convenience init(hex: UInt32) {
+        self.init(red: CGFloat((hex >> 16) & 0xFF) / 255,
+                  green: CGFloat((hex >> 8) & 0xFF) / 255,
+                  blue: CGFloat(hex & 0xFF) / 255,
+                  alpha: 1)
     }
 }
