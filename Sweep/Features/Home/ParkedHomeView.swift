@@ -12,12 +12,13 @@ struct ParkedHomeView: View {
     private let tick = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        let segment = sessionManager.currentSegment()
+        let segments = sessionManager.currentSegments()
+        let segment = segments.first
         let verdict = sessionManager.verdict
         let state = SweepFormat.uiState(verdict)
-        let hasCorrection = segment.map {
+        let hasCorrection = segments.contains {
             OverrideDecorator.hasCorrection(segmentId: $0.id, overrides: model.store.overrides)
-        } ?? false
+        }
 
         VStack(spacing: 14) {
             verdictCard(segment: segment, verdict: verdict, state: state,
@@ -57,6 +58,40 @@ struct ParkedHomeView: View {
         }
     }
 
+    // MARK: - Watched-side helpers
+
+    private var watchesBothSides: Bool {
+        sessionManager.session?.watchesBothSides ?? false
+    }
+
+    private var sideText: String {
+        watchesBothSides ? "both sides"
+            : (sessionManager.currentSegment()?.displaySideName ?? "")
+    }
+
+    /// Union of every watched segment's effective rules, stably ordered.
+    private var watchedRules: [ScheduleRule] {
+        Array(Set(sessionManager.currentSegments().flatMap {
+            sessionManager.effectiveRules(for: $0)
+        }))
+        .sorted { ($0.weekday, $0.fromHour) < ($1.weekday, $1.fromHour) }
+    }
+
+    /// Rules reordered so the one producing `next` leads — the schedule line
+    /// then matches the headline instead of an arbitrary first pattern.
+    private func orderedForDisplay(_ rules: [ScheduleRule], next: SweepWindow?) -> [ScheduleRule] {
+        guard let next else { return rules }
+        let cal = SweepCalendar.la
+        let weekday = cal.component(.weekday, from: next.start) - 1
+        let hour = cal.component(.hour, from: next.start)
+        return rules.sorted { a, b in
+            let aLeads = a.weekday == weekday && a.fromHour == hour
+            let bLeads = b.weekday == weekday && b.fromHour == hour
+            if aLeads != bLeads { return aLeads }
+            return (a.weekday, a.fromHour) < (b.weekday, b.fromHour)
+        }
+    }
+
     // MARK: - Verdict card
 
     @ViewBuilder
@@ -84,16 +119,19 @@ struct ParkedHomeView: View {
                 }
 
                 if let segment, let next = verdict?.next {
-                    (Text("\(segment.street) · \((segment.displaySideName ?? "").lowercased()) · sweep in ")
+                    (Text("\(segment.street) · \(sideText.lowercased()) · sweep in ")
                         + Text(SweepFormat.countdown(to: next.start, from: now))
                             .font(Tokens.displayItalic(15, relativeTo: .subheadline)))
                         .font(.system(size: 14))
                         .foregroundStyle(Tokens.sub)
                 }
 
-                if let segment {
-                    let rules = sessionManager.effectiveRules(for: segment)
-                    Text(footerLine(rules: rules, verdict: verdict))
+                if !watchedRules.isEmpty {
+                    // The footer must describe the pattern behind the
+                    // headline — with two watched sides, put the rule that
+                    // produces the next window first.
+                    Text(footerLine(rules: orderedForDisplay(watchedRules, next: verdict?.next),
+                                    verdict: verdict))
                         .font(.system(size: 13))
                         .foregroundStyle(Tokens.sub)
                 }
@@ -103,8 +141,9 @@ struct ParkedHomeView: View {
                         .font(.system(size: 12))
                         .foregroundStyle(Tokens.clay)
                     Spacer()
-                    if let segment {
-                        // What the pole should say — eyeball-match it.
+                    // What the pole should say — eyeball-match it. Skipped in
+                    // both-sides mode: each side has its own sign.
+                    if let segment, !watchesBothSides {
                         SignPreview(lines: SweepFormat.signLines(
                             rules: sessionManager.effectiveRules(for: segment)))
                     }
@@ -148,7 +187,7 @@ struct ParkedHomeView: View {
         if let verdict, let segment = sessionManager.currentSegment() {
             let context = NotificationPlanner.Context(
                 segmentId: segment.id, street: segment.street,
-                landmark: segment.displaySideName, city: segment.city)
+                landmark: sideText, city: segment.city)
             let planned = NotificationPlanner.plan(
                 context: context, windows: verdict.upcoming, prefs: model.store.reminderPrefs,
                 now: sessionManager.session?.parkedAt ?? now, calendar: SweepCalendar.la)
@@ -225,22 +264,26 @@ struct ParkedHomeView: View {
                             .strokeBorder(Tokens.line))
                 }
             }
-            Button {
-                showFixSign = true
-            } label: {
-                Text("Sign says otherwise?")
-                    .font(.system(size: 14, weight: .medium))
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 12)
-                    .background(RoundedRectangle(cornerRadius: Tokens.radiusControl)
-                        .strokeBorder(Tokens.line))
+            // A correction belongs to ONE side's sign; in both-sides mode the
+            // app doesn't know which, so the flow steps back.
+            if !watchesBothSides {
+                Button {
+                    showFixSign = true
+                } label: {
+                    Text("Sign says otherwise?")
+                        .font(.system(size: 14, weight: .medium))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(RoundedRectangle(cornerRadius: Tokens.radiusControl)
+                            .strokeBorder(Tokens.line))
+                }
             }
         }
         .foregroundStyle(Tokens.ink)
     }
 
     private func shareText(segment: SweepBundle.Segment, next: SweepWindow) -> String {
-        "The car is on \(segment.street) (\((segment.displaySideName ?? "").lowercased())). "
+        "The car is on \(segment.street) (\(sideText.lowercased())). "
             + "Safe until \(SweepFormat.dayName(next.start)) "
             + "\(SweepFormat.hourLabel(next.start)) — Sweep"
     }

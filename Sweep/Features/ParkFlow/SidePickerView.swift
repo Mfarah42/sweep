@@ -13,6 +13,7 @@ struct SidePickerView: View {
     let onDone: () -> Void
 
     @State private var selectedSideKey: String?
+    @State private var watchBoth = false
 
     var body: some View {
         let bundle = try? model.bundleManager.openBundle(for: sessionManager.city)
@@ -41,6 +42,8 @@ struct SidePickerView: View {
                     sideCard(side, holidays: holidays, now: now)
                 }
 
+                bothSidesCard(sides: sides)
+
                 Text("Both verdicts stay visible, so if you tap the wrong one "
                      + "you'll see it — not find out from a "
                      + "$\(sessionManager.city.fine) ticket.")
@@ -48,20 +51,29 @@ struct SidePickerView: View {
                     .foregroundStyle(Tokens.sub)
 
                 Button("Set my reminders") {
-                    guard let side = sides.first(where: { $0.sideKey == selectedSideKey }) else { return }
-                    let target = side.parkTarget(at: now, calendar: SweepCalendar.la,
-                                                 holidays: holidays,
-                                                 overrides: model.store.overrides)
+                    let targets: [SweepBundle.Segment]
+                    if watchBoth {
+                        targets = sides.map {
+                            $0.parkTarget(at: now, calendar: SweepCalendar.la,
+                                          holidays: holidays, overrides: model.store.overrides)
+                        }
+                    } else if let side = sides.first(where: { $0.sideKey == selectedSideKey }) {
+                        targets = [side.parkTarget(at: now, calendar: SweepCalendar.la,
+                                                   holidays: holidays,
+                                                   overrides: model.store.overrides)]
+                    } else {
+                        return
+                    }
                     Task {
-                        await sessionManager.park(segment: target, source: .manual)
+                        await sessionManager.park(segments: targets, source: .manual)
                         await model.scheduler.requestAuthorizationIfNeeded()
                         await model.refreshAuthorizationStatus()
                         onDone()
                     }
                 }
                 .buttonStyle(ClayButtonStyle())
-                .disabled(selectedSideKey == nil)
-                .opacity(selectedSideKey == nil ? 0.5 : 1)
+                .disabled(selectedSideKey == nil && !watchBoth)
+                .opacity(selectedSideKey == nil && !watchBoth ? 0.5 : 1)
             }
             .padding(16)
         }
@@ -90,8 +102,47 @@ struct SidePickerView: View {
             signLines: SweepFormat.signLines(rules: rules),
             miniVerdict: SweepFormat.miniVerdict(verdict, now: now),
             miniState: SweepFormat.uiState(verdict),
-            selected: selectedSideKey == side.sideKey) {
+            selected: !watchBoth && selectedSideKey == side.sideKey) {
                 selectedSideKey = side.sideKey
+                watchBoth = false
             }
+    }
+
+    /// Resident mode: watch every sweep on the block, whichever side the car
+    /// is on. Reminders fire for both sides' windows; the verdict follows
+    /// whichever sweep comes first.
+    @ViewBuilder
+    private func bothSidesCard(sides: [BlockSide]) -> some View {
+        if sides.count > 1 {
+            Button {
+                watchBoth = true
+                selectedSideKey = nil
+            } label: {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Both sides")
+                        .font(Tokens.display(17).weight(.medium))
+                        .foregroundStyle(Tokens.ink)
+                    Text("Live here? Watch the whole block — reminders before "
+                         + "every sweep, whichever side you're on.")
+                        .font(.system(size: 13))
+                        .foregroundStyle(Tokens.sub)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(14)
+                .background(
+                    RoundedRectangle(cornerRadius: Tokens.radiusSideCard, style: .continuous)
+                        .fill(Tokens.card)
+                        .overlay(RoundedRectangle(cornerRadius: Tokens.radiusSideCard,
+                                                  style: .continuous)
+                            .strokeBorder(watchBoth ? Tokens.clay : Tokens.line,
+                                          lineWidth: watchBoth ? 2 : 1))
+                        .shadow(color: watchBoth ? Tokens.clay.opacity(0.13) : .clear,
+                                radius: 3, y: 1))
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Both sides: reminders before every sweep on this block")
+            .accessibilityAddTraits(watchBoth ? .isSelected : [])
+        }
     }
 }

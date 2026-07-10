@@ -39,14 +39,17 @@ struct SweepTimelineProvider: TimelineProvider {
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<SweepEntry>) -> Void) {
         let now = Date()
-        guard let segment = currentSegment() else {
+        let segments = currentSegments()
+        guard let segment = segments.first else {
             let empty = SweepEntry(date: now, state: .none, untilText: "Not parked", street: "")
             completion(Timeline(entries: [empty], policy: .never))
             return
         }
         let store = PersistenceStore.appGroup()
         let holidays = bundle()?.holidays() ?? .empty
-        let rules = OverrideDecorator.effectiveRules(segment: segment, overrides: store.overrides)
+        let rules = Array(Set(segments.flatMap {
+            OverrideDecorator.effectiveRules(segment: $0, overrides: store.overrides)
+        }))
         let windows = VerdictEngine.upcomingWindows(rules: rules, city: segment.city, from: now,
                                                     count: 5, calendar: SweepCalendar.la,
                                                     holidays: holidays)
@@ -70,16 +73,25 @@ struct SweepTimelineProvider: TimelineProvider {
         return try? manager.openBundle(for: PersistenceStore.appGroup().city)
     }
 
-    private func currentSegment() -> SweepBundle.Segment? {
+    /// All watched segments — two in "both sides" resident mode.
+    private func currentSegments() -> [SweepBundle.Segment] {
         let store = PersistenceStore.appGroup()
-        guard let session = store.session else { return nil }
-        return bundle()?.segment(id: session.segmentId)
+        guard let session = store.session, let bundle = bundle() else { return [] }
+        return session.segmentIds.compactMap { bundle.segment(id: $0) }
+    }
+
+    private func currentSegment() -> SweepBundle.Segment? {
+        currentSegments().first
     }
 
     private func entry(at date: Date) -> SweepEntry? {
-        guard let segment = currentSegment() else { return nil }
+        let segments = currentSegments()
+        guard let segment = segments.first else { return nil }
         let store = PersistenceStore.appGroup()
-        let rules = OverrideDecorator.effectiveRules(segment: segment, overrides: store.overrides)
+        // Union across watched sides — same rule set the app's verdict uses.
+        let rules = Array(Set(segments.flatMap {
+            OverrideDecorator.effectiveRules(segment: $0, overrides: store.overrides)
+        }))
         let verdict = VerdictEngine.verdict(rules: rules, city: segment.city, at: date,
                                             calendar: SweepCalendar.la,
                                             holidays: bundle()?.holidays() ?? .empty)

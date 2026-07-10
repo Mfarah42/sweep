@@ -50,16 +50,32 @@ public final class ParkingSessionManager: ObservableObject {
         return bundle.segment(id: session.segmentId)
     }
 
+    /// All watched segments — one normally, two in "both sides" mode.
+    public func currentSegments() -> [SweepBundle.Segment] {
+        guard let session, let bundle = try? bundleManager.openBundle(for: store.city) else {
+            return []
+        }
+        return session.segmentIds.compactMap { bundle.segment(id: $0) }
+    }
+
     public func effectiveRules(for segment: SweepBundle.Segment) -> [ScheduleRule] {
         OverrideDecorator.effectiveRules(segment: segment, overrides: store.overrides)
     }
 
     public func park(segment: SweepBundle.Segment, source: ParkingSession.Source) async {
-        let s = ParkingSession(segmentId: segment.id,
-                               blockId: segment.blockKey,
-                               sideKey: segment.sideKey,
+        await park(segments: [segment], source: source)
+    }
+
+    /// Two segments = resident "both sides" mode: reminders for every sweep
+    /// on the block, whichever side the car is on.
+    public func park(segments: [SweepBundle.Segment], source: ParkingSession.Source) async {
+        guard let primary = segments.first else { return }
+        let s = ParkingSession(segmentId: primary.id,
+                               blockId: primary.blockKey,
+                               sideKey: primary.sideKey,
                                parkedAt: clock.now,
-                               source: source)
+                               source: source,
+                               secondarySegmentId: segments.dropFirst().first?.id)
         store.session = s
         session = s
         await refreshDerivedState()
@@ -87,8 +103,9 @@ public final class ParkingSessionManager: ObservableObject {
     /// Recompute verdict + notifications; called on park, correction, bundle
     /// refresh, significant time change, and every foreground (§8).
     public func refreshDerivedState() async {
+        let segments = currentSegments()
         guard let session, let bundle = try? bundleManager.openBundle(for: store.city),
-              let segment = bundle.segment(id: session.segmentId) else {
+              let segment = segments.first else {
             verdict = nil
             await scheduler.clearAll()
             reloadWidgets()
@@ -96,15 +113,19 @@ public final class ParkingSessionManager: ObservableObject {
             remindersBridge?.sync(deadline: nil, street: nil, sideName: nil)
             return
         }
-        let rules = effectiveRules(for: segment)
+        // "Both sides": the union of the sides' rules drives everything —
+        // the app doesn't know which side the car is on, so it must warn
+        // for whichever sweep comes first.
+        let rules = Array(Set(segments.flatMap { effectiveRules(for: $0) }))
         let holidays = bundle.holidays()
         let v = VerdictEngine.verdict(rules: rules, city: segment.city, at: clock.now,
                                       calendar: SweepCalendar.la, holidays: holidays)
         verdict = v
 
+        let sideName = segments.count > 1 ? "both sides" : segment.displaySideName
         let context = NotificationPlanner.Context(
             segmentId: segment.id, street: segment.street,
-            landmark: segment.displaySideName, city: segment.city)
+            landmark: sideName, city: segment.city)
         let planned = NotificationPlanner.plan(
             context: context, windows: v.upcoming, prefs: store.reminderPrefs,
             now: clock.now, calendar: SweepCalendar.la)
@@ -113,7 +134,7 @@ public final class ParkingSessionManager: ObservableObject {
         liveActivity?.syncLiveActivity(session: session, verdict: v, context: context)
         if store.appleRemindersEnabled {
             remindersBridge?.sync(deadline: v.next?.start, street: segment.street,
-                                  sideName: segment.displaySideName)
+                                  sideName: sideName)
         }
     }
 

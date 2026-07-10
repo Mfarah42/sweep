@@ -107,14 +107,26 @@ public struct ParkingSession: Codable, Equatable, Sendable {
     public let sideKey: String
     public let parkedAt: Date
     public let source: Source
+    /// "Both sides" resident mode: a second segment on the same block whose
+    /// windows are watched too. Optional so v1 sessions keep decoding.
+    public var secondarySegmentId: String?
 
     public init(segmentId: String, blockId: String, sideKey: String,
-                parkedAt: Date, source: Source) {
+                parkedAt: Date, source: Source, secondarySegmentId: String? = nil) {
         self.segmentId = segmentId
         self.blockId = blockId
         self.sideKey = sideKey
         self.parkedAt = parkedAt
         self.source = source
+        self.secondarySegmentId = secondarySegmentId
+    }
+
+    public var segmentIds: [String] {
+        [segmentId] + (secondarySegmentId.map { [$0] } ?? [])
+    }
+
+    public var watchesBothSides: Bool {
+        secondarySegmentId != nil
     }
 }
 
