@@ -2,7 +2,7 @@ import Foundation
 import StoreKit
 
 /// StoreKit 2 wrapper for the single non-consumable (spec §11).
-/// Everything that prevents a ticket is free forever; Plus adds multiple cars,
+/// Every ticket-saving alert is free forever; Plus adds multiple cars,
 /// curb-card themes, and Longest Spot. StoreKit is the source of truth; the
 /// App Group flag is only a mirror for widgets.
 @MainActor

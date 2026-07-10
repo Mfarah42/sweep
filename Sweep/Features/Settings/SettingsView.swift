@@ -185,14 +185,16 @@ struct SettingsView: View {
                         PillTag("yours", color: Tokens.sage)
                     }
                 }
-                Text("Multiple cars, curb-card themes, and Longest Spot. "
-                     + "Everything that prevents a ticket stays free forever.")
+                Text("Every ticket-saving alert is free, forever — that never "
+                     + "changes. Plus adds the extras: a second car, curb-card "
+                     + "themes, and Longest Spot, which finds the block you can "
+                     + "stay on longest.")
                     .font(.system(size: 13.5))
                     .foregroundStyle(Tokens.sub)
                 if !plusStore.hasPlus {
                     Button(plusStore.product.map {
                         "Get Plus — \($0.displayPrice)"
-                    } ?? "Get Plus — $9.99") {
+                    } ?? "Get Plus — $3") {
                         Task { await plusStore.purchase() }
                     }
                     .font(.system(size: 14, weight: .semibold))

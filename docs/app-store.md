@@ -9,7 +9,7 @@ Everything App Store Connect asks for, ready to paste. Spec references: §12.
 | Name | Sweep — Street Sweeping Alarm |
 | Subtitle | Street sweeping alarm — SF & Oakland |
 | Category | Navigation (secondary: Utilities) |
-| Price | Free, with one non-consumable IAP (Sweep Plus, $9.99) |
+| Price | Free, with one non-consumable IAP (Sweep Plus, $3.00) |
 | Age rating | 4+ |
 
 **Keywords** (100 chars max):
@@ -36,7 +36,7 @@ Everything App Store Connect asks for, ready to paste. Spec references: §12.
 >
 > Home screen and lock screen widgets show the verdict at a glance.
 >
-> Sweep Plus ($9.99, one time): multiple cars, curb-card themes, and Longest Spot — rank nearby blocks by time until their next sweep. Everything that prevents a ticket is free forever.
+> Sweep Plus ($3, one time): every ticket-saving alert is free forever — that never changes. Plus adds the extras: a second car, curb-card themes, and Longest Spot, which finds the block you can stay on longest.
 >
 > Covers San Francisco (SFMTA schedule data) and Oakland (City of Oakland GIS). Always check the posted sign — schedules can change faster than city data.
 
@@ -73,7 +73,7 @@ Marketing frames/captions can be added in App Store Connect directly.
 | Type | Non-Consumable |
 | Product ID | `sweep.plus` |
 | Reference name | Sweep Plus |
-| Price | $9.99 (Tier 10) |
+| Price | $3.00 (pick the 3.00 USD price point in Connect) |
 | Display name | Sweep Plus |
 | Description | Multiple cars, curb-card themes, Longest Spot. |
 
