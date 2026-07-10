@@ -6,6 +6,7 @@ struct ParkedHomeView: View {
 
     @EnvironmentObject var model: AppModel
     @EnvironmentObject var sessionManager: ParkingSessionManager
+    @EnvironmentObject var plusStore: PlusStore
     @State private var showFixSign = false
     @State private var now = Date()
 
@@ -42,6 +43,27 @@ struct ParkedHomeView: View {
 
             remindersCard(verdict: verdict)
             comingUpCard(verdict: verdict)
+
+            // Longest Spot is most useful while parked — scouting a more
+            // durable spot before the current one turns on you.
+            if plusStore.hasPlus {
+                NavigationLink {
+                    LongestSpotView()
+                } label: {
+                    AlmanacCard {
+                        HStack {
+                            Text("Longest spot nearby")
+                                .font(Tokens.display(17).weight(.medium))
+                                .foregroundStyle(Tokens.ink)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundStyle(Tokens.sub)
+                        }
+                    }
+                }
+                .buttonStyle(.plain)
+            }
+
             actionRow(segment: segment, verdict: verdict)
 
             Button("I moved my car") {

@@ -56,6 +56,10 @@ final class AppModel: ObservableObject {
         appearance = store.appearance
         bundleManager.installShippedBundles(from: .main)
         registerBackgroundRefresh()
+        // Load the StoreKit product (price for the Plus card) and refresh
+        // the entitlement — without this, both only happened on purchase/
+        // restore taps and the card showed the hardcoded fallback price.
+        Task { await plusStore.load() }
 
         NotificationCenter.default.addObserver(
             forName: UIApplication.significantTimeChangeNotification,
