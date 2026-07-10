@@ -1,8 +1,9 @@
 import SwiftUI
 
-/// Watermark illustration for the empty home screen: the little three-wheeled
-/// parking-enforcement cart, ticket fluttering behind it. Drawn from shapes
-/// (no assets) in ink tones at low opacity, so it prints onto the paper and
+/// Watermark illustration for the empty home screen: the little cab-forward
+/// parking-enforcement interceptor (tall box, raked windshield, amber beacon,
+/// dark glass, black skirt), ticket fluttering off behind. Drawn from shapes
+/// (no assets) in token colors at low opacity so it prints onto the paper and
 /// adapts to dark mode automatically. Decorative only — hidden from VoiceOver.
 public struct EnforcementCartIllustration: View {
 
@@ -14,12 +15,12 @@ public struct EnforcementCartIllustration: View {
             ticket
                 .frame(width: 34, height: 46)
                 .rotationEffect(.degrees(14))
-                .offset(x: 104, y: -34)
+                .offset(x: 124, y: -52)
 
             cart
         }
-        .frame(width: 260, height: 150)
-        .opacity(0.1)
+        .frame(width: 300, height: 180)
+        .opacity(0.13)
         .accessibilityHidden(true)
         .allowsHitTesting(false)
     }
@@ -28,59 +29,83 @@ public struct EnforcementCartIllustration: View {
         ZStack {
             // Road
             Path { p in
-                p.move(to: CGPoint(x: 0, y: 144))
-                p.addLine(to: CGPoint(x: 260, y: 144))
+                p.move(to: CGPoint(x: 0, y: 158))
+                p.addLine(to: CGPoint(x: 300, y: 158))
             }
             .stroke(Tokens.ink, style: StrokeStyle(lineWidth: 3, dash: [14, 10]))
+            .frame(width: 300, height: 180)
 
-            // Beacon light
+            // Beacon: small base + amber light
+            RoundedRectangle(cornerRadius: 2)
+                .fill(Tokens.ink)
+                .frame(width: 16, height: 7)
+                .offset(x: -40, y: -66)
             Capsule()
-                .fill(Tokens.ink)
-                .frame(width: 18, height: 12)
-                .offset(x: -40, y: -56)
+                .fill(Tokens.amber)
+                .frame(width: 20, height: 13)
+                .offset(x: -40, y: -75)
 
-            // Cab at the back (tall, boxy — the classic interceptor silhouette)
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(Tokens.ink)
-                .frame(width: 110, height: 64)
-                .offset(x: -40, y: -16)
-
-            // Body with a low hood out front
-            RoundedRectangle(cornerRadius: 13, style: .continuous)
-                .fill(Tokens.ink)
-                .frame(width: 212, height: 42)
-                .offset(x: 4, y: 15)
-
-            // Cab windows (paper punches through the ink)
-            RoundedRectangle(cornerRadius: 7, style: .continuous)
+            // Body: one tall cab-forward box (outlined cream, like the inspo)
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .fill(Tokens.paper)
-                .frame(width: 38, height: 26)
-                .offset(x: -64, y: -24)
-            RoundedRectangle(cornerRadius: 7, style: .continuous)
-                .fill(Tokens.paper)
-                .frame(width: 30, height: 26)
-                .offset(x: -18, y: -24)
+                .overlay(RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .strokeBorder(Tokens.ink, lineWidth: 5))
+                .frame(width: 200, height: 108)
+                .offset(x: 6, y: -8)
 
-            // "P" badge on the hood
+            // Dark glass: windshield, door window, rear side window
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .fill(Tokens.ink)
+                .frame(width: 40, height: 38)
+                .offset(x: -62, y: -30)
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .fill(Tokens.ink)
+                .frame(width: 42, height: 38)
+                .offset(x: -12, y: -30)
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .fill(Tokens.ink)
+                .frame(width: 38, height: 38)
+                .offset(x: 36, y: -30)
+
+            // Mirror on the front pillar
+            RoundedRectangle(cornerRadius: 3)
+                .fill(Tokens.ink)
+                .frame(width: 10, height: 14)
+                .offset(x: -92, y: -22)
+
+            // Headlight on the front face
             Circle()
-                .fill(Tokens.paper)
-                .frame(width: 24, height: 24)
-                .offset(x: 66, y: 15)
-            Text("P")
-                .font(.system(size: 15, weight: .heavy, design: .rounded))
-                .foregroundStyle(Tokens.ink)
-                .offset(x: 66, y: 15)
+                .strokeBorder(Tokens.ink, lineWidth: 4)
+                .frame(width: 18, height: 18)
+                .offset(x: -80, y: 8)
+
+            // Livery text on the rear panel
+            VStack(spacing: 2) {
+                Text("PARKING")
+                Text("ENFORCEMENT")
+            }
+            .font(.system(size: 8, weight: .bold, design: .rounded))
+            .foregroundStyle(Tokens.ink)
+            .offset(x: 44, y: 8)
+
+            // Black skirt / bumper line
+            RoundedRectangle(cornerRadius: 5, style: .continuous)
+                .fill(Tokens.ink)
+                .frame(width: 192, height: 11)
+                .offset(x: 6, y: 38)
 
             // Wheels
-            wheel.offset(x: -62, y: 40)
-            wheel.offset(x: 74, y: 40)
+            wheel.offset(x: -52, y: 46)
+            wheel.offset(x: 62, y: 46)
         }
+        .frame(width: 300, height: 180)
     }
 
     private var wheel: some View {
         ZStack {
-            Circle().fill(Tokens.ink).frame(width: 38, height: 38)
-            Circle().fill(Tokens.paper).frame(width: 14, height: 14)
+            Circle().fill(Tokens.ink).frame(width: 42, height: 42)
+            Circle().fill(Tokens.paper).frame(width: 18, height: 18)
+            Circle().fill(Tokens.ink).frame(width: 5, height: 5)
         }
     }
 

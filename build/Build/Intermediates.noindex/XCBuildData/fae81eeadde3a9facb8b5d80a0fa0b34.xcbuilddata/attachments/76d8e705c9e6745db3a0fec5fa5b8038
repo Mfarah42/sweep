@@ -56,6 +56,16 @@
     "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/Components.swiftdeps",
     "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/Components~partial.swiftmodule"
   },
+  "/Users/mohamed/sweep/Sweep/DesignSystem/Illustrations.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/Illustrations.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/Illustrations.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/Illustrations.dia",
+    "index-unit-output-path" : "/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/Illustrations.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/Illustrations.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/Illustrations.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/Illustrations.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/Illustrations~partial.swiftmodule"
+  },
   "/Users/mohamed/sweep/Sweep/DesignSystem/Tokens.swift" : {
     "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/Tokens.swiftconstvalues",
     "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/Tokens.d",
