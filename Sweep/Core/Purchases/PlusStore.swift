@@ -33,23 +33,57 @@ public final class PlusStore: ObservableObject {
         updatesTask?.cancel()
     }
 
+    /// User-facing store status — a buy button must never fail silently.
+    @Published public private(set) var notice: String?
+
     public func load() async {
         product = try? await Product.products(for: [Self.productId]).first
+        if product == nil {
+            notice = "The store isn't reachable right now. In development, "
+                + "run from Xcode (the Sweep scheme carries the test store)."
+        } else {
+            notice = nil
+        }
         await refreshEntitlement()
     }
 
     public func purchase() async {
-        guard let product else { return }
-        guard let result = try? await product.purchase() else { return }
-        if case .success(.verified(let transaction)) = result {
-            await transaction.finish()
+        if product == nil {
+            await load()   // one retry — maybe the network came back
+        }
+        guard let product else { return }   // load() already set the notice
+        do {
+            let result = try await product.purchase()
+            switch result {
+            case .success(.verified(let transaction)):
+                await transaction.finish()
+                notice = nil
+            case .success(.unverified):
+                notice = "Purchase couldn't be verified — try Restore purchases."
+            case .userCancelled:
+                notice = nil
+            case .pending:
+                notice = "Purchase is pending approval."
+            @unknown default:
+                notice = nil
+            }
+        } catch {
+            notice = "Purchase didn't complete: \(error.localizedDescription)"
         }
         await refreshEntitlement()
     }
 
     public func restore() async {
-        try? await AppStore.sync()
+        do {
+            try await AppStore.sync()
+            notice = nil
+        } catch {
+            notice = "Restore didn't complete: \(error.localizedDescription)"
+        }
         await refreshEntitlement()
+        if !hasPlus {
+            notice = "No previous purchase found for this Apple Account."
+        }
     }
 
     private func refreshEntitlement() async {

@@ -200,6 +200,12 @@ struct SettingsView: View {
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(Tokens.clay)
                 }
+                if let notice = plusStore.notice {
+                    Text(notice)
+                        .font(.system(size: 12.5))
+                        .foregroundStyle(Tokens.amber)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
                 Button("Restore purchases") {
                     Task { await plusStore.restore() }
                 }
