@@ -12,6 +12,14 @@ struct HomeView: View {
         NavigationStack {
             ZStack {
                 Tokens.paper.ignoresSafeArea()
+                if sessionManager.session == nil {
+                    // Watermark cart in the empty space below the cards.
+                    VStack {
+                        Spacer()
+                        EnforcementCartIllustration()
+                            .padding(.bottom, 28)
+                    }
+                }
                 ScrollView {
                     if sessionManager.session == nil {
                         HomeEmptyView(showParkFlow: $showParkFlow)

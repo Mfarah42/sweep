@@ -6,7 +6,7 @@
 	<integer>12</integer>
 	<key>logs</key>
 	<dict>
-		<key>FAE5AA3A-869F-4FB7-883B-05941889C796</key>
+		<key>40B7A26D-41F2-4FA7-B193-3D2917DD9A5C</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,17 +15,17 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>FAE5AA3A-869F-4FB7-883B-05941889C796.xcactivitylog</string>
+			<string>40B7A26D-41F2-4FA7-B193-3D2917DD9A5C.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
 			<dict>
 				<key>highLevelStatus</key>
-				<string>S</string>
+				<string>E</string>
 				<key>totalNumberOfAnalyzerIssues</key>
 				<integer>0</integer>
 				<key>totalNumberOfErrors</key>
-				<integer>0</integer>
+				<integer>2</integer>
 				<key>totalNumberOfTestFailures</key>
 				<integer>0</integer>
 				<key>totalNumberOfWarnings</key>
@@ -40,13 +40,13 @@
 			<key>signature</key>
 			<string>Building project Sweep with scheme Sweep</string>
 			<key>timeStartedRecording</key>
-			<real>805066383.27450895</real>
+			<real>805338732.90672898</real>
 			<key>timeStoppedRecording</key>
-			<real>805066383.83204806</real>
+			<real>805338737.17814195</real>
 			<key>title</key>
 			<string>Building project Sweep with scheme Sweep</string>
 			<key>uniqueIdentifier</key>
-			<string>FAE5AA3A-869F-4FB7-883B-05941889C796</string>
+			<string>40B7A26D-41F2-4FA7-B193-3D2917DD9A5C</string>
 		</dict>
 	</dict>
 </dict>
