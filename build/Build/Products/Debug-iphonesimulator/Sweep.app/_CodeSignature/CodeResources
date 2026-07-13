@@ -28,6 +28,14 @@
 		<data>
 		o7KxoFvqzWMtXGB2zlm91QXbL0c=
 		</data>
+		<key>Metadata.appintents/extract.actionsdata</key>
+		<data>
+		HLzr0icvNNRC8Onu+3k0iQ4rl7k=
+		</data>
+		<key>Metadata.appintents/version.json</key>
+		<data>
+		AnCWG4rKs5jrO4QrJ0dwHs72tMI=
+		</data>
 		<key>OFL.txt</key>
 		<data>
 		a0I+6uFJg9SRwDB/NVpSHxsxfl0=
@@ -54,15 +62,15 @@
 		</data>
 		<key>PlugIns/SweepWidgets.appex/SweepWidgets</key>
 		<data>
-		Xd3G+fawQ0LUAlXtiU3WuOCqz9M=
+		RLvHrRcHJbPaPpyS17Uy8+53x2s=
 		</data>
 		<key>PlugIns/SweepWidgets.appex/SweepWidgets.debug.dylib</key>
 		<data>
-		ojozCEsNSRpDDr3hukPudy32BlY=
+		s/Z40lu5SXxiUa144IlqHJ3kyG8=
 		</data>
 		<key>PlugIns/SweepWidgets.appex/_CodeSignature/CodeResources</key>
 		<data>
-		/aVaskstw2RacAorJtCsq8sYjy4=
+		89rorq9kwE4EUs9Rjlqpo9bcf4Q=
 		</data>
 		<key>PlugIns/SweepWidgets.appex/__preview.dylib</key>
 		<data>
@@ -74,7 +82,7 @@
 		</data>
 		<key>Sweep.debug.dylib</key>
 		<data>
-		pFew4hTZfthovBRAw5me7JDVtPk=
+		qhu9qIde97DKuxyByYhQcTJYsx0=
 		</data>
 		<key>__preview.dylib</key>
 		<data>
@@ -126,6 +134,20 @@
 			F3/2wPFOVVCjxiQkfNEYlhHU62XQALFJRMY9lnlYq7s=
 			</data>
 		</dict>
+		<key>Metadata.appintents/extract.actionsdata</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Kdtg5hkCkgNk6JiYMC4cvNdYBhCVelusovSu4oMh43c=
+			</data>
+		</dict>
+		<key>Metadata.appintents/version.json</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			S8xCv9nzQ8VW9KYw29TGYHI5yTSFkAK3pTib1ARd6Zo=
+			</data>
+		</dict>
 		<key>OFL.txt</key>
 		<dict>
 			<key>hash2</key>
@@ -165,21 +187,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			+DGjBkRrw1d1Fe+ySBXnb+0sKQKFKafmPDuNypKVetU=
+			ySbrQ7CkoUKBZPVmsrHfzWnLFZS3q9to6pJh8OWb0iA=
 			</data>
 		</dict>
 		<key>PlugIns/SweepWidgets.appex/SweepWidgets.debug.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			zq/fT2iYjwxJHs+9MGkJhyWAIH3W6e/w3/ALm2LMo6E=
+			I1XvoBOlf4He2h1yoJPthHXrRtmrJ300AKEfJnuHPCY=
 			</data>
 		</dict>
 		<key>PlugIns/SweepWidgets.appex/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			zLNhUjQng6JIj0yG6fofJuEBpiBu4TawBYzYh5QrKkc=
+			Bkh5n+NRNG0AMBMIBYd/qVSJkM4+c8/dqbOXSHm3kuM=
 			</data>
 		</dict>
 		<key>PlugIns/SweepWidgets.appex/__preview.dylib</key>
@@ -200,7 +222,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			A1sSGCaCSplPBICcmB7KrJKiC0oBH1DYXKLoifzXUVc=
+			k+KKQ/yt6uZNkWPqx4sI6qfHAJkNJIshQmT36BWnkbE=
 			</data>
 		</dict>
 		<key>__preview.dylib</key>

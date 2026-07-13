@@ -11,7 +11,13 @@ public enum NotificationPlanner {
         case nightBefore = "evening"
         case twoHours = "2h"
         case thirtyMin = "30m"
+        case allClear = "clear"
+        case threeDay = "72h"
     }
+
+    /// SF and Oakland enforce a 72-hour limit in one spot; warn with a
+    /// 4-hour head start.
+    public static let threeDayWarningHours: Double = 68
 
     public struct Planned: Equatable, Sendable {
         public let identifier: String
@@ -47,9 +53,43 @@ public enum NotificationPlanner {
     }
 
     public static func plan(context: Context, windows: [SweepWindow], prefs: ReminderPrefs,
-                            now: Date, calendar: Calendar) -> [Planned] {
-        let targets = windows.filter { !$0.suspendedForHoliday }.prefix(2)
+                            now: Date, calendar: Calendar,
+                            parkedAt: Date? = nil) -> [Planned] {
+        let nonSuspended = windows.filter { !$0.suspendedForHoliday }
+        let targets = nonSuspended.prefix(2)
         var out: [Planned] = []
+
+        // "All clear" at the end of the next window — take your spot back.
+        if prefs.allClear, let next = nonSuspended.first, next.end > now {
+            let following = nonSuspended.first { $0.start > next.end }
+            let untilText = following.map {
+                " The spot is fair game until \(dayName($0.start, calendar)) "
+                    + "\(hourLabel($0.start, calendar))."
+            } ?? ""
+            out.append(Planned(
+                identifier: identifier(context.segmentId, next, .allClear),
+                fireDate: next.end,
+                title: "All clear on \(context.street)",
+                body: "Sweeping's done.\(untilText)",
+                offset: .allClear, timeSensitive: false))
+        }
+
+        // 72-hour rule: both cities can ticket or tow after three days in
+        // one spot, sweeping or not.
+        if prefs.threeDayRule, let parkedAt {
+            let fire = parkedAt.addingTimeInterval(threeDayWarningHours * 3600)
+            if fire > now {
+                out.append(Planned(
+                    identifier: "\(identifierPrefix)\(context.segmentId)."
+                        + "\(isoFormatter.string(from: parkedAt)).\(Offset.threeDay.rawValue)",
+                    fireDate: fire,
+                    title: "Three days in one spot",
+                    body: "\(context.city.displayName) can ticket or tow after "
+                        + "72 hours. The car's been on \(context.street) since "
+                        + "\(dayName(parkedAt, calendar)).",
+                    offset: .threeDay, timeSensitive: false))
+            }
+        }
 
         for window in targets {
             let day = dayName(window.start, calendar)

@@ -158,6 +158,17 @@ struct ParkedHomeView: View {
                         .foregroundStyle(Tokens.sub)
                 }
 
+                // §1.3: stale data degrades the copy honestly instead of
+                // presenting a year-old schedule with full confidence.
+                if let builtAt = (try? model.bundleManager.openBundle(for: sessionManager.city))?
+                        .manifest.builtAt,
+                   let stale = SweepFormat.staleNotice(builtAt: builtAt, now: model.clock.now) {
+                    Text(stale)
+                        .font(.system(size: 12.5, weight: .medium))
+                        .foregroundStyle(Tokens.amber)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+
                 HStack(alignment: .center) {
                     Text("Always check the posted sign.")
                         .font(.system(size: 12))
@@ -212,7 +223,8 @@ struct ParkedHomeView: View {
                 landmark: sideText, city: segment.city)
             let planned = NotificationPlanner.plan(
                 context: context, windows: verdict.upcoming, prefs: model.store.reminderPrefs,
-                now: sessionManager.session?.parkedAt ?? now, calendar: SweepCalendar.la)
+                now: sessionManager.session?.parkedAt ?? now, calendar: SweepCalendar.la,
+                parkedAt: sessionManager.session?.parkedAt)
             if !planned.isEmpty {
                 AlmanacCard {
                     VStack(alignment: .leading, spacing: 8) {

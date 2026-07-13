@@ -136,7 +136,8 @@ final class NotificationPlannerTests: XCTestCase {
         XCTAssertEqual(Set(a.map(\.identifier)).count, a.count, "identifiers must be unique")
         XCTAssertTrue(a.allSatisfy { $0.identifier.hasPrefix("sweep.sf:432000:b.") })
         // 2 windows × 3 offsets, all in the future from `now`.
-        XCTAssertEqual(a.count, 6)
+        // 2 windows × 3 offsets + the all-clear at the next window's end.
+        XCTAssertEqual(a.count, 7)
         // Evening-before fires at 8 PM the previous LA day.
         let evening = a.first { $0.offset == .nightBefore }!
         XCTAssertEqual(cal.component(.hour, from: evening.fireDate), 20)

@@ -110,6 +110,8 @@ struct SettingsView: View {
                 Toggle("Evening before, 8 PM", isOn: binding(\.nightBefore))
                 Toggle("Two hours before", isOn: binding(\.twoHours))
                 Toggle("Thirty minutes before", isOn: binding(\.thirtyMin))
+                Toggle("All clear, when sweeping ends", isOn: binding(\.allClear))
+                Toggle("Three-day rule warning", isOn: binding(\.threeDayRule))
                 Toggle("Also add to Apple Reminders", isOn: appleRemindersBinding)
                 Text("Puts the move-by deadline in your Reminders app too — "
                      + "handy for Siri and CarPlay.")
@@ -163,6 +165,13 @@ struct SettingsView: View {
                 Text("Schedule updated \(builtAt.prefix(10))")
                     .font(.system(size: 13.5))
                     .foregroundStyle(Tokens.sub)
+                if let stale = SweepFormat.staleNotice(builtAt: builtAt,
+                                                       now: model.clock.now) {
+                    Text(stale)
+                        .font(.system(size: 13, weight: .medium))
+                        .foregroundStyle(Tokens.amber)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
                 Text(sessionManager.city.holidayBehavior)
                     .font(.system(size: 13.5))
                     .foregroundStyle(Tokens.sub)

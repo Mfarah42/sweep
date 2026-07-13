@@ -47,6 +47,10 @@ struct HomeView: View {
             .sheet(isPresented: $showParkFlow) {
                 ParkFlowView()
             }
+            .onReceive(NotificationCenter.default.publisher(for: .sweepStartParkFlow)) { _ in
+                // Action Button / Siri / sweep://park — straight to locating.
+                showParkFlow = true
+            }
             .sheet(isPresented: $showSettings) {
                 SettingsView()
             }

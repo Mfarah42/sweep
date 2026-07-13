@@ -26,6 +26,16 @@
     "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/LiveActivityController.swiftdeps",
     "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/LiveActivityController~partial.swiftmodule"
   },
+  "/Users/mohamed/sweep/Sweep/App/ParkIntent.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/ParkIntent.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/ParkIntent.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/ParkIntent.dia",
+    "index-unit-output-path" : "/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/ParkIntent.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/ParkIntent.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/ParkIntent.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/ParkIntent.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/ParkIntent~partial.swiftmodule"
+  },
   "/Users/mohamed/sweep/Sweep/App/SweepActivityAttributes.swift" : {
     "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/SweepActivityAttributes.swiftconstvalues",
     "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/arm64/SweepActivityAttributes.d",

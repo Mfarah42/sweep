@@ -149,10 +149,28 @@ public struct ReminderPrefs: Codable, Equatable, Sendable {
     public var nightBefore: Bool
     public var twoHours: Bool
     public var thirtyMin: Bool
+    /// "All clear" when the sweep window ends — take your spot back.
+    public var allClear: Bool
+    /// SF and Oakland can ticket/tow after 72 hours in one spot.
+    public var threeDayRule: Bool
 
-    public init(nightBefore: Bool = true, twoHours: Bool = true, thirtyMin: Bool = true) {
+    public init(nightBefore: Bool = true, twoHours: Bool = true, thirtyMin: Bool = true,
+                allClear: Bool = true, threeDayRule: Bool = true) {
         self.nightBefore = nightBefore
         self.twoHours = twoHours
         self.thirtyMin = thirtyMin
+        self.allClear = allClear
+        self.threeDayRule = threeDayRule
+    }
+
+    /// Tolerant decode: prefs saved by older versions lack the new keys —
+    /// they default on rather than nuking the user's existing toggles.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        nightBefore = try c.decodeIfPresent(Bool.self, forKey: .nightBefore) ?? true
+        twoHours = try c.decodeIfPresent(Bool.self, forKey: .twoHours) ?? true
+        thirtyMin = try c.decodeIfPresent(Bool.self, forKey: .thirtyMin) ?? true
+        allClear = try c.decodeIfPresent(Bool.self, forKey: .allClear) ?? true
+        threeDayRule = try c.decodeIfPresent(Bool.self, forKey: .threeDayRule) ?? true
     }
 }

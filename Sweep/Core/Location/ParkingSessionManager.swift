@@ -128,7 +128,7 @@ public final class ParkingSessionManager: ObservableObject {
             landmark: sideName, city: segment.city)
         let planned = NotificationPlanner.plan(
             context: context, windows: v.upcoming, prefs: store.reminderPrefs,
-            now: clock.now, calendar: SweepCalendar.la)
+            now: clock.now, calendar: SweepCalendar.la, parkedAt: session.parkedAt)
         await scheduler.reschedule(planned)
         reloadWidgets()
         liveActivity?.syncLiveActivity(session: session, verdict: v, context: context)

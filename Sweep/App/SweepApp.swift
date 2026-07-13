@@ -21,7 +21,13 @@ struct SweepApp: App {
                     actionHandler.model = model
                     UNUserNotificationCenter.current().delegate = actionHandler
                 }
-                .onOpenURL { _ in /* sweep://home — widgets deep link to parked home */ }
+                .onOpenURL { url in
+                    // sweep://home just foregrounds; sweep://park jumps into
+                    // the park flow (same path as the Action Button intent).
+                    if url.host == "park" {
+                        NotificationCenter.default.post(name: .sweepStartParkFlow, object: nil)
+                    }
+                }
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {

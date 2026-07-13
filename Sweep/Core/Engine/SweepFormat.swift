@@ -119,6 +119,31 @@ public enum SweepFormat {
         }
     }
 
+    // MARK: - Data-confidence honesty (§1.3)
+
+    /// Bundles older than this degrade the copy — never confidently wrong.
+    public static let staleAfterDays = 60
+
+    /// Amber warning when the schedule bundle is old, nil when fresh.
+    /// `builtAt` is the manifest's ISO-8601 string.
+    public static func staleNotice(builtAt: String, now: Date,
+                                   calendar: Calendar = SweepCalendar.la) -> String? {
+        guard let built = staleISOFormatter.date(from: builtAt) else { return nil }
+        let days = Int(now.timeIntervalSince(built) / 86_400)
+        guard days > staleAfterDays else { return nil }
+        let months = ["January", "February", "March", "April", "May", "June", "July",
+                      "August", "September", "October", "November", "December"]
+        let c = calendar.dateComponents([.year, .month], from: built)
+        return "Schedule data is from \(months[c.month! - 1]) \(c.year!) — "
+            + "the posted sign outranks the app."
+    }
+
+    private static let staleISOFormatter: ISO8601DateFormatter = {
+        let f = ISO8601DateFormatter()
+        f.formatOptions = [.withInternetDateTime]
+        return f
+    }()
+
     // MARK: - Sign preview
 
     /// The lines a posted street-sweeping sign would carry for these rules,
