@@ -10,6 +10,7 @@
 /Users/mohamed/sweep/Sweep/Core/Location/LocationFixer.swift
 /Users/mohamed/sweep/Sweep/Core/Location/ParkingSessionManager.swift
 /Users/mohamed/sweep/Sweep/Core/Notify/AppleRemindersBridge.swift
+/Users/mohamed/sweep/Sweep/Core/Notify/GarbageReminders.swift
 /Users/mohamed/sweep/Sweep/Core/Notify/NotificationPlanner.swift
 /Users/mohamed/sweep/Sweep/Core/Notify/NotificationScheduler.swift
 /Users/mohamed/sweep/Sweep/Core/Purchases/PlusStore.swift

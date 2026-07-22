@@ -14,6 +14,7 @@ public final class PersistenceStore {
         public static let appleReminders = "prefs.appleReminders.v1"
         public static let appleReminderId = "reminders.ekid.v1"
         public static let appearance = "prefs.appearance.v1"
+        public static let garbageDay = "prefs.garbageDay.v1"
     }
 
     public static let appGroupId = "group.com.TEAM.sweep"   // single-config placeholder
@@ -77,6 +78,23 @@ public final class PersistenceStore {
     public var appearance: AppearancePref {
         get { AppearancePref(rawValue: defaults.string(forKey: Keys.appearance) ?? "") ?? .system }
         set { defaults.set(newValue.rawValue, forKey: Keys.appearance) }
+    }
+
+    /// Garbage pickup weekday, 0=Sunday…6=Saturday; nil = not set. A weekly
+    /// constant the user enters once — no city feed required (WM/Recology
+    /// publish no open data here).
+    public var garbageDay: Int? {
+        get {
+            defaults.object(forKey: Keys.garbageDay) == nil
+                ? nil : defaults.integer(forKey: Keys.garbageDay)
+        }
+        set {
+            if let newValue {
+                defaults.set(newValue, forKey: Keys.garbageDay)
+            } else {
+                defaults.removeObject(forKey: Keys.garbageDay)
+            }
+        }
     }
 
     /// Opt-in mirror of the move-by deadline into the Apple Reminders app.

@@ -60,6 +60,9 @@ final class AppModel: ObservableObject {
         // the entitlement — without this, both only happened on purchase/
         // restore taps and the card showed the hardcoded fallback price.
         Task { await plusStore.load() }
+        // Keep the weekly bins reminders in sync with the saved setting
+        // (repeating triggers survive, but re-sync heals deletions/upgrades).
+        Task { await scheduler.syncGarbageReminders(pickupWeekday: store.garbageDay) }
 
         NotificationCenter.default.addObserver(
             forName: UIApplication.significantTimeChangeNotification,

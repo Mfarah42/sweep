@@ -112,6 +112,21 @@ struct SettingsView: View {
                 Toggle("Thirty minutes before", isOn: binding(\.thirtyMin))
                 Toggle("All clear, when sweeping ends", isOn: binding(\.allClear))
                 Toggle("Three-day rule warning", isOn: binding(\.threeDayRule))
+
+                Divider().overlay(Tokens.line)
+
+                Picker("Garbage day", selection: garbageDayBinding) {
+                    Text("Off").tag(-1)
+                    ForEach(0..<7) { d in
+                        Text(["Sunday", "Monday", "Tuesday", "Wednesday",
+                              "Thursday", "Friday", "Saturday"][d]).tag(d)
+                    }
+                }
+                .pickerStyle(.menu)
+                Text("Bins-out reminder the evening before, and a 7 AM nudge "
+                     + "on pickup day. Set it once — it's the same day every week.")
+                    .font(.system(size: 12))
+                    .foregroundStyle(Tokens.sub)
                 Toggle("Also add to Apple Reminders", isOn: appleRemindersBinding)
                 Text("Puts the move-by deadline in your Reminders app too — "
                      + "handy for Siri and CarPlay.")
@@ -137,6 +152,21 @@ struct SettingsView: View {
                             .sync(deadline: nil, street: nil, sideName: nil)
                     }
                     await model.sessionManager.refreshDerivedState()
+                }
+            })
+    }
+
+    private var garbageDayBinding: Binding<Int> {
+        Binding(
+            get: { model.store.garbageDay ?? -1 },
+            set: { day in
+                model.store.garbageDay = day == -1 ? nil : day
+                Task {
+                    if day != -1 {
+                        _ = await model.scheduler.requestAuthorizationIfNeeded()
+                    }
+                    await model.scheduler.syncGarbageReminders(
+                        pickupWeekday: model.store.garbageDay)
                 }
             })
     }

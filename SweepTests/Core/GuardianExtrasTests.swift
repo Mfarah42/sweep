@@ -77,6 +77,28 @@ final class GuardianExtrasTests: XCTestCase {
             .allSatisfy { $0.offset != .allClear })
     }
 
+    // MARK: - Garbage day
+
+    func testGarbagePlanWrapsWeekAndKeepsStableIds() {
+        // Monday pickup → Sunday-evening bins-out + Monday-morning nudge.
+        let monday = GarbageReminders.plan(pickupWeekday: 1)
+        XCTAssertEqual(monday.map(\.weekday), [0, 1])
+        XCTAssertEqual(monday.map(\.hour), [20, 7])
+        XCTAssertTrue(monday[0].body.contains("Monday"))
+
+        // Sunday pickup wraps to Saturday evening.
+        let sunday = GarbageReminders.plan(pickupWeekday: 0)
+        XCTAssertEqual(sunday[0].weekday, 6)
+
+        // Identifiers are fixed so re-syncing replaces rather than piles up,
+        // and they live outside the parking "sweep." prefix.
+        XCTAssertEqual(monday.map(\.identifier), sunday.map(\.identifier))
+        XCTAssertTrue(monday.allSatisfy {
+            $0.identifier.hasPrefix("sweep-bins.")
+                && !$0.identifier.hasPrefix(NotificationPlanner.identifierPrefix)
+        })
+    }
+
     // MARK: - Prefs migration
 
     func testOldPrefsJSONDefaultsNewTogglesOn() throws {
