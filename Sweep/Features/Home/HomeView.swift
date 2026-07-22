@@ -66,14 +66,29 @@ struct HomeView: View {
     }
 
     @EnvironmentObject private var plusStore: PlusStore
+    @State private var askWhichCarMoved = false
 
     private var parkedBottomBar: some View {
         VStack(spacing: 8) {
-            if sessionManager.sessions.count == 1 {
-                Button("I moved my car") {
+            Button("I moved my car") {
+                if sessionManager.sessions.count > 1 {
+                    askWhichCarMoved = true
+                } else {
                     sessionManager.clearAllSessions()
                 }
-                .buttonStyle(ClayButtonStyle(background: Tokens.ink, foreground: Tokens.paper))
+            }
+            .buttonStyle(ClayButtonStyle(background: Tokens.ink, foreground: Tokens.paper))
+            .confirmationDialog("Which car moved?", isPresented: $askWhichCarMoved,
+                                titleVisibility: .visible) {
+                ForEach(sessionManager.sessions) { session in
+                    Button("I moved \(session.displayCarName)") {
+                        sessionManager.clearSession(id: session.id)
+                    }
+                }
+                Button("All of them") {
+                    sessionManager.clearAllSessions()
+                }
+                Button("Cancel", role: .cancel) {}
             }
             if plusStore.hasPlus {
                 Button {

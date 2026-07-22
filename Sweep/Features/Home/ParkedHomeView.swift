@@ -8,6 +8,22 @@ struct ParkedHomeView: View {
     @EnvironmentObject var model: AppModel
     @EnvironmentObject var sessionManager: ParkingSessionManager
     @EnvironmentObject var plusStore: PlusStore
+    @State private var selectedCarId: UUID?
+    @State private var now = Date()
+
+    private let tick = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
+
+    /// The car whose full details show below the garage summary.
+    private var shownSession: ParkingSession? {
+        sessionManager.sessions.first { $0.id == selectedCarId } ?? mostUrgentSession
+    }
+
+    private var mostUrgentSession: ParkingSession? {
+        sessionManager.sessions.min { a, b in
+            (sessionManager.verdicts[a.id]?.next?.start ?? .distantFuture)
+                < (sessionManager.verdicts[b.id]?.next?.start ?? .distantFuture)
+        }
+    }
 
     var body: some View {
         VStack(spacing: 14) {
@@ -27,9 +43,16 @@ struct ParkedHomeView: View {
                 }
             }
 
-            ForEach(sessionManager.sessions) { session in
-                CarSessionView(session: session,
+            // Multi-car: every car's move-by clock in one glance; tap a row
+            // for that car's full details below.
+            if sessionManager.sessions.count > 1 {
+                garageSummary
+            }
+
+            if let shown = shownSession {
+                CarSessionView(session: shown,
                                showCarName: sessionManager.sessions.count > 1)
+                    .id(shown.id)
             }
 
             if plusStore.hasPlus {
@@ -51,6 +74,61 @@ struct ParkedHomeView: View {
             }
         }
         .padding(16)
+        .onReceive(tick) { now = $0 }
+    }
+
+    private var garageSummary: some View {
+        AlmanacCard {
+            VStack(alignment: .leading, spacing: 10) {
+                Text("Your cars")
+                    .font(Tokens.display(17).weight(.medium))
+                    .foregroundStyle(Tokens.ink)
+                ForEach(sessionManager.sessions) { session in
+                    let verdict = sessionManager.verdicts[session.id]
+                    let state = SweepFormat.uiState(verdict)
+                    let selected = session.id == shownSession?.id
+                    Button {
+                        selectedCarId = session.id
+                    } label: {
+                        HStack(spacing: 10) {
+                            Circle()
+                                .fill(Tokens.statusColor(state))
+                                .frame(width: 9, height: 9)
+                            VStack(alignment: .leading, spacing: 1) {
+                                Text(session.displayCarName.capitalized)
+                                    .font(.system(size: 15, weight: .semibold))
+                                    .foregroundStyle(Tokens.ink)
+                                Text(session.blockId.split(separator: "|").first
+                                        .map(String.init) ?? "")
+                                    .font(.system(size: 12.5))
+                                    .foregroundStyle(Tokens.sub)
+                            }
+                            Spacer()
+                            // The number that matters: time left to move it.
+                            if let next = verdict?.next {
+                                Text("move in \(SweepFormat.countdown(to: next.start, from: now))")
+                                    .font(Tokens.displayItalic(15, relativeTo: .subheadline))
+                                    .foregroundStyle(Tokens.statusColor(state))
+                            } else {
+                                Text("no sweep posted")
+                                    .font(.system(size: 12.5))
+                                    .foregroundStyle(Tokens.sub)
+                            }
+                        }
+                        .padding(.vertical, 6)
+                        .padding(.horizontal, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .fill(selected ? Tokens.clay.opacity(0.1) : .clear))
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("\(session.displayCarName), "
+                        + (verdict?.next.map {
+                            "move in \(SweepFormat.countdown(to: $0.start, from: now))"
+                        } ?? "no sweeping posted"))
+                }
+            }
+        }
     }
 }
 
@@ -83,15 +161,8 @@ struct CarSessionView: View {
             comingUpCard(verdict: verdict)
             actionRow(segment: segment, verdict: verdict)
 
-            // Single car: the moved button lives in the pinned bottom bar so
-            // it always fits the screen. Multi-car keeps it per section to
-            // say WHICH car moved.
-            if showCarName {
-                Button("I moved \(session.displayCarName)") {
-                    sessionManager.clearSession(id: session.id)
-                }
-                .buttonStyle(ClayButtonStyle(background: Tokens.ink, foreground: Tokens.paper))
-            }
+            // The moved button lives in the pinned bottom bar (it asks which
+            // car when the household has several) — nothing to duplicate here.
         }
         .onReceive(tick) { now = $0 }
         .sheet(isPresented: $showFixSign) {
