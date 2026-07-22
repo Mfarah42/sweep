@@ -9,22 +9,35 @@ import UIKit
 /// System / Light / Dark.
 public enum Tokens {
 
+    // MARK: - Theme (curb-card themes are a Plus feature)
+
+    /// Set from the persisted choice at app/widget startup and on change;
+    /// views re-resolve because color properties are computed. The root view
+    /// re-identifies on theme change to force a repaint.
+    public static var theme: SweepTheme = .almanac
+
+    /// Call once per process (app launch, widget render) before drawing.
+    public static func loadTheme(from store: PersistenceStore) {
+        theme = SweepTheme.theme(id: store.themeId)
+    }
+
     // MARK: - Palette (light, dark)
 
-    public static let paper = dynamic(0xF6F3EC, 0x1B1915)
-    public static let card = dynamic(0xFDFBF6, 0x26221B)
-    public static let ink = dynamic(0x2C2A25, 0xEAE4D6)
-    public static let sub = dynamic(0x6E6A60, 0xA69E8E)
-    public static let line = dynamic(0xE4DFD3, 0x3B362C)
-    // Status colors brighten slightly in the dark for contrast on charcoal.
-    public static let clay = dynamic(0xBF5B3B, 0xD1704E)
-    public static let sage = dynamic(0x5F8464, 0x83AC8A)
-    public static let amber = dynamic(0xC08A2D, 0xD5A34A)
-    public static let rust = dynamic(0xA8402F, 0xCE5B47)
+    public static var paper: Color { dynamic(theme.paper) }
+    public static var card: Color { dynamic(theme.card) }
+    public static var ink: Color { dynamic(theme.ink) }
+    public static var sub: Color { dynamic(theme.sub) }
+    public static var line: Color { dynamic(theme.line) }
+    public static var clay: Color { dynamic(theme.accent) }
+    // Status colors are semantic and theme-independent — safe/warn/danger
+    // must read the same in every wardrobe. Slightly brighter in the dark.
+    public static let sage = dynamic(SweepTheme.Pair(0x5F8464, 0x83AC8A))
+    public static let amber = dynamic(SweepTheme.Pair(0xC08A2D, 0xD5A34A))
+    public static let rust = dynamic(SweepTheme.Pair(0xA8402F, 0xCE5B47))
 
-    private static func dynamic(_ light: UInt32, _ dark: UInt32) -> Color {
+    private static func dynamic(_ pair: SweepTheme.Pair) -> Color {
         Color(UIColor { traits in
-            UIColor(hex: traits.userInterfaceStyle == .dark ? dark : light)
+            UIColor(hex: traits.userInterfaceStyle == .dark ? pair.dark : pair.light)
         })
     }
 

@@ -1,5 +1,4 @@
 {
-  "version" : 1,
   "tables" : {
     "AppShortcuts" : [
       {
@@ -15,5 +14,6 @@
       }
     ]
   },
+  "version" : 1,
   "source" : "\/Users\/mohamed\/sweep\/Sweep\/App\/ParkIntent.swift"
 }

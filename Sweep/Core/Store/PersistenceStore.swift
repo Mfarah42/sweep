@@ -15,6 +15,7 @@ public final class PersistenceStore {
         public static let appleReminderId = "reminders.ekid.v1"
         public static let appearance = "prefs.appearance.v1"
         public static let garbageDay = "prefs.garbageDay.v1"
+        public static let theme = "prefs.theme.v1"
     }
 
     public static let appGroupId = "group.com.TEAM.sweep"   // single-config placeholder
@@ -78,6 +79,12 @@ public final class PersistenceStore {
     public var appearance: AppearancePref {
         get { AppearancePref(rawValue: defaults.string(forKey: Keys.appearance) ?? "") ?? .system }
         set { defaults.set(newValue.rawValue, forKey: Keys.appearance) }
+    }
+
+    /// Curb-card theme id (Plus); unknown ids fall back to the default.
+    public var themeId: String {
+        get { defaults.string(forKey: Keys.theme) ?? SweepTheme.almanac.id }
+        set { defaults.set(newValue, forKey: Keys.theme) }
     }
 
     /// Garbage pickup weekday, 0=Sunday…6=Saturday; nil = not set. A weekly

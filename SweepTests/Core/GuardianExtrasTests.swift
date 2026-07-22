@@ -99,6 +99,18 @@ final class GuardianExtrasTests: XCTestCase {
         })
     }
 
+    // MARK: - Themes
+
+    func testThemeLookupFallsBackToAlmanac() {
+        XCTAssertEqual(SweepTheme.theme(id: "harbor").name, "Harbor")
+        XCTAssertEqual(SweepTheme.theme(id: "ember").accent.light, 0xC06A4D)
+        XCTAssertEqual(SweepTheme.theme(id: "nope").id, "almanac")
+        XCTAssertEqual(SweepTheme.theme(id: nil).id, "almanac")
+        // Default is free; the wardrobe is Plus.
+        XCTAssertFalse(SweepTheme.almanac.isPlus)
+        XCTAssertTrue(SweepTheme.all.filter(\.isPlus).count == 2)
+    }
+
     // MARK: - Prefs migration
 
     func testOldPrefsJSONDefaultsNewTogglesOn() throws {

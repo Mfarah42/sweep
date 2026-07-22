@@ -71,6 +71,51 @@ struct SettingsView: View {
                     }
                 }
                 .pickerStyle(.segmented)
+
+                // Curb-card themes (Plus §11). Swatch = paper + accent dot.
+                HStack(spacing: 10) {
+                    ForEach(SweepTheme.all) { theme in
+                        let locked = theme.isPlus && !plusStore.hasPlus
+                        Button {
+                            guard !locked else { return }
+                            model.themeId = theme.id
+                        } label: {
+                            VStack(spacing: 5) {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                        .fill(Color(hex: theme.paper.light))
+                                        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                            .strokeBorder(model.themeId == theme.id
+                                                          ? Tokens.clay : Tokens.line,
+                                                          lineWidth: model.themeId == theme.id ? 2 : 1))
+                                        .frame(height: 36)
+                                    Circle()
+                                        .fill(Color(hex: theme.accent.light))
+                                        .frame(width: 14, height: 14)
+                                    if locked {
+                                        Image(systemName: "lock.fill")
+                                            .font(.system(size: 10))
+                                            .foregroundStyle(Tokens.sub)
+                                            .offset(x: 24, y: -10)
+                                    }
+                                }
+                                Text(theme.name)
+                                    .font(.system(size: 11.5,
+                                                  weight: model.themeId == theme.id ? .semibold : .regular))
+                                    .foregroundStyle(Tokens.ink)
+                            }
+                        }
+                        .buttonStyle(.plain)
+                        .opacity(locked ? 0.55 : 1)
+                        .accessibilityLabel("\(theme.name) theme"
+                            + (locked ? ", requires Sweep Plus" : ""))
+                    }
+                }
+                if !plusStore.hasPlus {
+                    Text("Themes are part of Sweep Plus.")
+                        .font(.system(size: 12))
+                        .foregroundStyle(Tokens.sub)
+                }
             }
         }
     }

@@ -11,6 +11,7 @@ struct SweepApp: App {
     var body: some Scene {
         WindowGroup {
             HomeView()
+                .id(model.themeId)   // repaint everything on theme change
                 .environmentObject(model)
                 .environmentObject(model.sessionManager)
                 .environmentObject(model.plusStore)

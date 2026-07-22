@@ -28,6 +28,15 @@ final class AppModel: ObservableObject {
         didSet { store.appearance = appearance }
     }
 
+    /// Curb-card theme (Plus). Changing it re-resolves Tokens; the root view
+    /// re-identifies on this value to repaint everything.
+    @Published var themeId: String = SweepTheme.almanac.id {
+        didSet {
+            store.themeId = themeId
+            Tokens.theme = SweepTheme.theme(id: themeId)
+        }
+    }
+
     /// nil = follow the system.
     var colorScheme: ColorScheme? {
         switch appearance {
@@ -54,6 +63,8 @@ final class AppModel: ObservableObject {
         client.registerCategories()
 
         appearance = store.appearance
+        Tokens.loadTheme(from: store)
+        themeId = store.themeId
         bundleManager.installShippedBundles(from: .main)
         registerBackgroundRefresh()
         // Load the StoreKit product (price for the Plus card) and refresh
