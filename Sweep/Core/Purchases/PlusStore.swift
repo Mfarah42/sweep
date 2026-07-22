@@ -86,6 +86,18 @@ public final class PlusStore: ObservableObject {
         }
     }
 
+    /// Debug builds only: lets device testing exercise Plus features without
+    /// a per-device test-store purchase. Compiled out of release entirely.
+    public static let debugForcePlusKey = "debug.forcePlus"
+
+    private var debugForcePlus: Bool {
+        #if DEBUG
+        return UserDefaults.standard.bool(forKey: Self.debugForcePlusKey)
+        #else
+        return false
+        #endif
+    }
+
     private func refreshEntitlement() async {
         var entitled = false
         for await entitlement in Transaction.currentEntitlements {
@@ -94,6 +106,7 @@ public final class PlusStore: ObservableObject {
                 entitled = true
             }
         }
+        entitled = entitled || debugForcePlus
         hasPlus = entitled
         store.hasPlus = entitled   // mirror into App Group for widgets
     }

@@ -281,7 +281,10 @@ struct SettingsView: View {
 struct DemoModeCard: View {
 
     @EnvironmentObject var model: AppModel
+    @EnvironmentObject var plusStore: PlusStore
     @State private var offsetHours: Double = 0
+    @State private var forcePlus = UserDefaults.standard.bool(
+        forKey: PlusStore.debugForcePlusKey)
 
     var body: some View {
         AlmanacCard {
@@ -306,6 +309,17 @@ struct DemoModeCard: View {
                 }
                 .font(.system(size: 13))
                 .foregroundStyle(Tokens.clay)
+
+                #if DEBUG
+                // Device testing without a per-device test-store purchase.
+                // The key is only read in DEBUG builds; release ignores it.
+                Toggle("Force Plus (debug builds only)", isOn: $forcePlus)
+                    .tint(Tokens.amber)
+                    .onChange(of: forcePlus) { _, on in
+                        UserDefaults.standard.set(on, forKey: PlusStore.debugForcePlusKey)
+                        Task { await plusStore.load() }
+                    }
+                #endif
             }
         }
     }
