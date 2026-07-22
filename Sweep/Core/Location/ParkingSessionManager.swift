@@ -9,19 +9,25 @@ public protocol LiveActivityControlling: AnyObject {
     func syncLiveActivity(session: ParkingSession?, verdict: Verdict?, context: NotificationPlanner.Context?)
 }
 
-/// Owns the single parking session (§6.3). On set/clear: recompute verdict,
-/// reschedule notifications, refresh widgets, sync the Live Activity.
+/// Owns the parked cars (§6.3; multi-car since Plus). On any change:
+/// recompute per-car verdicts, reschedule the union of notifications,
+/// refresh widgets, and point the Live Activity + Apple Reminders mirror at
+/// the most urgent car.
 @MainActor
 public final class ParkingSessionManager: ObservableObject {
 
-    @Published public private(set) var session: ParkingSession?
+    @Published public private(set) var sessions: [ParkingSession] = []
+    @Published public private(set) var verdicts: [UUID: Verdict] = [:]
+
+    /// Legacy single-car views: the first session / the most urgent verdict.
+    public var session: ParkingSession? { sessions.first }
     @Published public private(set) var verdict: Verdict?
 
     public weak var liveActivity: LiveActivityControlling?
     /// Optional opt-in mirror into the Apple Reminders app.
     public var remindersBridge: AppleRemindersBridge?
 
-    private let store: PersistenceStore
+    let store: PersistenceStore
     private let bundleManager: BundleManager
     private let scheduler: NotificationScheduler
     public var clock: Clock
@@ -32,29 +38,30 @@ public final class ParkingSessionManager: ObservableObject {
         self.bundleManager = bundleManager
         self.scheduler = scheduler
         self.clock = clock
-        self.session = store.session
+        self.sessions = store.sessions
     }
 
     public var city: City {
         get { store.city }
         set {
             store.city = newValue
-            clearSession()   // switching cities clears the session (§7.6)
+            clearAllSessions()   // switching cities clears the sessions (§7.6)
         }
     }
+
+    // MARK: - Segments
 
     public func currentSegment() -> SweepBundle.Segment? {
-        guard let session, let bundle = try? bundleManager.openBundle(for: store.city) else {
-            return nil
-        }
-        return bundle.segment(id: session.segmentId)
+        session.flatMap { segments(for: $0).first }
     }
 
-    /// All watched segments — one normally, two in "both sides" mode.
+    /// First session's segments — legacy accessor for single-car UI paths.
     public func currentSegments() -> [SweepBundle.Segment] {
-        guard let session, let bundle = try? bundleManager.openBundle(for: store.city) else {
-            return []
-        }
+        session.map { segments(for: $0) } ?? []
+    }
+
+    public func segments(for session: ParkingSession) -> [SweepBundle.Segment] {
+        guard let bundle = try? bundleManager.openBundle(for: store.city) else { return [] }
         return session.segmentIds.compactMap { bundle.segment(id: $0) }
     }
 
@@ -62,28 +69,76 @@ public final class ParkingSessionManager: ObservableObject {
         OverrideDecorator.effectiveRules(segment: segment, overrides: store.overrides)
     }
 
+    /// Union of one session's sides' rules.
+    public func watchedRules(for session: ParkingSession) -> [ScheduleRule] {
+        Array(Set(segments(for: session).flatMap { effectiveRules(for: $0) }))
+            .sorted { ($0.weekday, $0.fromHour) < ($1.weekday, $1.fromHour) }
+    }
+
+    // MARK: - Parking
+
     public func park(segment: SweepBundle.Segment, source: ParkingSession.Source) async {
         await park(segments: [segment], source: source)
     }
 
-    /// Two segments = resident "both sides" mode: reminders for every sweep
-    /// on the block, whichever side the car is on.
+    /// Free-tier behavior and the first car: this becomes the only session.
     public func park(segments: [SweepBundle.Segment], source: ParkingSession.Source) async {
-        guard let primary = segments.first else { return }
-        let s = ParkingSession(segmentId: primary.id,
-                               blockId: primary.blockKey,
-                               sideKey: primary.sideKey,
-                               parkedAt: clock.now,
-                               source: source,
-                               secondarySegmentId: segments.dropFirst().first?.id)
-        store.session = s
-        session = s
+        guard let s = makeSession(segments: segments, source: source, carName: nil) else { return }
+        store.sessions = [s]
+        sessions = [s]
         await refreshDerivedState()
     }
 
+    /// Plus multi-car: re-park an existing car (keeps its name) or add a new
+    /// named car alongside the others.
+    public func park(segments: [SweepBundle.Segment], source: ParkingSession.Source,
+                     replacing sessionId: UUID?, carName: String?) async {
+        var all = store.sessions
+        if let sessionId, let index = all.firstIndex(where: { $0.id == sessionId }) {
+            guard let s = makeSession(segments: segments, source: source,
+                                      carName: all[index].carName, id: sessionId) else { return }
+            all[index] = s
+        } else {
+            guard let s = makeSession(segments: segments, source: source, carName: carName) else { return }
+            all.append(s)
+        }
+        store.sessions = all
+        sessions = all
+        await refreshDerivedState()
+    }
+
+    private func makeSession(segments: [SweepBundle.Segment], source: ParkingSession.Source,
+                             carName: String?, id: UUID = UUID()) -> ParkingSession? {
+        guard let primary = segments.first else { return nil }
+        return ParkingSession(id: id,
+                              segmentId: primary.id,
+                              blockId: primary.blockKey,
+                              sideKey: primary.sideKey,
+                              parkedAt: clock.now,
+                              source: source,
+                              secondarySegmentId: segments.dropFirst().first?.id,
+                              carName: carName)
+    }
+
+    // MARK: - Clearing
+
+    /// "I moved my car" for one car.
+    public func clearSession(id: UUID) {
+        var all = store.sessions
+        all.removeAll { $0.id == id }
+        store.sessions = all
+        sessions = all
+        Task { await refreshDerivedState() }
+    }
+
     public func clearSession() {
-        store.session = nil
-        session = nil
+        clearAllSessions()
+    }
+
+    public func clearAllSessions() {
+        store.sessions = []
+        sessions = []
+        verdicts = [:]
         verdict = nil
         Task {
             await scheduler.clearAll()
@@ -100,12 +155,31 @@ public final class ParkingSessionManager: ObservableObject {
         await refreshDerivedState()
     }
 
-    /// Recompute verdict + notifications; called on park, correction, bundle
-    /// refresh, significant time change, and every foreground (§8).
+    // MARK: - Derived state
+
+    /// Side label for one session's running copy.
+    public func sideName(for session: ParkingSession) -> String? {
+        if session.watchesBothSides { return "both sides" }
+        return segments(for: session).first?.displaySideName
+    }
+
+    /// Notification context for one session. Car names only decorate copy
+    /// when the household actually has several cars.
+    public func context(for session: ParkingSession) -> NotificationPlanner.Context? {
+        guard let segment = segments(for: session).first else { return nil }
+        return NotificationPlanner.Context(
+            segmentId: segment.id, street: segment.street,
+            landmark: sideName(for: session), city: segment.city,
+            sessionKey: sessions.count > 1 ? session.notificationKey + "." : "",
+            carName: sessions.count > 1 ? session.carName : nil)
+    }
+
+    /// Recompute verdicts + notifications; called on park, move, correction,
+    /// bundle refresh, significant time change, and every foreground (§8).
     public func refreshDerivedState() async {
-        let segments = currentSegments()
-        guard let session, let bundle = try? bundleManager.openBundle(for: store.city),
-              let segment = segments.first else {
+        guard let bundle = try? bundleManager.openBundle(for: store.city),
+              !sessions.isEmpty else {
+            verdicts = [:]
             verdict = nil
             await scheduler.clearAll()
             reloadWidgets()
@@ -113,28 +187,43 @@ public final class ParkingSessionManager: ObservableObject {
             remindersBridge?.sync(deadline: nil, street: nil, sideName: nil)
             return
         }
-        // "Both sides": the union of the sides' rules drives everything —
-        // the app doesn't know which side the car is on, so it must warn
-        // for whichever sweep comes first.
-        let rules = Array(Set(segments.flatMap { effectiveRules(for: $0) }))
         let holidays = bundle.holidays()
-        let v = VerdictEngine.verdict(rules: rules, city: segment.city, at: clock.now,
-                                      calendar: SweepCalendar.la, holidays: holidays)
-        verdict = v
+        var newVerdicts: [UUID: Verdict] = [:]
+        var allPlanned: [NotificationPlanner.Planned] = []
+        var mostUrgent: (session: ParkingSession, verdict: Verdict,
+                         context: NotificationPlanner.Context)?
 
-        let sideName = segments.count > 1 ? "both sides" : segment.displaySideName
-        let context = NotificationPlanner.Context(
-            segmentId: segment.id, street: segment.street,
-            landmark: sideName, city: segment.city)
-        let planned = NotificationPlanner.plan(
-            context: context, windows: v.upcoming, prefs: store.reminderPrefs,
-            now: clock.now, calendar: SweepCalendar.la, parkedAt: session.parkedAt)
-        await scheduler.reschedule(planned)
+        for session in sessions {
+            guard let context = context(for: session) else { continue }
+            let rules = watchedRules(for: session)
+            let v = VerdictEngine.verdict(rules: rules, city: context.city, at: clock.now,
+                                          calendar: SweepCalendar.la, holidays: holidays)
+            newVerdicts[session.id] = v
+            allPlanned += NotificationPlanner.plan(
+                context: context, windows: v.upcoming, prefs: store.reminderPrefs,
+                now: clock.now, calendar: SweepCalendar.la, parkedAt: session.parkedAt)
+
+            let start = v.next?.start ?? .distantFuture
+            if mostUrgent == nil
+                || start < (mostUrgent!.verdict.next?.start ?? .distantFuture) {
+                mostUrgent = (session, v, context)
+            }
+        }
+
+        verdicts = newVerdicts
+        verdict = mostUrgent?.verdict
+        await scheduler.reschedule(allPlanned.sorted { $0.fireDate < $1.fireDate })
         reloadWidgets()
-        liveActivity?.syncLiveActivity(session: session, verdict: v, context: context)
-        if store.appleRemindersEnabled {
-            remindersBridge?.sync(deadline: v.next?.start, street: segment.street,
-                                  sideName: sideName)
+        // Live Activity + Apple Reminders track the car that needs moving first.
+        liveActivity?.syncLiveActivity(session: mostUrgent?.session,
+                                       verdict: mostUrgent?.verdict,
+                                       context: mostUrgent?.context)
+        if store.appleRemindersEnabled, let urgent = mostUrgent {
+            let name = [urgent.context.carName, urgent.context.landmark]
+                .compactMap { $0 }.joined(separator: ", ")
+            remindersBridge?.sync(deadline: urgent.verdict.next?.start,
+                                  street: urgent.context.street,
+                                  sideName: name.isEmpty ? nil : name)
         }
     }
 

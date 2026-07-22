@@ -14,9 +14,12 @@ struct ParkFlowView: View {
 
     @EnvironmentObject var model: AppModel
     @EnvironmentObject var sessionManager: ParkingSessionManager
+    @EnvironmentObject var plusStore: PlusStore
     @Environment(\.dismiss) private var dismiss
     @State private var step: Step = .locating
     @State private var pulse = false
+    @State private var chooserSegments: [SweepBundle.Segment] = []
+    @State private var showCarChooser = false
 
     var body: some View {
         NavigationStack {
@@ -47,6 +50,12 @@ struct ParkFlowView: View {
             }
         }
         .task { await locate() }
+        .sheet(isPresented: $showCarChooser) {
+            CarChooserSheet(segments: chooserSegments) {
+                showCarChooser = false
+                dismiss()
+            }
+        }
     }
 
     private var locatingView: some View {
@@ -129,6 +138,12 @@ struct ParkFlowView: View {
     }
 
     private func finish(segment: SweepBundle.Segment) {
+        // Plus with a car already parked → ask which car this is.
+        if plusStore.hasPlus && !sessionManager.sessions.isEmpty {
+            chooserSegments = [segment]
+            showCarChooser = true
+            return
+        }
         Task {
             await sessionManager.park(segment: segment, source: .gps)
             // Ask for notification permission at the end of the first

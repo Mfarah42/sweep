@@ -6,6 +6,7 @@ public final class PersistenceStore {
 
     public enum Keys {
         public static let session = "parking.session.v1"
+        public static let sessions = "parking.sessions.v2"
         public static let reminders = "prefs.reminders.v1"
         public static let city = "prefs.city.v1"
         public static let overrides = "overrides.v1"
@@ -18,6 +19,8 @@ public final class PersistenceStore {
     public static let appGroupId = "group.com.TEAM.sweep"   // single-config placeholder
 
     private let defaults: UserDefaults
+    /// Test hook for migration assertions on raw keys.
+    public var defaultsForTesting: UserDefaults { defaults }
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
 
@@ -30,11 +33,33 @@ public final class PersistenceStore {
         PersistenceStore(defaults: UserDefaults(suiteName: appGroupId) ?? .standard)
     }
 
-    // MARK: - Parking session
+    // MARK: - Parking sessions (multi-car since v2)
 
+    /// All parked cars. Reads migrate a v1 single session transparently;
+    /// writes go to v2 and clear the legacy key.
+    public var sessions: [ParkingSession] {
+        get {
+            if let v2: [ParkingSession] = read(Keys.sessions) { return v2 }
+            if let v1: ParkingSession = read(Keys.session) { return [v1] }
+            return []
+        }
+        set {
+            write(Keys.sessions, newValue.isEmpty ? nil : newValue)
+            defaults.removeObject(forKey: Keys.session)
+        }
+    }
+
+    /// Legacy single-session view — the first car. Kept for callers that
+    /// only care whether anything is parked.
     public var session: ParkingSession? {
-        get { read(Keys.session) }
-        set { write(Keys.session, newValue) }
+        get { sessions.first }
+        set {
+            if let newValue {
+                sessions = [newValue]
+            } else {
+                sessions = []
+            }
+        }
     }
 
     // MARK: - Prefs
@@ -96,12 +121,16 @@ public final class PersistenceStore {
     }
 }
 
-public struct ParkingSession: Codable, Equatable, Sendable {
+public struct ParkingSession: Codable, Equatable, Sendable, Identifiable {
     public enum Source: String, Codable, Sendable {
         case gps
         case manual
     }
 
+    /// Stable identity for the multi-car UI and per-car notification ids.
+    /// Sessions saved before v2 get one on first decode and keep it once
+    /// re-persisted.
+    public let id: UUID
     public let segmentId: String
     public let blockId: String
     public let sideKey: String
@@ -110,15 +139,32 @@ public struct ParkingSession: Codable, Equatable, Sendable {
     /// "Both sides" resident mode: a second segment on the same block whose
     /// windows are watched too. Optional so v1 sessions keep decoding.
     public var secondarySegmentId: String?
+    /// Sweep Plus multi-car: "the Civic". nil = the (only) car.
+    public var carName: String?
 
-    public init(segmentId: String, blockId: String, sideKey: String,
-                parkedAt: Date, source: Source, secondarySegmentId: String? = nil) {
+    public init(id: UUID = UUID(), segmentId: String, blockId: String, sideKey: String,
+                parkedAt: Date, source: Source, secondarySegmentId: String? = nil,
+                carName: String? = nil) {
+        self.id = id
         self.segmentId = segmentId
         self.blockId = blockId
         self.sideKey = sideKey
         self.parkedAt = parkedAt
         self.source = source
         self.secondarySegmentId = secondarySegmentId
+        self.carName = carName
+    }
+
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
+        segmentId = try c.decode(String.self, forKey: .segmentId)
+        blockId = try c.decode(String.self, forKey: .blockId)
+        sideKey = try c.decode(String.self, forKey: .sideKey)
+        parkedAt = try c.decode(Date.self, forKey: .parkedAt)
+        source = try c.decode(Source.self, forKey: .source)
+        secondarySegmentId = try c.decodeIfPresent(String.self, forKey: .secondarySegmentId)
+        carName = try c.decodeIfPresent(String.self, forKey: .carName)
     }
 
     public var segmentIds: [String] {
@@ -127,6 +173,16 @@ public struct ParkingSession: Codable, Equatable, Sendable {
 
     public var watchesBothSides: Bool {
         secondarySegmentId != nil
+    }
+
+    /// "the Civic" / "your car" for running copy.
+    public var displayCarName: String {
+        carName ?? "your car"
+    }
+
+    /// Short stable key for notification identifiers.
+    public var notificationKey: String {
+        String(id.uuidString.prefix(8))
     }
 }
 

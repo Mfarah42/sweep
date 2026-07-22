@@ -39,19 +39,15 @@ struct SweepTimelineProvider: TimelineProvider {
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<SweepEntry>) -> Void) {
         let now = Date()
-        let segments = currentSegments()
-        guard let segment = segments.first else {
+        guard let urgent = mostUrgent(at: now) else {
             let empty = SweepEntry(date: now, state: .none, untilText: "Not parked", street: "")
             completion(Timeline(entries: [empty], policy: .never))
             return
         }
-        let store = PersistenceStore.appGroup()
         let holidays = bundle()?.holidays() ?? .empty
-        let rules = Array(Set(segments.flatMap {
-            OverrideDecorator.effectiveRules(segment: $0, overrides: store.overrides)
-        }))
-        let windows = VerdictEngine.upcomingWindows(rules: rules, city: segment.city, from: now,
-                                                    count: 5, calendar: SweepCalendar.la,
+        let windows = VerdictEngine.upcomingWindows(rules: urgent.rules, city: urgent.segment.city,
+                                                    from: now, count: 5,
+                                                    calendar: SweepCalendar.la,
                                                     holidays: holidays)
             .filter { !$0.suspendedForHoliday }
 
@@ -73,11 +69,35 @@ struct SweepTimelineProvider: TimelineProvider {
         return try? manager.openBundle(for: PersistenceStore.appGroup().city)
     }
 
-    /// All watched segments — two in "both sides" resident mode.
-    private func currentSegments() -> [SweepBundle.Segment] {
+    /// The car that needs moving first, with its union rule set — the widget
+    /// has one slot, so it tracks the most urgent session.
+    private func mostUrgent(at date: Date) -> (session: ParkingSession,
+                                               segment: SweepBundle.Segment,
+                                               rules: [ScheduleRule],
+                                               carCount: Int)? {
         let store = PersistenceStore.appGroup()
-        guard let session = store.session, let bundle = bundle() else { return [] }
-        return session.segmentIds.compactMap { bundle.segment(id: $0) }
+        guard let bundle = bundle() else { return nil }
+        let sessions = store.sessions
+        var best: (ParkingSession, SweepBundle.Segment, [ScheduleRule], Date)?
+        for session in sessions {
+            let segments = session.segmentIds.compactMap { bundle.segment(id: $0) }
+            guard let segment = segments.first else { continue }
+            let rules = Array(Set(segments.flatMap {
+                OverrideDecorator.effectiveRules(segment: $0, overrides: store.overrides)
+            }))
+            let v = VerdictEngine.verdict(rules: rules, city: segment.city, at: date,
+                                          calendar: SweepCalendar.la,
+                                          holidays: bundle.holidays())
+            let start = v.next?.start ?? .distantFuture
+            if best == nil || start < best!.3 {
+                best = (session, segment, rules, start)
+            }
+        }
+        return best.map { ($0.0, $0.1, $0.2, sessions.count) }
+    }
+
+    private func currentSegments() -> [SweepBundle.Segment] {
+        mostUrgent(at: Date()).map { [$0.segment] } ?? []
     }
 
     private func currentSegment() -> SweepBundle.Segment? {
@@ -85,16 +105,15 @@ struct SweepTimelineProvider: TimelineProvider {
     }
 
     private func entry(at date: Date) -> SweepEntry? {
-        let segments = currentSegments()
-        guard let segment = segments.first else { return nil }
-        let store = PersistenceStore.appGroup()
-        // Union across watched sides — same rule set the app's verdict uses.
-        let rules = Array(Set(segments.flatMap {
-            OverrideDecorator.effectiveRules(segment: $0, overrides: store.overrides)
-        }))
-        let verdict = VerdictEngine.verdict(rules: rules, city: segment.city, at: date,
+        guard let urgent = mostUrgent(at: date) else { return nil }
+        let segment = urgent.segment
+        let verdict = VerdictEngine.verdict(rules: urgent.rules, city: segment.city, at: date,
                                             calendar: SweepCalendar.la,
                                             holidays: bundle()?.holidays() ?? .empty)
+        // Name the car when the household has several.
+        let streetLine = urgent.carCount > 1
+            ? "\(urgent.session.displayCarName) · \(segment.street)"
+            : segment.street
         let until: String
         var moveBy: Date?
         if let next = verdict.next {
@@ -111,7 +130,7 @@ struct SweepTimelineProvider: TimelineProvider {
             until = "no sweeping posted"
         }
         return SweepEntry(date: date, state: SweepFormat.uiState(verdict),
-                          untilText: until, street: segment.street, moveBy: moveBy)
+                          untilText: until, street: streetLine, moveBy: moveBy)
     }
 }
 

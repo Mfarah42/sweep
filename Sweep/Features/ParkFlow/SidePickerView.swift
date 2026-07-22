@@ -8,12 +8,15 @@ struct SidePickerView: View {
 
     @EnvironmentObject var model: AppModel
     @EnvironmentObject var sessionManager: ParkingSessionManager
+    @EnvironmentObject var plusStore: PlusStore
     let street: String
     let blockLabel: String
     let onDone: () -> Void
 
     @State private var selectedSideKey: String?
     @State private var watchBoth = false
+    @State private var chooserSegments: [SweepBundle.Segment] = []
+    @State private var showCarChooser = false
 
     var body: some View {
         let bundle = try? model.bundleManager.openBundle(for: sessionManager.city)
@@ -64,6 +67,12 @@ struct SidePickerView: View {
                     } else {
                         return
                     }
+                    // Plus with a car already parked → ask which car this is.
+                    if plusStore.hasPlus && !sessionManager.sessions.isEmpty {
+                        chooserSegments = targets
+                        showCarChooser = true
+                        return
+                    }
                     Task {
                         await sessionManager.park(segments: targets, source: .manual)
                         await model.scheduler.requestAuthorizationIfNeeded()
@@ -76,6 +85,12 @@ struct SidePickerView: View {
                 .opacity(selectedSideKey == nil && !watchBoth ? 0.5 : 1)
             }
             .padding(16)
+        }
+        .sheet(isPresented: $showCarChooser) {
+            CarChooserSheet(segments: chooserSegments) {
+                showCarChooser = false
+                onDone()
+            }
         }
     }
 

@@ -1,19 +1,19 @@
 {
-  "version" : 1,
+  "source" : "\/Users\/mohamed\/sweep\/Sweep\/App\/ParkIntent.swift",
   "tables" : {
     "AppShortcuts" : [
       {
-        "key" : "I just parked in ${applicationName}",
+        "location" : {
+          "startingLine" : 27,
+          "startingColumn" : 0
+        },
         "values" : [
           "I just parked in ${applicationName}",
           "Tell ${applicationName} I parked"
         ],
-        "location" : {
-          "startingColumn" : 0,
-          "startingLine" : 27
-        }
+        "key" : "I just parked in ${applicationName}"
       }
     ]
   },
-  "source" : "\/Users\/mohamed\/sweep\/Sweep\/App\/ParkIntent.swift"
+  "version" : 1
 }

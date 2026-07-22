@@ -121,7 +121,20 @@ final class NotificationActionHandler: NSObject, UNUserNotificationCenterDelegat
         guard let model else { return }
         switch response.actionIdentifier {
         case NotificationScheduler.actionMoved:
-            await MainActor.run { model.sessionManager.clearSession() }
+            // Multi-car identifiers carry the session key as their second
+            // dot-component ("sweep.{key}.{segmentId}…"); clear just that car.
+            let parts = response.notification.request.identifier
+                .split(separator: ".").map(String.init)
+            await MainActor.run {
+                if parts.count >= 5,
+                   let match = model.sessionManager.sessions.first(where: {
+                       $0.notificationKey == parts[1]
+                   }) {
+                    model.sessionManager.clearSession(id: match.id)
+                } else {
+                    model.sessionManager.clearAllSessions()
+                }
+            }
         case NotificationScheduler.actionSnooze:
             let content = response.notification.request.content
             let planned = NotificationPlanner.Planned(

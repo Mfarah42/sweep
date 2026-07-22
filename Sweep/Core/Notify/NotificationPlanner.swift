@@ -43,12 +43,20 @@ public enum NotificationPlanner {
         public let street: String
         public let landmark: String?
         public let city: City
+        /// Distinguishes cars parked on the same segment (multi-car): folded
+        /// into identifiers so two cars' alerts never collide.
+        public let sessionKey: String
+        /// "the Civic" — prefixes copy when the household has several cars.
+        public let carName: String?
 
-        public init(segmentId: String, street: String, landmark: String?, city: City) {
+        public init(segmentId: String, street: String, landmark: String?, city: City,
+                    sessionKey: String = "", carName: String? = nil) {
             self.segmentId = segmentId
             self.street = street
             self.landmark = landmark
             self.city = city
+            self.sessionKey = sessionKey
+            self.carName = carName
         }
     }
 
@@ -58,6 +66,8 @@ public enum NotificationPlanner {
         let nonSuspended = windows.filter { !$0.suspendedForHoliday }
         let targets = nonSuspended.prefix(2)
         var out: [Planned] = []
+        // Multi-car: name the car in every body so alerts are unambiguous.
+        let carTag = context.carName.map { "\($0): " } ?? ""
 
         // "All clear" at the end of the next window — take your spot back.
         if prefs.allClear, let next = nonSuspended.first, next.end > now {
@@ -67,10 +77,10 @@ public enum NotificationPlanner {
                     + "\(hourLabel($0.start, calendar))."
             } ?? ""
             out.append(Planned(
-                identifier: identifier(context.segmentId, next, .allClear),
+                identifier: identifier(context, next, .allClear),
                 fireDate: next.end,
                 title: "All clear on \(context.street)",
-                body: "Sweeping's done.\(untilText)",
+                body: "\(carTag)Sweeping's done.\(untilText)",
                 offset: .allClear, timeSensitive: false))
         }
 
@@ -80,13 +90,13 @@ public enum NotificationPlanner {
             let fire = parkedAt.addingTimeInterval(threeDayWarningHours * 3600)
             if fire > now {
                 out.append(Planned(
-                    identifier: "\(identifierPrefix)\(context.segmentId)."
+                    identifier: "\(identifierPrefix)\(context.sessionKey)\(context.segmentId)."
                         + "\(isoFormatter.string(from: parkedAt)).\(Offset.threeDay.rawValue)",
                     fireDate: fire,
                     title: "Three days in one spot",
                     body: "\(context.city.displayName) can ticket or tow after "
-                        + "72 hours. The car's been on \(context.street) since "
-                        + "\(dayName(parkedAt, calendar)).",
+                        + "72 hours. \(context.carName.map { "The \($0)" } ?? "The car")'s "
+                        + "been on \(context.street) since \(dayName(parkedAt, calendar)).",
                     offset: .threeDay, timeSensitive: false))
             }
         }
@@ -105,10 +115,10 @@ public enum NotificationPlanner {
                                                of: eveningDay),
                    evening < window.start, evening > now {
                     out.append(Planned(
-                        identifier: identifier(context.segmentId, window, .nightBefore),
+                        identifier: identifier(context, window, .nightBefore),
                         fireDate: evening,
                         title: "Street sweeping tomorrow",
-                        body: "\(place) — sweeper comes \(day) at \(hour). "
+                        body: "\(carTag)\(place) — sweeper comes \(day) at \(hour). "
                             + "Park elsewhere tonight or move by morning.",
                         offset: .nightBefore, timeSensitive: false))
                 }
@@ -117,9 +127,9 @@ public enum NotificationPlanner {
                 let fire = window.start.addingTimeInterval(-2 * 3600)
                 if fire > now {
                     out.append(Planned(
-                        identifier: identifier(context.segmentId, window, .twoHours),
+                        identifier: identifier(context, window, .twoHours),
                         fireDate: fire,
-                        title: "Move the car by \(hour)",
+                        title: "Move \(context.carName ?? "the car") by \(hour)",
                         body: "\(context.street) sweeps in two hours. A ticket there is $\(fine).",
                         offset: .twoHours, timeSensitive: false))
                 }
@@ -128,10 +138,10 @@ public enum NotificationPlanner {
                 let fire = window.start.addingTimeInterval(-30 * 60)
                 if fire > now {
                     out.append(Planned(
-                        identifier: identifier(context.segmentId, window, .thirtyMin),
+                        identifier: identifier(context, window, .thirtyMin),
                         fireDate: fire,
                         title: "Last call — \(hour)",
-                        body: "The sweeper is close. Move now and keep your $\(fine).",
+                        body: "\(carTag)The sweeper is close. Move now and keep your $\(fine).",
                         offset: .thirtyMin, timeSensitive: true))
                 }
             }
@@ -139,10 +149,12 @@ public enum NotificationPlanner {
         return out.sorted { $0.fireDate < $1.fireDate }
     }
 
-    /// `sweep.{segmentId}.{windowStartISO}.{offset}` (§8) — stable across runs.
-    public static func identifier(_ segmentId: String, _ window: SweepWindow,
+    /// `sweep.{sessionKey}{segmentId}.{windowStartISO}.{offset}` (§8) —
+    /// stable across runs, unique per car.
+    public static func identifier(_ context: Context, _ window: SweepWindow,
                                   _ offset: Offset) -> String {
-        "\(identifierPrefix)\(segmentId).\(isoFormatter.string(from: window.start)).\(offset.rawValue)"
+        "\(identifierPrefix)\(context.sessionKey)\(context.segmentId)."
+            + "\(isoFormatter.string(from: window.start)).\(offset.rawValue)"
     }
 
     static let isoFormatter: ISO8601DateFormatter = {

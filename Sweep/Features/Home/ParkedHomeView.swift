@@ -1,30 +1,16 @@
 import SweepCore
 import SwiftUI
 
-/// Home — parked state (§7.4).
+/// Home — parked state (§7.4). One card group per parked car; a single car
+/// renders exactly as it always has, Plus households get a stacked garage.
 struct ParkedHomeView: View {
 
     @EnvironmentObject var model: AppModel
     @EnvironmentObject var sessionManager: ParkingSessionManager
     @EnvironmentObject var plusStore: PlusStore
-    @State private var showFixSign = false
-    @State private var now = Date()
-
-    private let tick = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        let segments = sessionManager.currentSegments()
-        let segment = segments.first
-        let verdict = sessionManager.verdict
-        let state = SweepFormat.uiState(verdict)
-        let hasCorrection = segments.contains {
-            OverrideDecorator.hasCorrection(segmentId: $0.id, overrides: model.store.overrides)
-        }
-
         VStack(spacing: 14) {
-            verdictCard(segment: segment, verdict: verdict, state: state,
-                        hasCorrection: hasCorrection)
-
             if model.notificationsDenied {
                 AlmanacCard {
                     VStack(alignment: .leading, spacing: 8) {
@@ -41,11 +27,11 @@ struct ParkedHomeView: View {
                 }
             }
 
-            remindersCard(verdict: verdict)
-            comingUpCard(verdict: verdict)
+            ForEach(sessionManager.sessions) { session in
+                CarSessionView(session: session,
+                               showCarName: sessionManager.sessions.count > 1)
+            }
 
-            // Longest Spot is most useful while parked — scouting a more
-            // durable spot before the current one turns on you.
             if plusStore.hasPlus {
                 NavigationLink {
                     LongestSpotView()
@@ -63,15 +49,45 @@ struct ParkedHomeView: View {
                 }
                 .buttonStyle(.plain)
             }
+        }
+        .padding(16)
+    }
+}
 
+/// Everything for one parked car: verdict, reminders, coming-up, actions.
+struct CarSessionView: View {
+
+    @EnvironmentObject var model: AppModel
+    @EnvironmentObject var sessionManager: ParkingSessionManager
+    let session: ParkingSession
+    let showCarName: Bool
+
+    @State private var showFixSign = false
+    @State private var now = Date()
+
+    private let tick = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
+
+    var body: some View {
+        let segments = sessionManager.segments(for: session)
+        let segment = segments.first
+        let verdict = sessionManager.verdicts[session.id]
+        let state = SweepFormat.uiState(verdict)
+        let hasCorrection = segments.contains {
+            OverrideDecorator.hasCorrection(segmentId: $0.id, overrides: model.store.overrides)
+        }
+
+        VStack(spacing: 14) {
+            verdictCard(segment: segment, verdict: verdict, state: state,
+                        hasCorrection: hasCorrection)
+            remindersCard(verdict: verdict, segment: segment)
+            comingUpCard(verdict: verdict)
             actionRow(segment: segment, verdict: verdict)
 
-            Button("I moved my car") {
-                sessionManager.clearSession()
+            Button("I moved \(showCarName ? session.displayCarName : "my car")") {
+                sessionManager.clearSession(id: session.id)
             }
             .buttonStyle(ClayButtonStyle(background: Tokens.ink, foreground: Tokens.paper))
         }
-        .padding(16)
         .onReceive(tick) { now = $0 }
         .sheet(isPresented: $showFixSign) {
             if let segment {
@@ -82,21 +98,14 @@ struct ParkedHomeView: View {
 
     // MARK: - Watched-side helpers
 
-    private var watchesBothSides: Bool {
-        sessionManager.session?.watchesBothSides ?? false
-    }
+    private var watchesBothSides: Bool { session.watchesBothSides }
 
     private var sideText: String {
-        watchesBothSides ? "both sides"
-            : (sessionManager.currentSegment()?.displaySideName ?? "")
+        sessionManager.sideName(for: session) ?? ""
     }
 
-    /// Union of every watched segment's effective rules, stably ordered.
     private var watchedRules: [ScheduleRule] {
-        Array(Set(sessionManager.currentSegments().flatMap {
-            sessionManager.effectiveRules(for: $0)
-        }))
-        .sorted { ($0.weekday, $0.fromHour) < ($1.weekday, $1.fromHour) }
+        sessionManager.watchedRules(for: session)
     }
 
     /// Rules reordered so the one producing `next` leads — the schedule line
@@ -124,6 +133,9 @@ struct ParkedHomeView: View {
                 HStack {
                     StatusBadge(state: state)
                     Spacer()
+                    if showCarName {
+                        PillTag(session.displayCarName, color: Tokens.sub)
+                    }
                     if hasCorrection {
                         PillTag("your sign")
                     }
@@ -149,9 +161,6 @@ struct ParkedHomeView: View {
                 }
 
                 if !watchedRules.isEmpty {
-                    // The footer must describe the pattern behind the
-                    // headline — with two watched sides, put the rule that
-                    // produces the next window first.
                     Text(footerLine(rules: orderedForDisplay(watchedRules, next: verdict?.next),
                                     verdict: verdict))
                         .font(.system(size: 13))
@@ -216,15 +225,13 @@ struct ParkedHomeView: View {
     // MARK: - Reminders card
 
     @ViewBuilder
-    private func remindersCard(verdict: Verdict?) -> some View {
-        if let verdict, let segment = sessionManager.currentSegment() {
-            let context = NotificationPlanner.Context(
-                segmentId: segment.id, street: segment.street,
-                landmark: sideText, city: segment.city)
+    private func remindersCard(verdict: Verdict?, segment: SweepBundle.Segment?) -> some View {
+        if let verdict, segment != nil,
+           let context = sessionManager.context(for: session) {
             let planned = NotificationPlanner.plan(
                 context: context, windows: verdict.upcoming, prefs: model.store.reminderPrefs,
-                now: sessionManager.session?.parkedAt ?? now, calendar: SweepCalendar.la,
-                parkedAt: sessionManager.session?.parkedAt)
+                now: session.parkedAt, calendar: SweepCalendar.la,
+                parkedAt: session.parkedAt)
             if !planned.isEmpty {
                 AlmanacCard {
                     VStack(alignment: .leading, spacing: 8) {
@@ -317,7 +324,8 @@ struct ParkedHomeView: View {
     }
 
     private func shareText(segment: SweepBundle.Segment, next: SweepWindow) -> String {
-        "The car is on \(segment.street) (\(sideText.lowercased())). "
+        let subject = showCarName ? session.displayCarName.capitalized : "The car"
+        return "\(subject) is on \(segment.street) (\(sideText.lowercased())). "
             + "Safe until \(SweepFormat.dayName(next.start)) "
             + "\(SweepFormat.hourLabel(next.start)) — Sweep"
     }
