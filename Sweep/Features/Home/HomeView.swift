@@ -28,6 +28,14 @@ struct HomeView: View {
                     }
                 }
             }
+            // "I moved my car" must never hide below the fold — it's pinned
+            // while the cards scroll behind it. Plus surfaces "Park another
+            // car" here too, so the paid feature is visible, not a secret.
+            .safeAreaInset(edge: .bottom) {
+                if sessionManager.session != nil {
+                    parkedBottomBar
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("Sweep")
@@ -55,6 +63,40 @@ struct HomeView: View {
                 SettingsView()
             }
         }
+    }
+
+    @EnvironmentObject private var plusStore: PlusStore
+
+    private var parkedBottomBar: some View {
+        VStack(spacing: 8) {
+            if sessionManager.sessions.count == 1 {
+                Button("I moved my car") {
+                    sessionManager.clearAllSessions()
+                }
+                .buttonStyle(ClayButtonStyle(background: Tokens.ink, foreground: Tokens.paper))
+            }
+            if plusStore.hasPlus {
+                Button {
+                    showParkFlow = true
+                } label: {
+                    Label("Park another car", systemImage: "plus")
+                        .font(.system(size: 14, weight: .semibold))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 11)
+                        .background(RoundedRectangle(cornerRadius: Tokens.radiusControl)
+                            .strokeBorder(Tokens.clay, lineWidth: 1.5))
+                        .foregroundStyle(Tokens.clay)
+                }
+            }
+        }
+        .padding(.horizontal, 16)
+        .padding(.top, 10)
+        .padding(.bottom, 6)
+        .background(
+            Tokens.paper
+                .opacity(0.97)
+                .overlay(Rectangle().fill(Tokens.line).frame(height: 1), alignment: .top)
+                .ignoresSafeArea(edges: .bottom))
     }
 }
 

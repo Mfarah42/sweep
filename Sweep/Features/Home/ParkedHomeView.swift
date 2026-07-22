@@ -83,10 +83,15 @@ struct CarSessionView: View {
             comingUpCard(verdict: verdict)
             actionRow(segment: segment, verdict: verdict)
 
-            Button("I moved \(showCarName ? session.displayCarName : "my car")") {
-                sessionManager.clearSession(id: session.id)
+            // Single car: the moved button lives in the pinned bottom bar so
+            // it always fits the screen. Multi-car keeps it per section to
+            // say WHICH car moved.
+            if showCarName {
+                Button("I moved \(session.displayCarName)") {
+                    sessionManager.clearSession(id: session.id)
+                }
+                .buttonStyle(ClayButtonStyle(background: Tokens.ink, foreground: Tokens.paper))
             }
-            .buttonStyle(ClayButtonStyle(background: Tokens.ink, foreground: Tokens.paper))
         }
         .onReceive(tick) { now = $0 }
         .sheet(isPresented: $showFixSign) {
