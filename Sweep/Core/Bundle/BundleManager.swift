@@ -10,11 +10,11 @@ public final class BundleManager {
 
     /// Static host for OTA bundles (spec §4.7) — single constant. The weekly
     /// CI publishes bundles + index.json to the rolling "schedule-data"
-    /// release; replace OWNER with the GitHub org/user hosting the repo.
+    /// release; hosted on the Mfarah42/sweep public repo (release assets need a public repo).
     public static let indexURL = URL(string:
-        "https://github.com/OWNER/sweep/releases/download/schedule-data/index.json")!
+        "https://github.com/Mfarah42/sweep/releases/download/schedule-data/index.json")!
 
-    public static let refreshTaskIdentifier = "com.TEAM.sweep.refresh"
+    public static let refreshTaskIdentifier = "com.mohamed.sweep.refresh"
 
     private let containerDir: URL
     private let fileManager = FileManager.default

@@ -33,9 +33,9 @@ xcodegen generate
 open Sweep.xcodeproj                           # or xcodebuild -scheme Sweep …
 ```
 
-Replace `TEAM` in `project.yml` (bundle ids, App Group
-`group.com.TEAM.sweep`) and `PersistenceStore.appGroupId` +
-`BundleManager.refreshTaskIdentifier` with your team's values.
+Bundle ids are `com.mohamed.sweep` / `com.mohamed.sweep.widgets`, App Group
+`group.com.mohamed.sweep`, team `52484H75XU` (set in `project.yml`;
+mirrored in `PersistenceStore.appGroupId` and `BundleManager`).
 
 ## Data pipeline notes
 

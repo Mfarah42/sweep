@@ -1,0 +1,179 @@
+{
+  "" : {
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Sweep-primary.dia",
+    "emit-module-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Sweep-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Sweep-primary-emit-module.dia",
+    "pch" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Sweep-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Sweep-primary.swiftdeps"
+  },
+  "/Users/mohamed/sweep/Sweep/App/AppModel.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/AppModel.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/AppModel.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/AppModel.dia",
+    "index-unit-output-path" : "/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/AppModel.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/AppModel.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/AppModel.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/AppModel.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/AppModel~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/App/LiveActivityController.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/LiveActivityController.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/LiveActivityController.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/LiveActivityController.dia",
+    "index-unit-output-path" : "/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/LiveActivityController.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/LiveActivityController.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/LiveActivityController.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/LiveActivityController.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/LiveActivityController~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/App/ParkIntent.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkIntent.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkIntent.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkIntent.dia",
+    "index-unit-output-path" : "/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkIntent.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkIntent.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkIntent.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkIntent.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkIntent~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/App/SweepActivityAttributes.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SweepActivityAttributes.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SweepActivityAttributes.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SweepActivityAttributes.dia",
+    "index-unit-output-path" : "/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SweepActivityAttributes.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SweepActivityAttributes.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SweepActivityAttributes.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SweepActivityAttributes.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SweepActivityAttributes~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/App/SweepApp.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SweepApp.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SweepApp.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SweepApp.dia",
+    "index-unit-output-path" : "/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SweepApp.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SweepApp.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SweepApp.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SweepApp.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SweepApp~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/DesignSystem/Components.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Components.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Components.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Components.dia",
+    "index-unit-output-path" : "/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Components.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Components.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Components.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Components.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Components~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/DesignSystem/Illustrations.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Illustrations.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Illustrations.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Illustrations.dia",
+    "index-unit-output-path" : "/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Illustrations.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Illustrations.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Illustrations.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Illustrations.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Illustrations~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/DesignSystem/Tokens.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Tokens.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Tokens.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Tokens.dia",
+    "index-unit-output-path" : "/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Tokens.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Tokens.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Tokens.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Tokens.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/Tokens~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Features/FixSign/FixSignView.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/FixSignView.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/FixSignView.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/FixSignView.dia",
+    "index-unit-output-path" : "/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/FixSignView.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/FixSignView.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/FixSignView.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/FixSignView.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/FixSignView~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Features/Home/HomeView.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/HomeView.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/HomeView.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/HomeView.dia",
+    "index-unit-output-path" : "/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/HomeView.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/HomeView.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/HomeView.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/HomeView.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/HomeView~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Features/Home/LongestSpotView.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/LongestSpotView.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/LongestSpotView.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/LongestSpotView.dia",
+    "index-unit-output-path" : "/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/LongestSpotView.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/LongestSpotView.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/LongestSpotView.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/LongestSpotView.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/LongestSpotView~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Features/Home/ParkedHomeView.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkedHomeView.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkedHomeView.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkedHomeView.dia",
+    "index-unit-output-path" : "/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkedHomeView.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkedHomeView.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkedHomeView.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkedHomeView.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkedHomeView~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Features/ParkFlow/CarChooserSheet.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/CarChooserSheet.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/CarChooserSheet.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/CarChooserSheet.dia",
+    "index-unit-output-path" : "/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/CarChooserSheet.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/CarChooserSheet.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/CarChooserSheet.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/CarChooserSheet.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/CarChooserSheet~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Features/ParkFlow/ParkFlowView.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkFlowView.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkFlowView.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkFlowView.dia",
+    "index-unit-output-path" : "/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkFlowView.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkFlowView.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkFlowView.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkFlowView.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/ParkFlowView~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Features/ParkFlow/SidePickerView.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SidePickerView.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SidePickerView.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SidePickerView.dia",
+    "index-unit-output-path" : "/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SidePickerView.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SidePickerView.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SidePickerView.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SidePickerView.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SidePickerView~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/Sweep/Features/Settings/SettingsView.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SettingsView.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SettingsView.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SettingsView.dia",
+    "index-unit-output-path" : "/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SettingsView.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SettingsView.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SettingsView.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SettingsView.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/SettingsView~partial.swiftmodule"
+  },
+  "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/mohamed/sweep/build/Build/Intermediates.noindex/Sweep.build/Debug-iphonesimulator/Sweep.build/Objects-normal/x86_64/GeneratedAssetSymbols~partial.swiftmodule"
+  }
+}

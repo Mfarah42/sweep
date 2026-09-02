@@ -14,7 +14,7 @@
 		</data>
 		<key>Assets.car</key>
 		<data>
-		8v9getnTgoUYwuxYrWxUzSI3IR4=
+		28TOIYbWzLWQF2vkOiKRVzguUOM=
 		</data>
 		<key>Fraunces-Italic-VariableFont.ttf</key>
 		<data>
@@ -26,15 +26,27 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		o7KxoFvqzWMtXGB2zlm91QXbL0c=
+		GTnhckblRAMjAd4Bsq7PjEQ1jIw=
 		</data>
 		<key>Metadata.appintents/extract.actionsdata</key>
 		<data>
 		HLzr0icvNNRC8Onu+3k0iQ4rl7k=
 		</data>
+		<key>Metadata.appintents/nlu/99063c9e1d44312b10390885752041cc.version</key>
+		<data>
+		W6k8nbDP+T9StSHXQg5D9u2ieE8=
+		</data>
+		<key>Metadata.appintents/nlu/nlu.lzfse</key>
+		<data>
+		g+dDqwd80MrslpWjfUG1CtpOJWs=
+		</data>
+		<key>Metadata.appintents/root.ssu.yaml</key>
+		<data>
+		6a9ekTf7WXEkkaB7LMvZxTjMdiU=
+		</data>
 		<key>Metadata.appintents/version.json</key>
 		<data>
-		AnCWG4rKs5jrO4QrJ0dwHs72tMI=
+		NPlRq15GZra++9v4rEBA76D/YIs=
 		</data>
 		<key>OFL.txt</key>
 		<data>
@@ -54,7 +66,7 @@
 		</data>
 		<key>PlugIns/SweepWidgets.appex/Info.plist</key>
 		<data>
-		ZUzSwErYkjaUJsB9y+ZSVCabERI=
+		ugjRAdUcj49DEfa1EHRp0ItE8S0=
 		</data>
 		<key>PlugIns/SweepWidgets.appex/PrivacyInfo.xcprivacy</key>
 		<data>
@@ -62,19 +74,19 @@
 		</data>
 		<key>PlugIns/SweepWidgets.appex/SweepWidgets</key>
 		<data>
-		xLhm/nn1COpZhETW6RjIOJp0x40=
+		KS0jnPciHyBT913b2WF8fqcrz0w=
 		</data>
 		<key>PlugIns/SweepWidgets.appex/SweepWidgets.debug.dylib</key>
 		<data>
-		el7ngugBF1ht1vHnAaZBfVSpMNw=
+		fhDCvFoP3rGaAhpyuGNGwjuhdC0=
 		</data>
 		<key>PlugIns/SweepWidgets.appex/_CodeSignature/CodeResources</key>
 		<data>
-		XenDdTz+yyCy3CdEl2c9mqx/qsE=
+		OXmfjKgGiByVYlE/ekRLaDynVxQ=
 		</data>
 		<key>PlugIns/SweepWidgets.appex/__preview.dylib</key>
 		<data>
-		pd4MXlqRoBJYFbMnGcR/OQbrz04=
+		iDiDFn2MbKDHrunsKisQV8JRdSc=
 		</data>
 		<key>PrivacyInfo.xcprivacy</key>
 		<data>
@@ -82,11 +94,11 @@
 		</data>
 		<key>Sweep.debug.dylib</key>
 		<data>
-		mkoclREuBJlIzMgqnJWRxn+OQ8w=
+		CX6TM6WWYFd6y5fY9tF4411frK0=
 		</data>
 		<key>__preview.dylib</key>
 		<data>
-		Gw0bQb3UNU3gAd/TpOOneN/Q/uw=
+		mDdZZjqcgNWpV24hgfk00d1PALs=
 		</data>
 		<key>oak.sweepdata</key>
 		<data>
@@ -117,7 +129,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			T1gVazAxwai2d6T2TjXY0CyS+kuRextExUHoVQJHoc8=
+			emHOxIHnX+KxtXAJuz6BpPdBdns62XvfeM1AH+ouBUQ=
 			</data>
 		</dict>
 		<key>Fraunces-Italic-VariableFont.ttf</key>
@@ -141,11 +153,32 @@
 			Kdtg5hkCkgNk6JiYMC4cvNdYBhCVelusovSu4oMh43c=
 			</data>
 		</dict>
+		<key>Metadata.appintents/nlu/99063c9e1d44312b10390885752041cc.version</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			bjQLnP+zepicpUTmu3gKLHiQHT+zNzh2hRGjBhevoB0=
+			</data>
+		</dict>
+		<key>Metadata.appintents/nlu/nlu.lzfse</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			BNjKt+aoht3+803D3AKBI2EgWF1SqzKFbbzE4rnGMZY=
+			</data>
+		</dict>
+		<key>Metadata.appintents/root.ssu.yaml</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			uCrJcvXmTRt3CYHaEf7gjth5g8Gnbr/0ccR9vrCG/jY=
+			</data>
+		</dict>
 		<key>Metadata.appintents/version.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			S8xCv9nzQ8VW9KYw29TGYHI5yTSFkAK3pTib1ARd6Zo=
+			urRgqhLYJepnd5JrqAEXNLT1v7JyHj/jyDPVFH0iHf0=
 			</data>
 		</dict>
 		<key>OFL.txt</key>
@@ -173,7 +206,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			vJ24jGAWCBB0llxkdRGNA1Vr9jeJEeBUuIXvOy/v5qI=
+			ur1qc5UBxfLmD5dtvFkDgHxUz+0wWFVPcUqadyA8gJ4=
 			</data>
 		</dict>
 		<key>PlugIns/SweepWidgets.appex/PrivacyInfo.xcprivacy</key>
@@ -187,28 +220,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			CO5PWHr6vm5MR5rjjeQ5RqOLVd439tW+NuzoqDqLdao=
+			yA+LLluTSy8KL2tjl9fwGCOt2EJB1yvJ+5uKmGrUhps=
 			</data>
 		</dict>
 		<key>PlugIns/SweepWidgets.appex/SweepWidgets.debug.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			XlKgupaf9ygfuCzQsnnT/DLVQr01hWmt12bTAwbcNXE=
+			wEw+qhOX5b1i87F1F+/+pIzajF8X35Ujb9pw8CU66NU=
 			</data>
 		</dict>
 		<key>PlugIns/SweepWidgets.appex/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			BBpYZpywUTgpkSlWGS6+CQxPQMC6SoCZUPDDii4AWZ4=
+			yQZR6MipO1ikJEJp1hoQS8Bb/qKS5HtpzRF2YdcWlY4=
 			</data>
 		</dict>
 		<key>PlugIns/SweepWidgets.appex/__preview.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			go5zx/fvoHv0LMTRBMHUVqkmYqwlLVTFbC74S9BCGR8=
+			bYNSVImkPnB03hP7y9oJNWUGSdxcIYTgfyd4UsIRBEU=
 			</data>
 		</dict>
 		<key>PrivacyInfo.xcprivacy</key>
@@ -222,14 +255,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			scYdKkHjLQ/ZfWHuQ9XnOT+WaWgfYnVILK6UkCQiso0=
+			OxGZpkv4cATp2v2km5nCpv2DtOnJCYHJ7+zSWU8oUII=
 			</data>
 		</dict>
 		<key>__preview.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			IiqCr5HAb1Pa44jqFxGEfO60/iDK3KyPaUVAA9SmCKY=
+			oHmkrThkblnSWjOJuOPGgXSK1zuuG/Li6pDt/Lk8R9s=
 			</data>
 		</dict>
 		<key>oak.sweepdata</key>

@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>application-identifier</key>
-	<string>52484H75XU.com.TEAM.sweep.widgets</string>
+	<string>52484H75XU.com.mohamed.sweep.widgets</string>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.com.TEAM.sweep</string>
+		<string>group.com.mohamed.sweep</string>
 	</array>
 </dict>
 </plist>

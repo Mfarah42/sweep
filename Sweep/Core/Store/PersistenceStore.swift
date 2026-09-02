@@ -18,7 +18,7 @@ public final class PersistenceStore {
         public static let theme = "prefs.theme.v1"
     }
 
-    public static let appGroupId = "group.com.TEAM.sweep"   // single-config placeholder
+    public static let appGroupId = "group.com.mohamed.sweep"
 
     private let defaults: UserDefaults
     /// Test hook for migration assertions on raw keys.

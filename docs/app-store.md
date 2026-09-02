@@ -4,17 +4,33 @@ Everything App Store Connect asks for, ready to paste. Spec references: §12.
 
 ## Listing
 
+Naming follows the house pattern (`Cadence: Am I On or Off`,
+`Prayer Windows: Salah Times`): the short brand, a colon, then what it does.
+App Store limits: name 30 chars, subtitle 30 chars. Name + subtitle are indexed
+for search, so keywords must not repeat their words.
+
 | Field | Value |
 |---|---|
-| Name | Sweep — Street Sweeping Alarm |
-| Subtitle | Street sweeping alarm — SF & Oakland |
+| Name | **Sweep: Street Sweeping Alerts** (29) |
+| Subtitle | **Parking alarm · SF & Oakland** (28) |
 | Category | Navigation (secondary: Utilities) |
 | Price | Free, with one non-consumable IAP (Sweep Plus, $3.00) |
 | Age rating | 4+ |
+| Support URL | https://mfarah42.github.io/sweep-support/ (site drafted in `~/Desktop/Github Projects/sweep-support`, not yet published) |
+| Privacy Policy URL | https://mfarah42.github.io/sweep-support/privacy.html |
+| Copyright | 2026 Mohamed Farah |
 
-**Keywords** (100 chars max):
-`street,cleaning,sweeping,parking,ticket,sweep,SF,oakland,san francisco,alarm,reminder,curb`
+Alternates considered (all ≤30): `Sweep: Move Your Car in Time` (28, warmer,
+loses the search term), `Sweep: SF & Oakland Parking` (27, cities in the
+name, loses "sweeping"). Rejected: the earlier draft `Sweep — Street Sweeping
+Alarm` — a competitor already ships as **"Sweep Alarm: Street Sweeping"**
+(id1205066796); our name must not read as that app. Other incumbents, all
+SF-only: "Street Sweep – San Francisco Street Parking", "Sweep N Park",
+"Street Cleaning Parking", CURB, ParkUsher. Oakland coverage and the
+offline/no-account posture are the differentiators to lead with.
 
+**Keywords** (100 chars max — no words already in name/subtitle):
+`cleaning,ticket,citation,tow,move,car,curb,reminder,schedule,sfmta,bay area,widget,live activity`
 **Promotional text** (170 chars max):
 > Is the car safe where it's parked? One glance: Safe, Move soon, or Sweeping now — and a wake-up before the sweeper comes. Works entirely offline.
 
@@ -37,6 +53,8 @@ Everything App Store Connect asks for, ready to paste. Spec references: §12.
 > Home screen and lock screen widgets show the verdict at a glance.
 >
 > Sweep Plus ($3, one time): every ticket-saving alert is free forever — that never changes. Plus adds the extras: a second car, curb-card themes, and Longest Spot, which finds the block you can stay on longest.
+>
+> Optional weekly garbage-day reminders, and your move-by deadline can be mirrored into Apple Reminders.
 >
 > Covers San Francisco (SFMTA schedule data) and Oakland (City of Oakland GIS). Always check the posted sign — schedules can change faster than city data.
 
@@ -101,12 +119,26 @@ arterial pass; door numbers remain the authoritative cue on those.
 
 ## Submission checklist
 
-- [ ] Replace `TEAM`/`OWNER` placeholders: bundle ids, App Group, BG task id,
-      `DEVELOPMENT_TEAM` in project.yml, `BundleManager.indexURL`
-- [ ] Paid Apple Developer account (App Groups + Time Sensitive entitlements)
+- [x] Placeholders replaced 2026-09-01: `com.mohamed.sweep` / `.widgets`,
+      `group.com.mohamed.sweep`, `com.mohamed.sweep.refresh`, team
+      `52484H75XU`, `indexURL` → `github.com/Mfarah42/sweep`; MARKETING_VERSION
+      1.0 (1). Regenerate with `xcodegen generate`.
+- [x] Paid Apple Developer account (team Mohamed Farah, ASC under
+      farahmo242@gmail.com)
+- [ ] **Account Holder must accept the updated Apple Developer Program License
+      Agreement** (ASC banner 2026-09-01) — new apps cannot be created until
+      then. Also provide EU trader status (DSA) or the app is hidden in the EU.
+- [ ] Create the app record in ASC: name/subtitle above, bundle id
+      `com.mohamed.sweep` (appears after the first signed archive registers
+      the App ID, or register it manually in the Developer portal with
+      App Groups + Time Sensitive Notifications capabilities), SKU `sweep-ios`
+- [ ] Publish `sweep-support` to GitHub Pages (Support + Privacy URLs above)
 - [ ] Create `sweep.plus` IAP in App Store Connect (table above)
-- [ ] Push repo to GitHub; run the data-refresh workflow once to publish the
-      first `schedule-data` OTA release
+- [ ] Push repo to GitHub as **public** `Mfarah42/sweep` (release assets on a
+      private repo need auth; the app fetches anonymously); add `SODA_APP_TOKEN`
+      secret; run the data-refresh workflow once to publish the first
+      `schedule-data` OTA release. Bundles in the repo were built 2026-07-06 —
+      rebuild before the first release so v1.0 ships fresh data.
 - [ ] Real-device pass: notifications fire locked + airplane mode, Live
       Activity stages, GPS park flow on a real street
 - [ ] Capture remaining screenshots; upload 6.9" set
