@@ -72,16 +72,20 @@ struct ParkFlowView: View {
         let outcome = await fixer.acquireFix()
         switch outcome {
         case .fix(let point, let accuracy):
-            guard let bundle = try? model.bundleManager.openBundle(for: sessionManager.city) else {
+            // The fix decides the city: snap against every installed bundle
+            // and keep the nearest curb. Nobody should have to toggle
+            // SF/Oakland in Settings before parking.
+            let bundles = model.bundleManager.openAllBundles(preferring: sessionManager.city)
+            guard !bundles.isEmpty else {
                 step = .manual(notice: nil)
                 return
             }
             // Search radius scales with fix quality; a fuzzy fix must not
             // read as "you're outside the city".
             let radius = min(max(CurbSnapper.fineRadiusMeters, accuracy + 25), 150)
-            let candidates = bundle.segments(near: point, marginMeters: radius + 20)
-            if let result = CurbSnapper.snap(fix: point, candidates: candidates,
-                                             fineRadius: radius) {
+            if let (city, result) = nearestSnap(point: point, bundles: bundles,
+                                                margin: radius + 20, fineRadius: radius) {
+                sessionManager.adoptCity(city)
                 // Auto-advance only when both the fix and the match are
                 // tight; otherwise let the user confirm the block.
                 if result.confidence == .high, accuracy <= 35,
@@ -94,9 +98,9 @@ struct ParkFlowView: View {
                 return
             }
             // Last resort: a very wide net before claiming anything.
-            if let far = CurbSnapper.snap(fix: point,
-                                          candidates: bundle.segments(near: point, marginMeters: 300),
-                                          fineRadius: 250) {
+            if let (city, far) = nearestSnap(point: point, bundles: bundles,
+                                             margin: 300, fineRadius: 250) {
+                sessionManager.adoptCity(city)
                 step = .confirm(far)
             } else {
                 step = .manual(notice: "Your GPS fix (±\(Int(accuracy)) m) didn't "
@@ -110,6 +114,22 @@ struct ParkFlowView: View {
                            + "indoors or when Precise Location is off. "
                            + "Find your block below.")
         }
+    }
+
+    /// Best snap across cities: the bundle whose curb is closest wins.
+    private func nearestSnap(point: GeoPoint, bundles: [SweepBundle], margin: Double,
+                             fineRadius: Double) -> (City, CurbSnapper.SnapResult)? {
+        var best: (City, CurbSnapper.SnapResult)?
+        for bundle in bundles {
+            let candidates = bundle.segments(near: point, marginMeters: margin)
+            guard !candidates.isEmpty,
+                  let result = CurbSnapper.snap(fix: point, candidates: candidates,
+                                                fineRadius: fineRadius) else { continue }
+            if best == nil || result.block.distanceMeters < best!.1.block.distanceMeters {
+                best = (bundle.manifest.city, result)
+            }
+        }
+        return best
     }
 
     /// Skip the side question entirely when both sides sweep identically
@@ -258,7 +278,7 @@ struct ManualBlockSearchView: View {
                         .font(.system(size: 13.5))
                         .foregroundStyle(Tokens.amber)
                 }
-                TextField(SweepFormat.searchPlaceholder(for: sessionManager.city), text: $query)
+                TextField(SweepFormat.searchPlaceholderAllCities, text: $query)
                     .textFieldStyle(.plain)
                     .padding(12)
                     .background(RoundedRectangle(cornerRadius: Tokens.radiusControl)
@@ -266,11 +286,12 @@ struct ManualBlockSearchView: View {
                         .overlay(RoundedRectangle(cornerRadius: Tokens.radiusControl)
                             .strokeBorder(Tokens.line)))
                     .onChange(of: query) { _, q in
-                        results = (try? model.bundleManager.openBundle(for: sessionManager.city))
-                            .map { BlockSearch.hits(bundle: $0, query: q) } ?? []
+                        let bundles = model.bundleManager.openAllBundles(preferring: sessionManager.city)
+                        results = BlockSearch.hits(bundles: bundles, query: q)
                     }
                 ForEach(results) { hit in
                     Button {
+                        sessionManager.adoptCity(hit.city)   // other city? switch, don't fail
                         onPick(hit.street, hit.blockLabel)
                     } label: {
                         BlockHitRow(hit: hit)

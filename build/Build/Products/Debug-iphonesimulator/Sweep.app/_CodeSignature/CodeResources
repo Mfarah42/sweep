@@ -32,18 +32,6 @@
 		<data>
 		HLzr0icvNNRC8Onu+3k0iQ4rl7k=
 		</data>
-		<key>Metadata.appintents/nlu/99063c9e1d44312b10390885752041cc.version</key>
-		<data>
-		W6k8nbDP+T9StSHXQg5D9u2ieE8=
-		</data>
-		<key>Metadata.appintents/nlu/nlu.lzfse</key>
-		<data>
-		g+dDqwd80MrslpWjfUG1CtpOJWs=
-		</data>
-		<key>Metadata.appintents/root.ssu.yaml</key>
-		<data>
-		6a9ekTf7WXEkkaB7LMvZxTjMdiU=
-		</data>
 		<key>Metadata.appintents/version.json</key>
 		<data>
 		NPlRq15GZra++9v4rEBA76D/YIs=
@@ -74,15 +62,15 @@
 		</data>
 		<key>PlugIns/SweepWidgets.appex/SweepWidgets</key>
 		<data>
-		KS0jnPciHyBT913b2WF8fqcrz0w=
+		594Sc7EFn5FgEpIGAQWQsZz1Mqg=
 		</data>
 		<key>PlugIns/SweepWidgets.appex/SweepWidgets.debug.dylib</key>
 		<data>
-		fhDCvFoP3rGaAhpyuGNGwjuhdC0=
+		+UbXw9GMd94DaUki6GIzivRDzds=
 		</data>
 		<key>PlugIns/SweepWidgets.appex/_CodeSignature/CodeResources</key>
 		<data>
-		OXmfjKgGiByVYlE/ekRLaDynVxQ=
+		3jyp7SFOEStmjNxPMEgs/TStWgU=
 		</data>
 		<key>PlugIns/SweepWidgets.appex/__preview.dylib</key>
 		<data>
@@ -94,7 +82,7 @@
 		</data>
 		<key>Sweep.debug.dylib</key>
 		<data>
-		CX6TM6WWYFd6y5fY9tF4411frK0=
+		Zfr9vfFofn+drOMAOw56kC9UOhQ=
 		</data>
 		<key>__preview.dylib</key>
 		<data>
@@ -153,27 +141,6 @@
 			Kdtg5hkCkgNk6JiYMC4cvNdYBhCVelusovSu4oMh43c=
 			</data>
 		</dict>
-		<key>Metadata.appintents/nlu/99063c9e1d44312b10390885752041cc.version</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			bjQLnP+zepicpUTmu3gKLHiQHT+zNzh2hRGjBhevoB0=
-			</data>
-		</dict>
-		<key>Metadata.appintents/nlu/nlu.lzfse</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			BNjKt+aoht3+803D3AKBI2EgWF1SqzKFbbzE4rnGMZY=
-			</data>
-		</dict>
-		<key>Metadata.appintents/root.ssu.yaml</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			uCrJcvXmTRt3CYHaEf7gjth5g8Gnbr/0ccR9vrCG/jY=
-			</data>
-		</dict>
 		<key>Metadata.appintents/version.json</key>
 		<dict>
 			<key>hash2</key>
@@ -220,21 +187,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			yA+LLluTSy8KL2tjl9fwGCOt2EJB1yvJ+5uKmGrUhps=
+			1Pj6k7ic4Vp0FV6+lX3xIpQF0bsasQKQTF0eb0KFaT4=
 			</data>
 		</dict>
 		<key>PlugIns/SweepWidgets.appex/SweepWidgets.debug.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			wEw+qhOX5b1i87F1F+/+pIzajF8X35Ujb9pw8CU66NU=
+			UPTdTdLGCk810grdM+9D7IqeaG8OFWWtiJ4qVlm9fZU=
 			</data>
 		</dict>
 		<key>PlugIns/SweepWidgets.appex/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			yQZR6MipO1ikJEJp1hoQS8Bb/qKS5HtpzRF2YdcWlY4=
+			vLVERqNaBEdTviaCVwwIqSkYSV78sUCObV6l0JMP6is=
 			</data>
 		</dict>
 		<key>PlugIns/SweepWidgets.appex/__preview.dylib</key>
@@ -255,7 +222,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			OxGZpkv4cATp2v2km5nCpv2DtOnJCYHJ7+zSWU8oUII=
+			Fsd0Zq1V2Vnm+1wFjYgfm6lH9FTwoFVpKWgouFZ0IUI=
 			</data>
 		</dict>
 		<key>__preview.dylib</key>

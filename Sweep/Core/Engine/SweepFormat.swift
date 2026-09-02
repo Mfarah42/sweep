@@ -119,6 +119,9 @@ public enum SweepFormat {
         }
     }
 
+    /// Search spans both cities, so the hint teaches both shapes at once.
+    public static let searchPlaceholderAllCities = "Street or address — SF or Oakland"
+
     // MARK: - Data-confidence honesty (§1.3)
 
     /// Bundles older than this degrade the copy — never confidently wrong.

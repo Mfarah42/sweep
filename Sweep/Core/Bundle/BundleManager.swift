@@ -39,6 +39,13 @@ public final class BundleManager {
         try SweepBundle(path: bundlePath(for: city).path)
     }
 
+    /// Every installed city's bundle, `first` first (the user's current city)
+    /// so equal-rank search hits and GPS ties favour it.
+    public func openAllBundles(preferring first: City) -> [SweepBundle] {
+        let order = [first] + City.allCases.filter { $0 != first }
+        return order.compactMap { try? openBundle(for: $0) }
+    }
+
     /// Copy shipped bundles into the App Group when missing or older (§4.6).
     public func installShippedBundles(from resourceBundle: Bundle) {
         try? fileManager.createDirectory(at: containerDir, withIntermediateDirectories: true)

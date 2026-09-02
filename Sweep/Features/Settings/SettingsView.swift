@@ -21,6 +21,7 @@ struct SettingsView: View {
                 Tokens.paper.ignoresSafeArea()
                 ScrollView {
                     VStack(spacing: 14) {
+                        guideCard
                         cityCard
                         appearanceCard
                         remindersCard
@@ -142,8 +143,39 @@ struct SettingsView: View {
                     }
                 }
                 .pickerStyle(.segmented)
+                Text("Sweep picks the city on its own from where you park or "
+                     + "which street you search. This just sets the default "
+                     + "and the data notes below.")
+                    .font(.system(size: 12))
+                    .foregroundStyle(Tokens.sub)
             }
         }
+    }
+
+    private var guideCard: some View {
+        NavigationLink {
+            GuideView()
+        } label: {
+            AlmanacCard {
+                HStack(spacing: 12) {
+                    Image(systemName: "book")
+                        .font(.system(size: 18))
+                        .foregroundStyle(Tokens.clay)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("How Sweep works")
+                            .font(Tokens.display(17).weight(.medium))
+                            .foregroundStyle(Tokens.ink)
+                        Text("Two-minute guide: parking, sides, reminders, fixing a sign.")
+                            .font(.system(size: 12.5))
+                            .foregroundStyle(Tokens.sub)
+                    }
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .foregroundStyle(Tokens.sub)
+                }
+            }
+        }
+        .buttonStyle(.plain)
     }
 
     private var remindersCard: some View {

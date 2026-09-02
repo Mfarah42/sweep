@@ -3,15 +3,15 @@
   "tables" : {
     "AppShortcuts" : [
       {
+        "key" : "I just parked in ${applicationName}",
         "values" : [
           "I just parked in ${applicationName}",
           "Tell ${applicationName} I parked"
         ],
         "location" : {
-          "startingColumn" : 0,
-          "startingLine" : 27
-        },
-        "key" : "I just parked in ${applicationName}"
+          "startingLine" : 27,
+          "startingColumn" : 0
+        }
       }
     ]
   },

@@ -132,9 +132,9 @@ struct HomeEmptyView: View {
                     Text("Where's your car?")
                         .font(Tokens.verdictHeadline)
                         .foregroundStyle(Tokens.ink)
-                    Text("Tell Sweep once when you park. It watches the "
-                         + "\(sessionManager.city.displayName) sweeping schedule "
-                         + "so you don't have to.")
+                    Text("Tell Sweep once when you park. It works out whether "
+                         + "you're in San Francisco or Oakland and watches that "
+                         + "block's sweeping schedule so you don't have to.")
                         .font(.system(size: 15))
                         .foregroundStyle(Tokens.sub)
                     Button("I just parked") {
@@ -153,8 +153,7 @@ struct HomeEmptyView: View {
                     Text("Or find your block")
                         .font(Tokens.display(17).weight(.medium))
                         .foregroundStyle(Tokens.ink)
-                    TextField(SweepFormat.searchPlaceholder(for: sessionManager.city),
-                              text: $searchText)
+                    TextField(SweepFormat.searchPlaceholderAllCities, text: $searchText)
                         .textFieldStyle(.plain)
                         .padding(10)
                         .background(RoundedRectangle(cornerRadius: Tokens.radiusControl)
@@ -165,12 +164,29 @@ struct HomeEmptyView: View {
                     ForEach(results.prefix(8)) { hit in
                         NavigationLink {
                             BlockConfirmView(street: hit.street, blockLabel: hit.blockLabel)
+                                // Picking a block in the other city switches
+                                // Sweep to it — no Settings trip required.
+                                .onAppear { sessionManager.adoptCity(hit.city) }
                         } label: {
                             BlockHitRow(hit: hit)
                         }
                     }
                 }
             }
+
+            NavigationLink {
+                GuideView()
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "book")
+                    Text("How Sweep works")
+                }
+                .font(.system(size: 14, weight: .medium))
+                .foregroundStyle(Tokens.clay)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 4)
+            }
+            .buttonStyle(.plain)
 
             if plusStore.hasPlus {
                 NavigationLink {
@@ -194,10 +210,9 @@ struct HomeEmptyView: View {
     }
 
     private func search(_ query: String) {
-        guard let bundle = try? model.bundleManager.openBundle(for: sessionManager.city) else {
-            results = []
-            return
-        }
-        results = BlockSearch.hits(bundle: bundle, query: query)
+        // Both cities, current one first — a stale City toggle must never
+        // make an Oakland street "not exist".
+        let bundles = model.bundleManager.openAllBundles(preferring: sessionManager.city)
+        results = BlockSearch.hits(bundles: bundles, query: query)
     }
 }

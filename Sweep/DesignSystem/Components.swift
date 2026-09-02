@@ -220,7 +220,9 @@ public struct BlockHitRow: View {
                 Text(hit.street)
                     .font(.system(size: 15, weight: .medium))
                     .foregroundStyle(Tokens.ink)
-                Text(hit.doorSummary.map { "\(hit.blockLabel) · doors \($0)" } ?? hit.blockLabel)
+                Text([hit.city.displayName,
+                      hit.doorSummary.map { "\(hit.blockLabel) · doors \($0)" } ?? hit.blockLabel]
+                    .joined(separator: " · "))
                     .font(.system(size: 13))
                     .foregroundStyle(Tokens.sub)
             }

@@ -14,8 +14,25 @@ public enum BlockSearch {
         public let doorSummary: String?
         /// True when the parsed house number falls in this block's doors.
         public let matchesNumber: Bool
+        /// Which city's bundle produced this hit. Search runs across every
+        /// installed city so a wrong Settings toggle can never hide a street.
+        public let city: City
 
-        public var id: String { "\(street)|\(blockLabel)" }
+        public var id: String { "\(city.rawValue)|\(street)|\(blockLabel)" }
+    }
+
+    /// Search every installed city at once. Address matches still rank first;
+    /// ties keep the caller's bundle order (put the user's current city first).
+    public static func hits(bundles: [SweepBundle], query: String, limit: Int = 60) -> [Hit] {
+        var all: [Hit] = []
+        for bundle in bundles {
+            all += hits(bundle: bundle, query: query, limit: limit)
+        }
+        all.sort { a, b in
+            if a.matchesNumber != b.matchesNumber { return a.matchesNumber }
+            return false   // stable: keeps per-bundle order and bundle order
+        }
+        return Array(all.prefix(limit))
     }
 
     /// "1091 53rd st" → (1091, "53rd st"); "Maybelle" → (nil, "Maybelle").
@@ -52,7 +69,8 @@ public enum BlockSearch {
                 blockLabel: entry.label,
                 doorSummary: entry.bounds.isEmpty ? nil
                     : "\(entry.bounds.map(\.0).min()!)–\(entry.bounds.map(\.1).max()!)",
-                matchesNumber: entry.matches)
+                matchesNumber: entry.matches,
+                city: bundle.manifest.city)
         }
         // Address matches first, then streets alphabetically, blocks in order.
         hits.sort {

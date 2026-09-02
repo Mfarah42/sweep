@@ -49,6 +49,19 @@ public final class ParkingSessionManager: ObservableObject {
         }
     }
 
+    /// The city is inferred from where the user parks or which street they
+    /// pick — never something they have to remember to toggle. Adopting the
+    /// same city is a no-op; a different one follows the §7.6 rule (one city
+    /// at a time, so an existing spot in the other city is cleared first).
+    public func adoptCity(_ newCity: City) {
+        guard newCity != store.city else { return }
+        if sessions.isEmpty {
+            store.city = newCity
+        } else {
+            city = newCity
+        }
+    }
+
     // MARK: - Segments
 
     public func currentSegment() -> SweepBundle.Segment? {
