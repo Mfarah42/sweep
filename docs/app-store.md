@@ -16,9 +16,11 @@ for search, so keywords must not repeat their words.
 | Category | Navigation (secondary: Utilities) |
 | Price | Free, with one non-consumable IAP (Sweep Plus, $3.00) |
 | Age rating | 4+ |
-| Support URL | https://mfarah42.github.io/sweep-support/ (site drafted in `~/Desktop/Github Projects/sweep-support`, not yet published) |
+| Support URL | https://mfarah42.github.io/sweep-support/ (repo Mfarah42/sweep-support, GitHub Pages) |
 | Privacy Policy URL | https://mfarah42.github.io/sweep-support/privacy.html |
 | Copyright | 2026 Mohamed Farah |
+| Apple ID | 6807645821 (record created 2026-09-01, SKU `sweep-ios`) |
+| Support email | stockdapphelp@gmail.com |
 
 Alternates considered (all ≤30): `Sweep: Move Your Car in Time` (28, warmer,
 loses the search term), `Sweep: SF & Oakland Parking` (27, cities in the
