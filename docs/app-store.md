@@ -79,8 +79,8 @@ offline/no-account posture are the differentiators to lead with.
 
 | File | Shows |
 |---|---|
-| 01-empty.png | "Where's your car?" first-run screen |
-| 02-parked.png | Verdict card: Safe until Monday 2 AM, Grand Lake block, reminders + coming-up |
+| 0X-*-6.5.jpg | Final 1284×2778 set uploaded to ASC (raw-*.png = iPhone 17 Pro sim captures, 1206×2622) |
+| iap-review-plus.jpg | IAP review screenshot (Plus card in Settings) |
 
 Still to capture before submission (needs interactive run): side picker with two
 labeled sides, fix-the-sign form, lock screen Live Activity, widget gallery.
@@ -151,5 +151,7 @@ arterial pass; door numbers remain the authoritative cue on those.
 - [ ] Capture remaining screenshots; upload 6.9" set
 - [x] 2026-09-02: archived + uploaded build 1.0 (1) via `xcodebuild -exportArchive`
       (method app-store-connect, destination upload; `build/ExportOptions.plist`)
-- [ ] In ASC: attach build 1.0 (1) to version 1.0, add the `sweep.plus` IAP to the
-      submission, Add for Review → Submit
+- [x] 2026-09-02 10:46 PT: build 1.0 (1) attached, 7 screenshots (verdict, sides,
+      cross-city search, empty, coming up, fix sign, guide — upload ONE AT A TIME,
+      ASC orders a multi-file upload alphabetically), `sweep.plus` added to the draft
+      submission, **Submitted for Review (2 items)**. Status: Waiting for Review.
