@@ -149,7 +149,7 @@ arterial pass; door numbers remain the authoritative cue on those.
 - [ ] Real-device pass: notifications fire locked + airplane mode, Live
       Activity stages, GPS park flow on a real street
 - [ ] Capture remaining screenshots; upload 6.9" set
-- [ ] Sign into Xcode › Settings › Accounts (farahmo242@gmail.com) — CLI archive
-      fails with 'No Accounts' until then; then
-      `xcodebuild archive -allowProvisioningUpdates` → export/upload → submit
-      version 1.0 + the IAP together
+- [x] 2026-09-02: archived + uploaded build 1.0 (1) via `xcodebuild -exportArchive`
+      (method app-store-connect, destination upload; `build/ExportOptions.plist`)
+- [ ] In ASC: attach build 1.0 (1) to version 1.0, add the `sweep.plus` IAP to the
+      submission, Add for Review → Submit
