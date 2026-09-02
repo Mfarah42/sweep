@@ -137,8 +137,8 @@ arterial pass; door numbers remain the authoritative cue on those.
       Mac/Apple Silicon availability OFF, privacy Data Not Collected published,
       version 1.0 metadata + review notes + 2 screenshots (6.5" 1284×2778 JPG)
 - [x] `sweep-support` live on GitHub Pages (Support + Privacy URLs above)
-- [~] `sweep.plus` IAP created in ASC (6807651612); still needs a review
-      screenshot of the Plus card in-app before it can be submitted
+- [x] `sweep.plus` IAP in ASC (6807651612): $3.00, all regions, EN localization,
+      review screenshot (`docs/store-assets/iap-review-plus.jpg`)
 - [x] Pushed to GitHub as public `Mfarah42/sweep` 2026-09-01 (still TODO below: token +
       first OTA release)
 - [ ] Push repo to GitHub as **public** `Mfarah42/sweep` (release assets on a
@@ -149,4 +149,7 @@ arterial pass; door numbers remain the authoritative cue on those.
 - [ ] Real-device pass: notifications fire locked + airplane mode, Live
       Activity stages, GPS park flow on a real street
 - [ ] Capture remaining screenshots; upload 6.9" set
-- [ ] Archive → TestFlight → submit
+- [ ] Sign into Xcode › Settings › Accounts (farahmo242@gmail.com) — CLI archive
+      fails with 'No Accounts' until then; then
+      `xcodebuild archive -allowProvisioningUpdates` → export/upload → submit
+      version 1.0 + the IAP together
