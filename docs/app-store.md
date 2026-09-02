@@ -91,7 +91,7 @@ Marketing frames/captions can be added in App Store Connect directly.
 | Field | Value |
 |---|---|
 | Type | Non-Consumable |
-| Product ID | `sweep.plus` |
+| Product ID | `sweep.plus` (created 2026-09-01, IAP Apple ID 6807651612) |
 | Reference name | Sweep Plus |
 | Price | $3.00 (pick the 3.00 USD price point in Connect) |
 | Display name | Sweep Plus |
@@ -130,12 +130,17 @@ arterial pass; door numbers remain the authoritative cue on those.
 - [ ] **Account Holder must accept the updated Apple Developer Program License
       Agreement** (ASC banner 2026-09-01) — new apps cannot be created until
       then. Also provide EU trader status (DSA) or the app is hidden in the EU.
-- [ ] Create the app record in ASC: name/subtitle above, bundle id
-      `com.mohamed.sweep` (appears after the first signed archive registers
-      the App ID, or register it manually in the Developer portal with
-      App Groups + Time Sensitive Notifications capabilities), SKU `sweep-ios`
-- [ ] Publish `sweep-support` to GitHub Pages (Support + Privacy URLs above)
-- [ ] Create `sweep.plus` IAP in App Store Connect (table above)
+- [x] App IDs registered in the Developer portal (com.mohamed.sweep w/ App Groups +
+      Time Sensitive, com.mohamed.sweep.widgets w/ App Groups, group.com.mohamed.sweep)
+- [x] ASC app record 6807645821 created 2026-09-01: name/subtitle, categories
+      Navigation/Utilities, 4+ rating, content rights, Free in 175 regions,
+      Mac/Apple Silicon availability OFF, privacy Data Not Collected published,
+      version 1.0 metadata + review notes + 2 screenshots (6.5" 1284×2778 JPG)
+- [x] `sweep-support` live on GitHub Pages (Support + Privacy URLs above)
+- [~] `sweep.plus` IAP created in ASC (6807651612); still needs a review
+      screenshot of the Plus card in-app before it can be submitted
+- [x] Pushed to GitHub as public `Mfarah42/sweep` 2026-09-01 (still TODO below: token +
+      first OTA release)
 - [ ] Push repo to GitHub as **public** `Mfarah42/sweep` (release assets on a
       private repo need auth; the app fetches anonymously); add `SODA_APP_TOKEN`
       secret; run the data-refresh workflow once to publish the first
