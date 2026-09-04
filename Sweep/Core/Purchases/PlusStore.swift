@@ -39,8 +39,11 @@ public final class PlusStore: ObservableObject {
     public func load() async {
         product = try? await Product.products(for: [Self.productId]).first
         if product == nil {
-            notice = "The store isn't reachable right now. In development, "
-                + "run from Xcode (the Sweep scheme carries the test store)."
+            // Real users only ever see a plain, honest line — never a
+            // developer hint. (App Review saw the old Xcode wording when the
+            // Paid Apps Agreement wasn't active yet; that copy is gone.)
+            notice = "Sweep Plus isn't available right now. Check your "
+                + "connection and try again in a moment."
         } else {
             notice = nil
         }

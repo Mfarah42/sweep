@@ -43,7 +43,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.mohamed.sweep
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         MARKETING_VERSION: "1.0"
-        CURRENT_PROJECT_VERSION: 1
+        CURRENT_PROJECT_VERSION: 2
         TARGETED_DEVICE_FAMILY: "1"
     sources:
       - path: Sweep/App
@@ -99,7 +99,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.mohamed.sweep.widgets
         MARKETING_VERSION: "1.0"
-        CURRENT_PROJECT_VERSION: 1
+        CURRENT_PROJECT_VERSION: 2
     sources:
       - path: SweepWidgets
       - path: Sweep/App/SweepActivityAttributes.swift

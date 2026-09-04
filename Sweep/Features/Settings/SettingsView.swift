@@ -43,6 +43,11 @@ struct SettingsView: View {
                 }
             }
             .onAppear { prefs = model.store.reminderPrefs }
+            .task {
+                // The product can fail to load once (no network at launch,
+                // App Store hiccup); opening Settings is a natural retry point.
+                if plusStore.product == nil { await plusStore.load() }
+            }
             .alert("Switch city?", isPresented: .init(
                 get: { pendingCity != nil },
                 set: { if !$0 { pendingCity = nil } })) {
@@ -321,6 +326,13 @@ struct SettingsView: View {
                         .font(.system(size: 12.5))
                         .foregroundStyle(Tokens.amber)
                         .fixedSize(horizontal: false, vertical: true)
+                    if plusStore.product == nil {
+                        Button("Try again") {
+                            Task { await plusStore.load() }
+                        }
+                        .font(.system(size: 13.5, weight: .semibold))
+                        .foregroundStyle(Tokens.clay)
+                    }
                 }
                 Button("Restore purchases") {
                     Task { await plusStore.restore() }
@@ -339,7 +351,8 @@ struct SettingsView: View {
                     showDemoMode = true   // hidden QA time-scrub (§7.6)
                 }
             } label: {
-                Text("Sweep 1.0 (1)")
+                Text("Sweep \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0") "
+                     + "(\(Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"))")
                     .font(.system(size: 12.5))
                     .foregroundStyle(Tokens.sub)
             }
