@@ -155,3 +155,16 @@ arterial pass; door numbers remain the authoritative cue on those.
       cross-city search, empty, coming up, fix sign, guide — upload ONE AT A TIME,
       ASC orders a multi-file upload alphabetically), `sweep.plus` added to the draft
       submission, **Submitted for Review (2 items)**. Status: Waiting for Review.
+
+## Review history
+
+- 2026-09-02: submitted 1.0 (1) together with `sweep.plus`.
+- 2026-09-04: **REJECTED — 2.1 Performance: App Completeness.** The reviewer's
+  screenshot showed the Plus card's "store isn't reachable… run from Xcode"
+  notice: StoreKit returned no product because the Paid Apps Agreement was not
+  active. Fix shipped as build 1.0 (2): plain retry copy, product reload when
+  Settings opens, explicit Try again, version footer read from the bundle.
+- Gate before resubmitting: Business › Agreements must show Paid Apps
+  **Active** (W-9 submitted 2026-09-03; bank account still missing → "Pending
+  User Info"). Then swap version 1.0 to build 1.0 (2), reply in the submission
+  thread, and resubmit with the IAP.
